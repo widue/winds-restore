@@ -13,7 +13,7 @@
       "download_url": "https://aka.ms/vs/17/release/vc_redist.x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 25,
-      "dlls": ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll", "msvcp140_atomic_wait.dll", "msvcp140_codecvt_ids.dll"]
+      "dlls": ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll", "msvcp140_atomic_wait.dll", "msvcp140_codecvt_ids.dll", "vcomp140.dll", "vcomp140_atomic_wait.dll", "mfcm140.dll"]
     },
     {
       "id": "vcpp_2022_x86",
@@ -28,7 +28,7 @@
       "download_url": "https://aka.ms/vs/17/release/vc_redist.x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 25,
-      "dlls": ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll"]
+      "dlls": ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll", "vcomp140.dll", "mfcm140.dll"]
     },
     {
       "id": "vcpp_2013_x64",
@@ -43,7 +43,7 @@
       "download_url": "https://download.microsoft.com/download/0/5/6/056DDCBA-F701-41A2-9B33-9C7E5CAD17D0/vcredist_x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 20,
-      "dlls": ["msvcr120.dll", "msvcp120.dll"]
+      "dlls": ["msvcr120.dll", "msvcp120.dll", "vcomp120.dll"]
     },
     {
       "id": "vcpp_2013_x86",
@@ -58,7 +58,7 @@
       "download_url": "https://download.microsoft.com/download/0/5/6/056DDCBA-F701-41A2-9B33-9C7E5CAD17D0/vcredist_x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 15,
-      "dlls": ["msvcr120.dll", "msvcp120.dll"]
+      "dlls": ["msvcr120.dll", "msvcp120.dll", "vcomp120.dll"]
     },
     {
       "id": "vcpp_2012_x64",
@@ -73,7 +73,7 @@
       "download_url": "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 18,
-      "dlls": ["msvcr110.dll", "msvcp110.dll"]
+      "dlls": ["msvcr110.dll", "msvcp110.dll", "vcomp110.dll"]
     },
     {
       "id": "vcpp_2012_x86",
@@ -88,7 +88,7 @@
       "download_url": "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 15,
-      "dlls": ["msvcr110.dll", "msvcp110.dll"]
+      "dlls": ["msvcr110.dll", "msvcp110.dll", "vcomp110.dll"]
     },
     {
       "id": "vcpp_2010_x64",
@@ -103,7 +103,7 @@
       "download_url": "https://download.microsoft.com/download/1/8/0/180FA2CE-966F-437D-90D2-83DEDDA2F2F1/vcredist_x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 15,
-      "dlls": ["msvcr100.dll", "msvcp100.dll"]
+      "dlls": ["msvcr100.dll", "msvcp100.dll", "mfc100u.dll", "mfc100.dll", "vcomp100.dll"]
     },
     {
       "id": "vcpp_2010_x86",
@@ -118,7 +118,7 @@
       "download_url": "https://download.microsoft.com/download/1/8/0/180FA2CE-966F-437D-90D2-83DEDDA2F2F1/vcredist_x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 10,
-      "dlls": ["msvcr100.dll", "msvcp100.dll"]
+      "dlls": ["msvcr100.dll", "msvcp100.dll", "mfc100u.dll", "mfc100.dll", "vcomp100.dll"]
     },
     {
       "id": "vcpp_2008_x64",
@@ -133,7 +133,7 @@
       "download_url": "https://download.microsoft.com/download/2/0/2/2028ed31-ed61-4d90-8440-8625a6c8c1e2/vcredist_x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 14,
-      "dlls": ["msvcr90.dll", "msvcp90.dll"]
+      "dlls": ["msvcr90.dll", "msvcp90.dll", "vcomp90.dll"]
     },
     {
       "id": "vcpp_2008_x86",
@@ -148,7 +148,37 @@
       "download_url": "https://download.microsoft.com/download/2/0/2/2028ed31-ed61-4d90-8440-8625a6c8c1e2/vcredist_x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 10,
-      "dlls": ["msvcr90.dll", "msvcp90.dll"]
+      "dlls": ["msvcr90.dll", "msvcp90.dll", "vcomp90.dll"]
+    },
+    {
+      "id": "vcpp_2005_x64",
+      "name": "Microsoft Visual C++ 2005 SP1 Redistributable (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\8.0\\VC\\Runtimes\\x64",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://download.microsoft.com/download/8/B/4/8B42259F-5D70-43F4-AC2E-4B208FD8D66A/vcredist_x64.exe",
+      "install_args": "/q /norestart",
+      "installer_size_mb": 6,
+      "dlls": ["msvcr80.dll", "msvcp80.dll", "vcomp80.dll"]
+    },
+    {
+      "id": "vcpp_2005_x86",
+      "name": "Microsoft Visual C++ 2005 SP1 Redistributable (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\8.0\\VC\\Runtimes\\x86",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://download.microsoft.com/download/8/B/4/8B42259F-5D70-43F4-AC2E-4B208FD8D66A/vcredist_x86.exe",
+      "install_args": "/q /norestart",
+      "installer_size_mb": 6,
+      "dlls": ["msvcr80.dll", "msvcp80.dll", "vcomp80.dll"]
     },
     {
       "id": "dx9",
@@ -165,7 +195,7 @@
       ],
       "install_args": "/Q /T:%temp%\\dx9",
       "installer_size_mb": 100,
-      "dlls": ["d3dx9_43.dll", "d3dx9_42.dll", "d3dx9_41.dll", "d3dx9_40.dll", "d3dx9_39.dll", "d3dx9_38.dll", "d3dx9_37.dll", "d3dx9_36.dll", "d3dx9_35.dll", "d3dx9_34.dll", "d3dx9_33.dll", "d3dx9_32.dll", "d3dx9_31.dll", "d3dx9_30.dll", "d3dx9_29.dll", "d3dx9_28.dll", "d3dx9_27.dll", "d3dx9_26.dll", "d3dx9_25.dll", "d3dx9_24.dll", "xinput1_3.dll", "xinput9_1_0.dll"]
+      "dlls": ["d3dx9_43.dll", "d3dx9_42.dll", "d3dx9_41.dll", "d3dx9_40.dll", "d3dx9_39.dll", "d3dx9_38.dll", "d3dx9_37.dll", "d3dx9_36.dll", "d3dx9_35.dll", "d3dx9_34.dll", "d3dx9_33.dll", "d3dx9_32.dll", "d3dx9_31.dll", "d3dx9_30.dll", "d3dx9_29.dll", "d3dx9_28.dll", "d3dx9_27.dll", "d3dx9_26.dll", "d3dx9_25.dll", "d3dx9_24.dll", "d3dx10_43.dll", "xinput1_3.dll", "xinput9_1_0.dll"]
     },
     {
       "id": "dotnet_48",
@@ -221,6 +251,66 @@
       "download_url": "https://dotnet.microsoft.com/download/dotnet/8.0",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 50,
+      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+    },
+    {
+      "id": "dotnet_7_x64",
+      "name": ".NET Desktop Runtime 7.0 (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x64\\sharedfx\\Microsoft.NETCore.App",
+        "value_name": "7",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://dotnet.microsoft.com/download/dotnet/7.0",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 55,
+      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+    },
+    {
+      "id": "dotnet_7_x86",
+      "name": ".NET Desktop Runtime 7.0 (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\sharedfx\\Microsoft.NETCore.App",
+        "value_name": "7",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://dotnet.microsoft.com/download/dotnet/7.0",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 45,
+      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+    },
+    {
+      "id": "dotnet_6_x64",
+      "name": ".NET Desktop Runtime 6.0 (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x64\\sharedfx\\Microsoft.NETCore.App",
+        "value_name": "6",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://dotnet.microsoft.com/download/dotnet/6.0",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 50,
+      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+    },
+    {
+      "id": "dotnet_6_x86",
+      "name": ".NET Desktop Runtime 6.0 (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\sharedfx\\Microsoft.NETCore.App",
+        "value_name": "6",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://dotnet.microsoft.com/download/dotnet/6.0",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 42,
       "dlls": ["hostfxr.dll", "hostpolicy.dll"]
     },
     {
@@ -294,7 +384,7 @@
       "download_url": "https://aka.ms/d3dcompiler_47",
       "install_args": "/quiet /norestart",
       "installer_size_mb": 2,
-      "dlls": ["d3dcompiler_47.dll"]
+      "dlls": ["d3dcompiler_47.dll", "d3dcompiler_43.dll", "d3dcompiler_46.dll", "d3dcompiler_45.dll", "d3dcompiler_44.dll", "d3dcompiler_42.dll"]
     },
     {
       "id": "directplay",
@@ -325,11 +415,28 @@
     {"name": "msvcp110.dll", "system_path": "", "description": "VC++ 2012 运行时"},
     {"name": "msvcr100.dll", "system_path": "", "description": "VC++ 2010 运行时"},
     {"name": "msvcp100.dll", "system_path": "", "description": "VC++ 2010 运行时"},
+    {"name": "mfc100u.dll", "system_path": "", "description": "VC++ 2010 MFC 库 (ExpressHelper等)"},
     {"name": "msvcr90.dll", "system_path": "", "description": "VC++ 2008 运行时"},
     {"name": "msvcp90.dll", "system_path": "", "description": "VC++ 2008 运行时"},
     {"name": "OpenAL32.dll", "system_path": "", "description": "OpenAL 音频"},
     {"name": "wrap_oal.dll", "system_path": "", "description": "OpenAL 包装"},
     {"name": "PhysX3_x64.dll", "system_path": "", "description": "PhysX 物理引擎"},
-    {"name": "MSVCRT.dll", "system_path": "", "description": "旧版 CRT 运行时 (Win95/98 游戏)"}
+    {"name": "MSVCRT.dll", "system_path": "", "description": "旧版 CRT 运行时 (Win95/98 游戏)"},
+    {"name": "mfc100u.dll", "system_path": "", "description": "VC++ 2010 MFC 库 (ExpressHelper等)"},
+    {"name": "MFPlat.DLL", "system_path": "C:\\Windows\\System32\\MFPlat.DLL", "description": "Windows Media Foundation (ffmpeg等)"},
+    {"name": "api-ms-win-eventing-classicprovider-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件，建议运行 sfc /scannow)"},
+    {"name": "steam_api64.dll", "system_path": "", "description": "Steam 游戏平台 DRM 组件，需重装对应游戏"},
+    {"name": "EMP.dll", "system_path": "", "description": "EMPRESS 游戏破解补丁，需重装游戏"},
+    {"name": "log4cpp.dll", "system_path": "", "description": "第三方 C++ 日志库，属于特定软件，需重装对应软件"},
+    {"name": "libssl-1_1.dll", "system_path": "", "description": "OpenSSL 加密库，属于特定软件，需重装对应软件"},
+    {"name": "libcurl.dll", "system_path": "", "description": "libcurl 网络库，属于特定软件，需重装对应软件"},
+    {"name": "vcomp140.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2015-2022)"},
+    {"name": "vcomp120.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2013)"},
+    {"name": "vcomp110.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2012)"},
+    {"name": "vcomp100.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2010)"},
+    {"name": "vcomp90.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2008)"},
+    {"name": "vcomp80.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2005)"},
+    {"name": "mfcm140.dll", "system_path": "", "description": "VC++ MFC 库 (2015-2022)"},
+    {"name": "d3dx10_43.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"}
   ]
 }

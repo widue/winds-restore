@@ -58,6 +58,16 @@ pub fn get_error_code_help(error_code: String) -> String {
 }
 
 #[tauri::command]
+pub fn check_dll_path(path: String) -> bool {
+    std::path::Path::new(&path).exists()
+}
+
+#[tauri::command]
+pub fn scan_common_dlls(dll_names: Vec<String>) -> Vec<scanner::DllScanResult> {
+    scanner::scan_common_dll_list(&dll_names)
+}
+
+#[tauri::command]
 pub fn open_in_browser(url: String) -> Result<(), String> {
     use windows::core::PCWSTR;
     use windows::Win32::UI::Shell::ShellExecuteW;

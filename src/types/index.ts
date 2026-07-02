@@ -9,17 +9,25 @@ export interface ScanResult {
   category?: string;
 }
 
+export interface DllScanResult {
+  name: string;
+  found: boolean;
+  path: string | null;
+}
+
 export interface SystemStatus {
   memory_integrity: { status: string; detail: string } | null;
   gpu_driver: { status: string; detail: string } | null;
 }
 
 export type AppPage = "home" | "scanning" | "results" | "tools" | "settings";
+export type ScanMode = "quick" | "full";
 export type SearchEngine = "bing" | "baidu";
 export type AiSite = "DeepSeek" | "豆包" | "Kimi" | "ChatGPT";
 
 export interface AppState {
   page: AppPage;
+  scanMode: ScanMode;
   scanResults: ScanResult[];
   scanProgress: number;
   scanStatus: string;

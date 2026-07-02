@@ -4,6 +4,7 @@ import type {
   ScanResult,
   SystemStatus,
   AppPage,
+  ScanMode,
   SearchEngine,
   AiSite,
   ScanProgressPayload,
@@ -14,6 +15,7 @@ import { registerScanProgressListener, unregisterScanProgressListener, registerI
 
 interface AppStore extends AppState {
   setPage: (page: AppPage) => void;
+  setScanMode: (mode: ScanMode) => void;
   startScan: () => Promise<void>;
   cancelScan: () => Promise<void>;
   updateScanProgress: (payload: ScanProgressPayload) => void;
@@ -30,6 +32,7 @@ interface AppStore extends AppState {
 
 export const useAppStore = create<AppStore>((set, get) => ({
   page: "home",
+  scanMode: "quick",
   scanResults: [],
   scanProgress: 0,
   scanStatus: "准备就绪",
@@ -45,6 +48,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
   aiSite: "DeepSeek",
 
   setPage: (page) => set({ page }),
+  setScanMode: (mode) => set({ scanMode: mode }),
 
   startScan: async () => {
     if (get().isScanning) return;
@@ -62,10 +66,11 @@ export const useAppStore = create<AppStore>((set, get) => ({
         get().updateScanProgress({ progress, status });
       });
 
-      const [results, status] = await Promise.all([
-        run_scan(),
-        get_system_status().catch(() => ({ memory_integrity: null, gpu_driver: null })),
-      ]);
+      const results = await run_scan();
+      let status = { memory_integrity: null as { status: string; detail: string } | null, gpu_driver: null as { status: string; detail: string } | null };
+      if (get().scanMode === "full") {
+        status = await get_system_status().catch(() => status);
+      }
       set({
         scanResults: results,
         systemStatus: status,

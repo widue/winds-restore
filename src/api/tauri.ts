@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
-import type { ScanResult } from "../types";
+import type { ScanResult, DllScanResult } from "../types";
 
 export async function run_scan(): Promise<ScanResult[]> {
   return invoke<ScanResult[]>("run_scan");
@@ -38,4 +38,12 @@ export async function get_system_status(): Promise<{
 
 export async function start_install(ids: string[]): Promise<void> {
   return invoke<void>("start_install", { ids });
+}
+
+export async function check_dll_path(path: string): Promise<boolean> {
+  return invoke<boolean>("check_dll_path", { path });
+}
+
+export async function scan_common_dlls(dll_names: string[]): Promise<DllScanResult[]> {
+  return invoke<DllScanResult[]>("scan_common_dlls", { dllNames: dll_names });
 }
