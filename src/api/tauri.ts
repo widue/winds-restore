@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
-import type { ScanResult, DllScanResult } from "../types";
+import type { ScanResult, DllScanResult, SystemFileResult, RepairResult } from "../types";
 
 export async function run_scan(): Promise<ScanResult[]> {
   return invoke<ScanResult[]>("run_scan");
@@ -46,4 +46,16 @@ export async function check_dll_path(path: string): Promise<boolean> {
 
 export async function scan_common_dlls(dll_names: string[]): Promise<DllScanResult[]> {
   return invoke<DllScanResult[]>("scan_common_dlls", { dllNames: dll_names });
+}
+
+export async function check_system_files(): Promise<SystemFileResult[]> {
+  return invoke<SystemFileResult[]>("check_system_files");
+}
+
+export async function run_sfc_scannow(): Promise<RepairResult> {
+  return invoke<RepairResult>("run_sfc_scannow");
+}
+
+export async function run_dism_restorehealth(): Promise<RepairResult> {
+  return invoke<RepairResult>("run_dism_restorehealth");
 }

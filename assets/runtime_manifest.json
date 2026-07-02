@@ -13,7 +13,19 @@
       "download_url": "https://aka.ms/vs/17/release/vc_redist.x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 25,
-      "dlls": ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll", "msvcp140_atomic_wait.dll", "msvcp140_codecvt_ids.dll", "vcomp140.dll", "vcomp140_atomic_wait.dll", "mfcm140.dll"]
+      "dlls": [
+        "vcruntime140.dll", "vcruntime140_1.dll", "vcruntime140_clr0400.dll",
+        "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll",
+        "msvcp140_atomic_wait.dll", "msvcp140_codecvt_ids.dll",
+        "vcomp140.dll", "vcomp140_atomic_wait.dll",
+        "concrt140.dll", "vcamp140.dll", "vccorlib140.dll",
+        "mfc140.dll", "mfc140u.dll", "mfc140chs.dll", "mfc140cht.dll",
+        "mfc140deu.dll", "mfc140enu.dll", "mfc140esn.dll",
+        "mfc140fra.dll", "mfc140ita.dll", "mfc140jpn.dll",
+        "mfc140kor.dll", "mfc140rus.dll",
+        "mfcm140.dll", "mfcm140u.dll",
+        "atl140.dll"
+      ]
     },
     {
       "id": "vcpp_2022_x86",
@@ -28,7 +40,19 @@
       "download_url": "https://aka.ms/vs/17/release/vc_redist.x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 25,
-      "dlls": ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll", "vcomp140.dll", "mfcm140.dll"]
+      "dlls": [
+        "vcruntime140.dll", "vcruntime140_1.dll", "vcruntime140_clr0400.dll",
+        "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll",
+        "msvcp140_atomic_wait.dll", "msvcp140_codecvt_ids.dll",
+        "vcomp140.dll", "vcomp140_atomic_wait.dll",
+        "concrt140.dll", "vcamp140.dll", "vccorlib140.dll",
+        "mfc140.dll", "mfc140u.dll", "mfc140chs.dll", "mfc140cht.dll",
+        "mfc140deu.dll", "mfc140enu.dll", "mfc140esn.dll",
+        "mfc140fra.dll", "mfc140ita.dll", "mfc140jpn.dll",
+        "mfc140kor.dll", "mfc140rus.dll",
+        "mfcm140.dll", "mfcm140u.dll",
+        "atl140.dll"
+      ]
     },
     {
       "id": "vcpp_2013_x64",
@@ -43,7 +67,12 @@
       "download_url": "https://download.microsoft.com/download/0/5/6/056DDCBA-F701-41A2-9B33-9C7E5CAD17D0/vcredist_x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 20,
-      "dlls": ["msvcr120.dll", "msvcp120.dll", "vcomp120.dll"]
+      "dlls": [
+        "msvcr120.dll", "msvcp120.dll", "vcomp120.dll",
+        "mfc120.dll", "mfc120u.dll", "mfc120chs.dll", "mfc120enu.dll",
+        "mfcm120.dll", "mfcm120u.dll",
+        "atl120.dll", "vccorlib120.dll"
+      ]
     },
     {
       "id": "vcpp_2013_x86",
@@ -58,7 +87,12 @@
       "download_url": "https://download.microsoft.com/download/0/5/6/056DDCBA-F701-41A2-9B33-9C7E5CAD17D0/vcredist_x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 15,
-      "dlls": ["msvcr120.dll", "msvcp120.dll", "vcomp120.dll"]
+      "dlls": [
+        "msvcr120.dll", "msvcp120.dll", "vcomp120.dll",
+        "mfc120.dll", "mfc120u.dll", "mfc120chs.dll", "mfc120enu.dll",
+        "mfcm120.dll", "mfcm120u.dll",
+        "atl120.dll", "vccorlib120.dll"
+      ]
     },
     {
       "id": "vcpp_2012_x64",
@@ -73,7 +107,12 @@
       "download_url": "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 18,
-      "dlls": ["msvcr110.dll", "msvcp110.dll", "vcomp110.dll"]
+      "dlls": [
+        "msvcr110.dll", "msvcp110.dll", "vcomp110.dll",
+        "mfc110.dll", "mfc110u.dll", "mfc110chs.dll", "mfc110enu.dll",
+        "mfcm110.dll", "mfcm110u.dll",
+        "atl110.dll", "vccorlib110.dll"
+      ]
     },
     {
       "id": "vcpp_2012_x86",
@@ -88,7 +127,12 @@
       "download_url": "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 15,
-      "dlls": ["msvcr110.dll", "msvcp110.dll", "vcomp110.dll"]
+      "dlls": [
+        "msvcr110.dll", "msvcp110.dll", "vcomp110.dll",
+        "mfc110.dll", "mfc110u.dll", "mfc110chs.dll", "mfc110enu.dll",
+        "mfcm110.dll", "mfcm110u.dll",
+        "atl110.dll", "vccorlib110.dll"
+      ]
     },
     {
       "id": "vcpp_2010_x64",
@@ -103,7 +147,12 @@
       "download_url": "https://download.microsoft.com/download/1/8/0/180FA2CE-966F-437D-90D2-83DEDDA2F2F1/vcredist_x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 15,
-      "dlls": ["msvcr100.dll", "msvcp100.dll", "mfc100u.dll", "mfc100.dll", "vcomp100.dll"]
+      "dlls": [
+        "msvcr100.dll", "msvcp100.dll", "vcomp100.dll",
+        "mfc100.dll", "mfc100u.dll", "mfc100chs.dll", "mfc100enu.dll",
+        "mfcm100.dll", "mfcm100u.dll",
+        "atl100.dll"
+      ]
     },
     {
       "id": "vcpp_2010_x86",
@@ -118,7 +167,12 @@
       "download_url": "https://download.microsoft.com/download/1/8/0/180FA2CE-966F-437D-90D2-83DEDDA2F2F1/vcredist_x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 10,
-      "dlls": ["msvcr100.dll", "msvcp100.dll", "mfc100u.dll", "mfc100.dll", "vcomp100.dll"]
+      "dlls": [
+        "msvcr100.dll", "msvcp100.dll", "vcomp100.dll",
+        "mfc100.dll", "mfc100u.dll", "mfc100chs.dll", "mfc100enu.dll",
+        "mfcm100.dll", "mfcm100u.dll",
+        "atl100.dll"
+      ]
     },
     {
       "id": "vcpp_2008_x64",
@@ -133,7 +187,12 @@
       "download_url": "https://download.microsoft.com/download/2/0/2/2028ed31-ed61-4d90-8440-8625a6c8c1e2/vcredist_x64.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 14,
-      "dlls": ["msvcr90.dll", "msvcp90.dll", "vcomp90.dll"]
+      "dlls": [
+        "msvcr90.dll", "msvcp90.dll", "vcomp90.dll",
+        "mfc90.dll", "mfc90u.dll", "mfc90chs.dll", "mfc90enu.dll",
+        "mfcm90.dll", "mfcm90u.dll",
+        "atl90.dll", "msvcm90.dll"
+      ]
     },
     {
       "id": "vcpp_2008_x86",
@@ -148,7 +207,12 @@
       "download_url": "https://download.microsoft.com/download/2/0/2/2028ed31-ed61-4d90-8440-8625a6c8c1e2/vcredist_x86.exe",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 10,
-      "dlls": ["msvcr90.dll", "msvcp90.dll", "vcomp90.dll"]
+      "dlls": [
+        "msvcr90.dll", "msvcp90.dll", "vcomp90.dll",
+        "mfc90.dll", "mfc90u.dll", "mfc90chs.dll", "mfc90enu.dll",
+        "mfcm90.dll", "mfcm90u.dll",
+        "atl90.dll", "msvcm90.dll"
+      ]
     },
     {
       "id": "vcpp_2005_x64",
@@ -163,7 +227,12 @@
       "download_url": "https://download.microsoft.com/download/8/B/4/8B42259F-5D70-43F4-AC2E-4B208FD8D66A/vcredist_x64.exe",
       "install_args": "/q /norestart",
       "installer_size_mb": 6,
-      "dlls": ["msvcr80.dll", "msvcp80.dll", "vcomp80.dll"]
+      "dlls": [
+        "msvcr80.dll", "msvcp80.dll", "vcomp80.dll",
+        "mfc80.dll", "mfc80u.dll", "mfc80chs.dll", "mfc80enu.dll",
+        "mfcm80.dll", "mfcm80u.dll",
+        "atl80.dll", "msvcm80.dll"
+      ]
     },
     {
       "id": "vcpp_2005_x86",
@@ -178,11 +247,17 @@
       "download_url": "https://download.microsoft.com/download/8/B/4/8B42259F-5D70-43F4-AC2E-4B208FD8D66A/vcredist_x86.exe",
       "install_args": "/q /norestart",
       "installer_size_mb": 6,
-      "dlls": ["msvcr80.dll", "msvcp80.dll", "vcomp80.dll"]
+      "dlls": [
+        "msvcr80.dll", "msvcp80.dll", "vcomp80.dll",
+        "mfc80.dll", "mfc80u.dll", "mfc80chs.dll", "mfc80enu.dll",
+        "mfcm80.dll", "mfcm80u.dll",
+        "atl80.dll", "msvcm80.dll"
+      ]
     },
+
     {
       "id": "dx9",
-      "name": "DirectX 9.0c End-User Runtimes",
+      "name": "DirectX 9.0c End-User Runtimes (June 2010)",
       "version_check": {
         "method": "registry",
         "key": "SOFTWARE\\Microsoft\\DirectX",
@@ -190,13 +265,66 @@
         "min_value": 9
       },
       "download_url": "https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe",
-      "mirrors": [
-        "https://archive.org/download/directx-jun2010-redist/directx_Jun2010_redist.exe"
-      ],
       "install_args": "/Q /T:%temp%\\dx9",
       "installer_size_mb": 100,
-      "dlls": ["d3dx9_43.dll", "d3dx9_42.dll", "d3dx9_41.dll", "d3dx9_40.dll", "d3dx9_39.dll", "d3dx9_38.dll", "d3dx9_37.dll", "d3dx9_36.dll", "d3dx9_35.dll", "d3dx9_34.dll", "d3dx9_33.dll", "d3dx9_32.dll", "d3dx9_31.dll", "d3dx9_30.dll", "d3dx9_29.dll", "d3dx9_28.dll", "d3dx9_27.dll", "d3dx9_26.dll", "d3dx9_25.dll", "d3dx9_24.dll", "d3dx10_43.dll", "xinput1_3.dll", "xinput9_1_0.dll"]
+      "dlls": [
+        "d3dx9_24.dll", "d3dx9_25.dll", "d3dx9_26.dll", "d3dx9_27.dll",
+        "d3dx9_28.dll", "d3dx9_29.dll", "d3dx9_30.dll", "d3dx9_31.dll",
+        "d3dx9_32.dll", "d3dx9_33.dll", "d3dx9_34.dll", "d3dx9_35.dll",
+        "d3dx9_36.dll", "d3dx9_37.dll", "d3dx9_38.dll", "d3dx9_39.dll",
+        "d3dx9_40.dll", "d3dx9_41.dll", "d3dx9_42.dll", "d3dx9_43.dll",
+        "d3dx10_33.dll", "d3dx10_34.dll", "d3dx10_35.dll", "d3dx10_36.dll",
+        "d3dx10_37.dll", "d3dx10_38.dll", "d3dx10_39.dll", "d3dx10_40.dll",
+        "d3dx10_41.dll", "d3dx10_42.dll", "d3dx10_43.dll",
+        "d3dx11_42.dll", "d3dx11_43.dll",
+        "d3dcsx_42.dll", "d3dcsx_43.dll",
+        "D3DCompiler_33.dll", "D3DCompiler_34.dll", "D3DCompiler_35.dll",
+        "D3DCompiler_36.dll", "D3DCompiler_37.dll", "D3DCompiler_38.dll",
+        "D3DCompiler_39.dll", "D3DCompiler_40.dll", "D3DCompiler_41.dll",
+        "D3DCompiler_42.dll", "D3DCompiler_43.dll",
+        "xinput1_1.dll", "xinput1_2.dll", "xinput1_3.dll",
+        "xinput9_1_0.dll",
+        "xaudio2_0.dll", "xaudio2_1.dll", "xaudio2_2.dll", "xaudio2_3.dll",
+        "xaudio2_4.dll", "xaudio2_5.dll", "xaudio2_6.dll", "xaudio2_7.dll",
+        "x3daudio1_0.dll", "x3daudio1_1.dll", "x3daudio1_2.dll",
+        "x3daudio1_3.dll", "x3daudio1_4.dll", "x3daudio1_5.dll",
+        "x3daudio1_6.dll", "x3daudio1_7.dll",
+        "xapofx1_0.dll", "xapofx1_1.dll", "xapofx1_2.dll",
+        "xapofx1_3.dll", "xapofx1_4.dll", "xapofx1_5.dll",
+        "XACTEngine2_0.dll", "XACTEngine2_1.dll", "XACTEngine2_2.dll",
+        "XACTEngine2_3.dll", "XACTEngine2_4.dll", "XACTEngine2_5.dll",
+        "XACTEngine2_6.dll", "XACTEngine2_7.dll", "XACTEngine2_8.dll",
+        "XACTEngine2_9.dll", "XACTEngine2_10.dll",
+        "XACTEngine3_0.dll", "XACTEngine3_1.dll", "XACTEngine3_2.dll",
+        "XACTEngine3_3.dll", "XACTEngine3_4.dll", "XACTEngine3_5.dll",
+        "XACTEngine3_6.dll", "XACTEngine3_7.dll",
+        "dinput8.dll", "dsound.dll", "ddraw.dll",
+        "dplayx.dll", "dpnet.dll", "dpwsockx.dll", "dpnaddr.dll",
+        "dpvoice.dll", "dpnhpast.dll", "dpnhupnp.dll", "dpnlobby.dll",
+        "dmusic.dll", "dmsynth.dll", "dswave.dll"
+      ]
     },
+
+    {
+      "id": "dx_modern",
+      "name": "DirectX 11/12 (Windows 系统组件)",
+      "version_check": {
+        "method": "file",
+        "path": "C:\\Windows\\System32\\d3d11.dll"
+      },
+      "download_url": "internal:dx-modern",
+      "install_args": "",
+      "installer_size_mb": 0,
+      "dlls": [
+        "d3d11.dll", "d3d12.dll", "d3d10.dll", "d3d10_1.dll",
+        "d3d10core.dll", "d3d10warp.dll",
+        "dxgi.dll", "dxgidebug.dll",
+        "d2d1.dll", "dwrite.dll",
+        "D3DCompiler_47.dll",
+        "d3d12core.dll", "d3d12SDKLayers.dll"
+      ]
+    },
+
     {
       "id": "dotnet_48",
       "name": ".NET Framework 4.8",
@@ -208,7 +336,15 @@
       },
       "download_url": "https://go.microsoft.com/fwlink/?linkid=2088631",
       "install_args": "/install /quiet /norestart",
-      "installer_size_mb": 140
+      "installer_size_mb": 140,
+      "dlls": [
+        "mscorlib.dll", "mscoreei.dll", "mscorwks.dll", "mscordacwks.dll",
+        "mscoree.dll", "clr.dll", "clrjit.dll",
+        "System.dll", "System.Core.dll", "System.Data.dll",
+        "System.Xml.dll", "System.Drawing.dll", "System.Windows.Forms.dll",
+        "PresentationCore.dll", "PresentationFramework.dll",
+        "WindowsBase.dll", "System.Xaml.dll"
+      ]
     },
     {
       "id": "dotnet_35",
@@ -224,8 +360,38 @@
       "installer_size_mb": 0
     },
     {
+      "id": "dotnet_9_x64",
+      "name": ".NET Desktop Runtime 9.0 (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x64\\sharedfx\\Microsoft.NETCore.App",
+        "value_name": "9",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://dotnet.microsoft.com/download/dotnet/9.0",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 60,
+      "dlls": ["hostfxr.dll", "hostpolicy.dll", "coreclr.dll", "System.Private.CoreLib.dll"]
+    },
+    {
+      "id": "dotnet_9_x86",
+      "name": ".NET Desktop Runtime 9.0 (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\sharedfx\\Microsoft.NETCore.App",
+        "value_name": "9",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://dotnet.microsoft.com/download/dotnet/9.0",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 50,
+      "dlls": ["hostfxr.dll", "hostpolicy.dll", "coreclr.dll", "System.Private.CoreLib.dll"]
+    },
+    {
       "id": "dotnet_8_x64",
-      "name": ".NET Desktop Runtime 8.0 (x64)",
+      "name": ".NET Desktop Runtime 8.0 LTS (x64)",
       "version_check": {
         "method": "registry",
         "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x64\\sharedfx\\Microsoft.NETCore.App",
@@ -236,11 +402,11 @@
       "download_url": "https://dotnet.microsoft.com/download/dotnet/8.0",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 60,
-      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+      "dlls": ["hostfxr.dll", "hostpolicy.dll", "coreclr.dll", "System.Private.CoreLib.dll"]
     },
     {
       "id": "dotnet_8_x86",
-      "name": ".NET Desktop Runtime 8.0 (x86)",
+      "name": ".NET Desktop Runtime 8.0 LTS (x86)",
       "version_check": {
         "method": "registry",
         "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\sharedfx\\Microsoft.NETCore.App",
@@ -251,11 +417,11 @@
       "download_url": "https://dotnet.microsoft.com/download/dotnet/8.0",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 50,
-      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+      "dlls": ["hostfxr.dll", "hostpolicy.dll", "coreclr.dll", "System.Private.CoreLib.dll"]
     },
     {
       "id": "dotnet_7_x64",
-      "name": ".NET Desktop Runtime 7.0 (x64)",
+      "name": ".NET Desktop Runtime 7.0 (x64) [已停止支持]",
       "version_check": {
         "method": "registry",
         "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x64\\sharedfx\\Microsoft.NETCore.App",
@@ -266,11 +432,11 @@
       "download_url": "https://dotnet.microsoft.com/download/dotnet/7.0",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 55,
-      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+      "dlls": ["hostfxr.dll", "hostpolicy.dll", "coreclr.dll"]
     },
     {
       "id": "dotnet_7_x86",
-      "name": ".NET Desktop Runtime 7.0 (x86)",
+      "name": ".NET Desktop Runtime 7.0 (x86) [已停止支持]",
       "version_check": {
         "method": "registry",
         "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\sharedfx\\Microsoft.NETCore.App",
@@ -281,11 +447,11 @@
       "download_url": "https://dotnet.microsoft.com/download/dotnet/7.0",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 45,
-      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+      "dlls": ["hostfxr.dll", "hostpolicy.dll", "coreclr.dll"]
     },
     {
       "id": "dotnet_6_x64",
-      "name": ".NET Desktop Runtime 6.0 (x64)",
+      "name": ".NET Desktop Runtime 6.0 LTS (x64) [已停止支持]",
       "version_check": {
         "method": "registry",
         "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x64\\sharedfx\\Microsoft.NETCore.App",
@@ -296,11 +462,11 @@
       "download_url": "https://dotnet.microsoft.com/download/dotnet/6.0",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 50,
-      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+      "dlls": ["hostfxr.dll", "hostpolicy.dll", "coreclr.dll"]
     },
     {
       "id": "dotnet_6_x86",
-      "name": ".NET Desktop Runtime 6.0 (x86)",
+      "name": ".NET Desktop Runtime 6.0 LTS (x86) [已停止支持]",
       "version_check": {
         "method": "registry",
         "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\sharedfx\\Microsoft.NETCore.App",
@@ -311,8 +477,9 @@
       "download_url": "https://dotnet.microsoft.com/download/dotnet/6.0",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 42,
-      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+      "dlls": ["hostfxr.dll", "hostpolicy.dll", "coreclr.dll"]
     },
+
     {
       "id": "openal",
       "name": "OpenAL (Creative Labs)",
@@ -323,12 +490,9 @@
         "min_value": 0
       },
       "download_url": "https://openal.org/downloads/OpenAL21_installer.exe",
-      "mirrors": [
-        "https://archive.org/download/openal21_installer/OpenAL21_installer.exe"
-      ],
       "install_args": "/silent",
       "installer_size_mb": 5,
-      "dlls": ["OpenAL32.dll", "wrap_oal.dll"]
+      "dlls": ["OpenAL32.dll", "wrap_oal.dll", "soft_oal.dll"]
     },
     {
       "id": "physx",
@@ -340,17 +504,19 @@
         "min_value": 9
       },
       "download_url": "https://us.download.nvidia.com/Windows/9.24.0328/PhysX_9.24.0328_SystemSoftware.exe",
-      "mirrors": [
-        "https://eu.download.nvidia.com/Windows/9.24.0328/PhysX_9.24.0328_SystemSoftware.exe",
-        "https://hk.download.nvidia.com/Windows/9.24.0328/PhysX_9.24.0328_SystemSoftware.exe"
-      ],
       "install_args": "/quiet /norestart",
       "installer_size_mb": 55,
-      "dlls": ["PhysX3_x64.dll", "PhysX3Common_x64.dll", "PhysX3Cooking_x64.dll", "nvcuda.dll"]
+      "dlls": [
+        "PhysX3_x64.dll", "PhysX3Common_x64.dll", "PhysX3Cooking_x64.dll",
+        "PhysX3_x86.dll", "PhysX3Common_x86.dll", "PhysX3Cooking_x86.dll",
+        "PhysXDevice64.dll", "PhysXDevice.dll",
+        "PhysXCore.dll", "PhysXCooking.dll",
+        "PhysXLoader.dll", "nvcuda.dll", "nvapi64.dll"
+      ]
     },
     {
       "id": "xaudio",
-      "name": "XAudio 2.9 (DirectX SDK)",
+      "name": "XAudio 2.9 Redist (DirectX SDK)",
       "version_check": {
         "method": "file",
         "path": "C:\\Windows\\System32\\xaudio2_9.dll"
@@ -358,7 +524,11 @@
       "download_url": "internal:dx-legacy",
       "install_args": "",
       "installer_size_mb": 0,
-      "dlls": ["xaudio2_9.dll", "xaudio2_8.dll", "xaudio2_7.dll"]
+      "dlls": [
+        "xaudio2_9.dll", "xaudio2_8.dll", "xaudio2_7.dll",
+        "xaudio2_6.dll", "xaudio2_5.dll", "xaudio2_4.dll",
+        "xaudio2_3.dll", "xaudio2_2.dll", "xaudio2_1.dll", "xaudio2_0.dll"
+      ]
     },
     {
       "id": "webview2",
@@ -372,7 +542,7 @@
       "download_url": "https://go.microsoft.com/fwlink/p/?LinkId=2124703",
       "install_args": "/install /quiet /norestart",
       "installer_size_mb": 5,
-      "dlls": ["WebView2Loader.dll"]
+      "dlls": ["WebView2Loader.dll", "WebView2LoaderStatic.lib"]
     },
     {
       "id": "d3dcompiler",
@@ -384,7 +554,12 @@
       "download_url": "https://aka.ms/d3dcompiler_47",
       "install_args": "/quiet /norestart",
       "installer_size_mb": 2,
-      "dlls": ["d3dcompiler_47.dll", "d3dcompiler_43.dll", "d3dcompiler_46.dll", "d3dcompiler_45.dll", "d3dcompiler_44.dll", "d3dcompiler_42.dll"]
+      "dlls": [
+        "d3dcompiler_47.dll", "d3dcompiler_46.dll", "d3dcompiler_45.dll",
+        "d3dcompiler_44.dll", "d3dcompiler_43.dll", "d3dcompiler_42.dll",
+        "D3DCompiler_47.dll", "D3DCompiler_46.dll", "D3DCompiler_45.dll",
+        "D3DCompiler_44.dll", "D3DCompiler_43.dll", "D3DCompiler_42.dll"
+      ]
     },
     {
       "id": "directplay",
@@ -398,45 +573,347 @@
       },
       "download_url": "internal:dism",
       "install_args": "/Online /Enable-Feature /FeatureName:DirectPlay /All /Quiet /NoRestart",
-      "installer_size_mb": 0
+      "installer_size_mb": 0,
+      "dlls": [
+        "dplayx.dll", "dpnet.dll", "dpwsockx.dll", "dpnaddr.dll",
+        "dpvoice.dll", "dpnhpast.dll", "dpnhupnp.dll", "dpnlobby.dll",
+        "dpmodemx.dll", "dpserial.dll"
+      ]
+    },
+
+    {
+      "id": "dx_xinput",
+      "name": "XInput (手柄控制器支持)",
+      "version_check": {
+        "method": "file",
+        "path": "C:\\Windows\\System32\\xinput1_4.dll"
+      },
+      "download_url": "internal:dx-modern",
+      "install_args": "",
+      "installer_size_mb": 0,
+      "dlls": [
+        "xinput1_4.dll", "xinput1_3.dll", "xinput1_2.dll", "xinput1_1.dll",
+        "xinput9_1_0.dll"
+      ]
+    },
+
+    {
+      "id": "msvcrt_legacy",
+      "name": "旧版 VC++ 运行时 (VC6/VC7/VC7.1)",
+      "version_check": {
+        "method": "file",
+        "path": "C:\\Windows\\System32\\msvcrt.dll"
+      },
+      "download_url": "internal:msvcrt-legacy",
+      "install_args": "",
+      "installer_size_mb": 0,
+      "dlls": [
+        "msvcrt.dll", "msvcrt20.dll", "msvcrt40.dll",
+        "msvcirt.dll", "msvcp60.dll", "msvcp70.dll", "msvcp71.dll",
+        "msvcr70.dll", "msvcr71.dll",
+        "mfc42.dll", "mfc42u.dll", "mfc71.dll", "mfc71u.dll",
+        "atl71.dll"
+      ]
+    },
+
+    {
+      "id": "ucrt",
+      "name": "Universal CRT (Windows 10+ 系统组件)",
+      "version_check": {
+        "method": "file",
+        "path": "C:\\Windows\\System32\\ucrtbase.dll"
+      },
+      "download_url": "internal:ucrt",
+      "install_args": "",
+      "installer_size_mb": 0,
+      "dlls": [
+        "ucrtbase.dll", "ucrtbased.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll",
+        "api-ms-win-crt-stdio-l1-1-0.dll",
+        "api-ms-win-crt-math-l1-1-0.dll",
+        "api-ms-win-crt-string-l1-1-0.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll",
+        "api-ms-win-crt-locale-l1-1-0.dll",
+        "api-ms-win-crt-filesystem-l1-1-0.dll",
+        "api-ms-win-crt-time-l1-1-0.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll",
+        "api-ms-win-crt-utility-l1-1-0.dll",
+        "api-ms-win-crt-multibyte-l1-1-0.dll"
+      ]
+    },
+
+    {
+      "id": "media_foundation",
+      "name": "Windows Media Foundation",
+      "version_check": {
+        "method": "file",
+        "path": "C:\\Windows\\System32\\MFPlat.DLL"
+      },
+      "download_url": "internal:mf",
+      "install_args": "",
+      "installer_size_mb": 0,
+      "dlls": [
+        "MFPlat.DLL", "MFReadWrite.dll", "mf.dll", "mfcore.dll",
+        "mfperfhelper.dll", "mfmp4srcsnk.dll", "mfaacenc.dll",
+        "mfh264enc.dll", "mfsrcsnk.dll", "mfnetsrc.dll",
+        "evr.dll", "msmpeg2vdec.dll", "msmpeg2adec.dll",
+        "Resampledmo.dll", "MFMediaEngine.dll"
+      ]
     }
   ],
+
   "common_dlls": [
-    {"name": "xinput1_3.dll", "system_path": "", "description": "XInput 控制器支持 (老游戏)"},
-    {"name": "xinput1_4.dll", "system_path": "C:\\Windows\\System32\\xinput1_4.dll", "description": "XInput 控制器支持"},
-    {"name": "d3dx9_43.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
-    {"name": "d3dcompiler_47.dll", "system_path": "C:\\Windows\\System32\\d3dcompiler_47.dll", "description": "DirectX 着色器编译器"},
-    {"name": "msvcp140.dll", "system_path": "", "description": "VC++ 2015-2022 运行时"},
+    {"name": "ucrtbase.dll", "system_path": "C:\\Windows\\System32\\ucrtbase.dll", "description": "Universal CRT 基础库 (Windows 10+)"},
     {"name": "vcruntime140.dll", "system_path": "", "description": "VC++ 2015-2022 运行时"},
-    {"name": "vcruntime140_1.dll", "system_path": "", "description": "VC++ 2015-2022 运行时"},
+    {"name": "vcruntime140_1.dll", "system_path": "", "description": "VC++ 2015-2022 运行时 (异常处理)"},
+    {"name": "vcruntime140_clr0400.dll", "system_path": "", "description": "VC++ 2015-2022 CLR 运行时"},
+    {"name": "msvcp140.dll", "system_path": "", "description": "VC++ 2015-2022 标准库"},
+    {"name": "msvcp140_1.dll", "system_path": "", "description": "VC++ 2015-2022 标准库"},
+    {"name": "msvcp140_2.dll", "system_path": "", "description": "VC++ 2015-2022 标准库"},
+    {"name": "msvcp140_atomic_wait.dll", "system_path": "", "description": "VC++ 2015-2022 原子等待"},
+    {"name": "msvcp140_codecvt_ids.dll", "system_path": "", "description": "VC++ 2015-2022 编码转换"},
+    {"name": "vcomp140.dll", "system_path": "", "description": "VC++ 2015-2022 OpenMP 并行库"},
+    {"name": "concrt140.dll", "system_path": "", "description": "VC++ 2015-2022 并发运行时"},
+    {"name": "vccorlib140.dll", "system_path": "", "description": "VC++ 2015-2022 WinRT 核心库"},
+    {"name": "vcamp140.dll", "system_path": "", "description": "VC++ 2015-2022 AMP 库"},
+    {"name": "mfc140.dll", "system_path": "", "description": "VC++ 2015-2022 MFC 库"},
+    {"name": "mfc140u.dll", "system_path": "", "description": "VC++ 2015-2022 MFC Unicode 库"},
+    {"name": "mfcm140.dll", "system_path": "", "description": "VC++ 2015-2022 MFC 托管库"},
+    {"name": "atl140.dll", "system_path": "", "description": "VC++ 2015-2022 ATL 库"},
     {"name": "msvcr120.dll", "system_path": "", "description": "VC++ 2013 运行时"},
-    {"name": "msvcp120.dll", "system_path": "", "description": "VC++ 2013 运行时"},
+    {"name": "msvcp120.dll", "system_path": "", "description": "VC++ 2013 标准库"},
+    {"name": "vcomp120.dll", "system_path": "", "description": "VC++ 2013 OpenMP 并行库"},
+    {"name": "mfc120.dll", "system_path": "", "description": "VC++ 2013 MFC 库"},
+    {"name": "mfc120u.dll", "system_path": "", "description": "VC++ 2013 MFC Unicode 库"},
+    {"name": "mfcm120.dll", "system_path": "", "description": "VC++ 2013 MFC 托管库"},
+    {"name": "atl120.dll", "system_path": "", "description": "VC++ 2013 ATL 库"},
     {"name": "msvcr110.dll", "system_path": "", "description": "VC++ 2012 运行时"},
-    {"name": "msvcp110.dll", "system_path": "", "description": "VC++ 2012 运行时"},
+    {"name": "msvcp110.dll", "system_path": "", "description": "VC++ 2012 标准库"},
+    {"name": "vcomp110.dll", "system_path": "", "description": "VC++ 2012 OpenMP 并行库"},
+    {"name": "mfc110.dll", "system_path": "", "description": "VC++ 2012 MFC 库"},
+    {"name": "mfc110u.dll", "system_path": "", "description": "VC++ 2012 MFC Unicode 库"},
+    {"name": "mfcm110.dll", "system_path": "", "description": "VC++ 2012 MFC 托管库"},
+    {"name": "atl110.dll", "system_path": "", "description": "VC++ 2012 ATL 库"},
     {"name": "msvcr100.dll", "system_path": "", "description": "VC++ 2010 运行时"},
-    {"name": "msvcp100.dll", "system_path": "", "description": "VC++ 2010 运行时"},
-    {"name": "mfc100u.dll", "system_path": "", "description": "VC++ 2010 MFC 库 (ExpressHelper等)"},
+    {"name": "msvcp100.dll", "system_path": "", "description": "VC++ 2010 标准库"},
+    {"name": "vcomp100.dll", "system_path": "", "description": "VC++ 2010 OpenMP 并行库"},
+    {"name": "mfc100.dll", "system_path": "", "description": "VC++ 2010 MFC 库"},
+    {"name": "mfc100u.dll", "system_path": "", "description": "VC++ 2010 MFC Unicode 库"},
+    {"name": "mfcm100.dll", "system_path": "", "description": "VC++ 2010 MFC 托管库"},
+    {"name": "atl100.dll", "system_path": "", "description": "VC++ 2010 ATL 库"},
     {"name": "msvcr90.dll", "system_path": "", "description": "VC++ 2008 运行时"},
-    {"name": "msvcp90.dll", "system_path": "", "description": "VC++ 2008 运行时"},
+    {"name": "msvcp90.dll", "system_path": "", "description": "VC++ 2008 标准库"},
+    {"name": "vcomp90.dll", "system_path": "", "description": "VC++ 2008 OpenMP 并行库"},
+    {"name": "mfc90.dll", "system_path": "", "description": "VC++ 2008 MFC 库"},
+    {"name": "mfc90u.dll", "system_path": "", "description": "VC++ 2008 MFC Unicode 库"},
+    {"name": "mfcm90.dll", "system_path": "", "description": "VC++ 2008 MFC 托管库"},
+    {"name": "atl90.dll", "system_path": "", "description": "VC++ 2008 ATL 库"},
+    {"name": "msvcm90.dll", "system_path": "", "description": "VC++ 2008 CRT 混合模式"},
+    {"name": "msvcr80.dll", "system_path": "", "description": "VC++ 2005 运行时"},
+    {"name": "msvcp80.dll", "system_path": "", "description": "VC++ 2005 标准库"},
+    {"name": "vcomp80.dll", "system_path": "", "description": "VC++ 2005 OpenMP 并行库"},
+    {"name": "mfc80.dll", "system_path": "", "description": "VC++ 2005 MFC 库"},
+    {"name": "mfc80u.dll", "system_path": "", "description": "VC++ 2005 MFC Unicode 库"},
+    {"name": "mfcm80.dll", "system_path": "", "description": "VC++ 2005 MFC 托管库"},
+    {"name": "atl80.dll", "system_path": "", "description": "VC++ 2005 ATL 库"},
+    {"name": "msvcm80.dll", "system_path": "", "description": "VC++ 2005 CRT 混合模式"},
+    {"name": "MSVCRT.dll", "system_path": "", "description": "旧版 CRT 运行时 (Win95/98 游戏)"},
+    {"name": "msvcirt.dll", "system_path": "", "description": "旧版 C++ IOStream 库"},
+    {"name": "msvcp60.dll", "system_path": "", "description": "VC++ 6.0 标准库 (老游戏)"},
+    {"name": "msvcp70.dll", "system_path": "", "description": "VC++ 2002 标准库"},
+    {"name": "msvcp71.dll", "system_path": "", "description": "VC++ 2003 标准库"},
+    {"name": "msvcr70.dll", "system_path": "", "description": "VC++ 2002 运行时"},
+    {"name": "msvcr71.dll", "system_path": "", "description": "VC++ 2003 运行时"},
+    {"name": "mfc42.dll", "system_path": "", "description": "VC++ 6.0 MFC 库"},
+    {"name": "mfc42u.dll", "system_path": "", "description": "VC++ 6.0 MFC Unicode 库"},
+    {"name": "mfc71.dll", "system_path": "", "description": "VC++ 2003 MFC 库"},
+    {"name": "atl71.dll", "system_path": "", "description": "VC++ 2003 ATL 库"},
+
+    {"name": "d3dx9_43.dll", "system_path": "", "description": "DirectX 9 最高版本纹理/网格库"},
+    {"name": "d3dx9_42.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_41.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_40.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_39.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_38.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_37.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_36.dll", "system_path": "", "description": "DirectX 9 纹理/网格库 (老游戏最常见)"},
+    {"name": "d3dx9_35.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_34.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_33.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_32.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_31.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_30.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_29.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_28.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_27.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_26.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_25.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx9_24.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dx10_43.dll", "system_path": "", "description": "DirectX 10 最高版本纹理/网格库"},
+    {"name": "d3dx10_42.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_41.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_40.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_39.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_38.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_37.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_36.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_35.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_34.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx10_33.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"},
+    {"name": "d3dx11_43.dll", "system_path": "", "description": "DirectX 11 纹理/网格库"},
+    {"name": "d3dx11_42.dll", "system_path": "", "description": "DirectX 11 纹理/网格库"},
+    {"name": "d3dcsx_43.dll", "system_path": "", "description": "DirectCompute 着色器库"},
+    {"name": "d3dcsx_42.dll", "system_path": "", "description": "DirectCompute 着色器库"},
+    {"name": "d3dcompiler_47.dll", "system_path": "C:\\Windows\\System32\\d3dcompiler_47.dll", "description": "DirectX 着色器编译器 (最新)"},
+    {"name": "d3dcompiler_46.dll", "system_path": "", "description": "DirectX 着色器编译器"},
+    {"name": "d3dcompiler_45.dll", "system_path": "", "description": "DirectX 着色器编译器"},
+    {"name": "d3dcompiler_44.dll", "system_path": "", "description": "DirectX 着色器编译器"},
+    {"name": "d3dcompiler_43.dll", "system_path": "", "description": "DirectX 着色器编译器 (老游戏常见)"},
+    {"name": "d3dcompiler_42.dll", "system_path": "", "description": "DirectX 着色器编译器"},
+    {"name": "D3DCompiler_47.dll", "system_path": "C:\\Windows\\System32\\D3DCompiler_47.dll", "description": "DirectX 着色器编译器"},
+    {"name": "D3DCompiler_43.dll", "system_path": "", "description": "DirectX 着色器编译器"},
+    {"name": "xinput1_4.dll", "system_path": "C:\\Windows\\System32\\xinput1_4.dll", "description": "XInput 控制器支持 (Win8+)"},
+    {"name": "xinput1_3.dll", "system_path": "", "description": "XInput 控制器支持 (老游戏最常见)"},
+    {"name": "xinput1_2.dll", "system_path": "", "description": "XInput 控制器支持"},
+    {"name": "xinput1_1.dll", "system_path": "", "description": "XInput 控制器支持"},
+    {"name": "xinput9_1_0.dll", "system_path": "", "description": "XInput 9.1.0 (旧版)"},
+    {"name": "xaudio2_9.dll", "system_path": "C:\\Windows\\System32\\xaudio2_9.dll", "description": "XAudio 2.9 (Win10+)"},
+    {"name": "xaudio2_8.dll", "system_path": "C:\\Windows\\System32\\xaudio2_8.dll", "description": "XAudio 2.8 (Win8+)"},
+    {"name": "xaudio2_7.dll", "system_path": "", "description": "XAudio 2.7 (老游戏最常见)"},
+    {"name": "xaudio2_6.dll", "system_path": "", "description": "XAudio 2.6 (老游戏)"},
+    {"name": "xaudio2_5.dll", "system_path": "", "description": "XAudio 2.5 (老游戏)"},
+    {"name": "xaudio2_4.dll", "system_path": "", "description": "XAudio 2.4 (老游戏)"},
+    {"name": "xaudio2_3.dll", "system_path": "", "description": "XAudio 2.3 (老游戏)"},
+    {"name": "xaudio2_2.dll", "system_path": "", "description": "XAudio 2.2 (老游戏)"},
+    {"name": "xaudio2_1.dll", "system_path": "", "description": "XAudio 2.1 (老游戏)"},
+    {"name": "xaudio2_0.dll", "system_path": "", "description": "XAudio 2.0 (老游戏)"},
+    {"name": "x3daudio1_7.dll", "system_path": "C:\\Windows\\System32\\x3daudio1_7.dll", "description": "X3DAudio 3D 音效"},
+    {"name": "x3daudio1_6.dll", "system_path": "", "description": "X3DAudio 3D 音效"},
+    {"name": "x3daudio1_5.dll", "system_path": "", "description": "X3DAudio 3D 音效"},
+    {"name": "x3daudio1_4.dll", "system_path": "", "description": "X3DAudio 3D 音效"},
+    {"name": "x3daudio1_3.dll", "system_path": "", "description": "X3DAudio 3D 音效"},
+    {"name": "x3daudio1_2.dll", "system_path": "", "description": "X3DAudio 3D 音效"},
+    {"name": "x3daudio1_1.dll", "system_path": "", "description": "X3DAudio 3D 音效"},
+    {"name": "x3daudio1_0.dll", "system_path": "", "description": "X3DAudio 3D 音效"},
+    {"name": "xapofx1_5.dll", "system_path": "C:\\Windows\\System32\\xapofx1_5.dll", "description": "XAPOFX 音效处理"},
+    {"name": "xapofx1_4.dll", "system_path": "", "description": "XAPOFX 音效处理"},
+    {"name": "xapofx1_3.dll", "system_path": "", "description": "XAPOFX 音效处理"},
+    {"name": "xapofx1_2.dll", "system_path": "", "description": "XAPOFX 音效处理"},
+    {"name": "xapofx1_1.dll", "system_path": "", "description": "XAPOFX 音效处理"},
+    {"name": "xapofx1_0.dll", "system_path": "", "description": "XAPOFX 音效处理"},
+    {"name": "dinput8.dll", "system_path": "C:\\Windows\\System32\\dinput8.dll", "description": "DirectInput 输入设备"},
+    {"name": "dsound.dll", "system_path": "C:\\Windows\\System32\\dsound.dll", "description": "DirectSound 音频"},
+    {"name": "ddraw.dll", "system_path": "C:\\Windows\\System32\\ddraw.dll", "description": "DirectDraw 2D 图形"},
+    {"name": "dplayx.dll", "system_path": "", "description": "DirectPlay 网络组件"},
+    {"name": "dpnet.dll", "system_path": "", "description": "DirectPlay 网络组件"},
+    {"name": "dpwsockx.dll", "system_path": "", "description": "DirectPlay 网络组件"},
+    {"name": "d3d11.dll", "system_path": "C:\\Windows\\System32\\d3d11.dll", "description": "Direct3D 11"},
+    {"name": "d3d12.dll", "system_path": "C:\\Windows\\System32\\d3d12.dll", "description": "Direct3D 12"},
+    {"name": "d3d10.dll", "system_path": "C:\\Windows\\System32\\d3d10.dll", "description": "Direct3D 10"},
+    {"name": "d3d9.dll", "system_path": "C:\\Windows\\System32\\d3d9.dll", "description": "Direct3D 9"},
+    {"name": "dxgi.dll", "system_path": "C:\\Windows\\System32\\dxgi.dll", "description": "DirectX Graphics Infrastructure"},
+    {"name": "d2d1.dll", "system_path": "C:\\Windows\\System32\\d2d1.dll", "description": "Direct2D 图形"},
+    {"name": "dwrite.dll", "system_path": "C:\\Windows\\System32\\dwrite.dll", "description": "DirectWrite 文本渲染"},
+
     {"name": "OpenAL32.dll", "system_path": "", "description": "OpenAL 音频"},
     {"name": "wrap_oal.dll", "system_path": "", "description": "OpenAL 包装"},
-    {"name": "PhysX3_x64.dll", "system_path": "", "description": "PhysX 物理引擎"},
-    {"name": "MSVCRT.dll", "system_path": "", "description": "旧版 CRT 运行时 (Win95/98 游戏)"},
-    {"name": "mfc100u.dll", "system_path": "", "description": "VC++ 2010 MFC 库 (ExpressHelper等)"},
-    {"name": "MFPlat.DLL", "system_path": "C:\\Windows\\System32\\MFPlat.DLL", "description": "Windows Media Foundation (ffmpeg等)"},
-    {"name": "api-ms-win-eventing-classicprovider-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件，建议运行 sfc /scannow)"},
+    {"name": "soft_oal.dll", "system_path": "", "description": "OpenAL Soft 实现"},
+    {"name": "PhysX3_x64.dll", "system_path": "", "description": "PhysX 物理引擎 (x64)"},
+    {"name": "PhysX3Common_x64.dll", "system_path": "", "description": "PhysX 通用库 (x64)"},
+    {"name": "PhysX3Cooking_x64.dll", "system_path": "", "description": "PhysX 物理烘焙 (x64)"},
+    {"name": "PhysX3_x86.dll", "system_path": "", "description": "PhysX 物理引擎 (x86)"},
+    {"name": "PhysX3Common_x86.dll", "system_path": "", "description": "PhysX 通用库 (x86)"},
+    {"name": "PhysX3Cooking_x86.dll", "system_path": "", "description": "PhysX 物理烘焙 (x86)"},
+    {"name": "PhysXDevice64.dll", "system_path": "", "description": "PhysX 设备接口 (x64)"},
+    {"name": "PhysXLoader.dll", "system_path": "", "description": "PhysX 加载器 (旧版)"},
+    {"name": "nvcuda.dll", "system_path": "", "description": "NVIDIA CUDA 驱动接口"},
+    {"name": "nvapi64.dll", "system_path": "", "description": "NVIDIA API 接口"},
+
+    {"name": "MFPlat.DLL", "system_path": "C:\\Windows\\System32\\MFPlat.DLL", "description": "Windows Media Foundation 平台"},
+    {"name": "MFReadWrite.dll", "system_path": "C:\\Windows\\System32\\MFReadWrite.dll", "description": "Media Foundation 读写"},
+    {"name": "mf.dll", "system_path": "C:\\Windows\\System32\\mf.dll", "description": "Media Foundation 核心"},
+    {"name": "mfcore.dll", "system_path": "C:\\Windows\\System32\\mfcore.dll", "description": "Media Foundation 核心"},
+    {"name": "evr.dll", "system_path": "C:\\Windows\\System32\\evr.dll", "description": "增强视频渲染器"},
+    {"name": "WebView2Loader.dll", "system_path": "", "description": "Edge WebView2 加载器"},
+    {"name": "hostfxr.dll", "system_path": "", "description": ".NET Core Host FX Resolver"},
+    {"name": "hostpolicy.dll", "system_path": "", "description": ".NET Core Host Policy"},
+    {"name": "coreclr.dll", "system_path": "", "description": ".NET Core CLR 运行时"},
+
+    {"name": "api-ms-win-crt-runtime-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件，建议运行 sfc /scannow)"},
+    {"name": "api-ms-win-crt-stdio-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-math-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-string-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-heap-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-convert-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-locale-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-filesystem-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-time-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-environment-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-utility-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-crt-multibyte-l1-1-0.dll", "system_path": "", "description": "UCRT API Set (系统组件)"},
+    {"name": "api-ms-win-eventing-classicprovider-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-file-l1-2-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-processthreads-l1-1-1.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-synch-l1-2-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-memory-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-libraryloader-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-handle-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-errorhandling-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-debug-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-datetime-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-profile-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-sysinfo-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-util-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-string-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-interlocked-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-localization-l1-2-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-console-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-processenvironment-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-namedpipe-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-io-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-threadpool-l1-2-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-heap-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-rtlsupport-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+    {"name": "api-ms-win-core-delayload-l1-1-0.dll", "system_path": "", "description": "Windows API Set (系统组件)"},
+
     {"name": "steam_api64.dll", "system_path": "", "description": "Steam 游戏平台 DRM 组件，需重装对应游戏"},
-    {"name": "EMP.dll", "system_path": "", "description": "EMPRESS 游戏破解补丁，需重装游戏"},
-    {"name": "log4cpp.dll", "system_path": "", "description": "第三方 C++ 日志库，属于特定软件，需重装对应软件"},
+    {"name": "steam_api.dll", "system_path": "", "description": "Steam 游戏平台 DRM 组件 (32位)"},
+    {"name": "steamclient.dll", "system_path": "", "description": "Steam 客户端组件"},
+    {"name": "EOSSDK-Win64-Shipping.dll", "system_path": "", "description": "Epic Online Services SDK"},
+    {"name": "EOSSDK-Win32-Shipping.dll", "system_path": "", "description": "Epic Online Services SDK (32位)"},
+    {"name": "XGamingRuntime.dll", "system_path": "", "description": "Xbox GDK 运行时"},
+    {"name": "Galaxy.dll", "system_path": "", "description": "GOG Galaxy 客户端"},
+    {"name": "UnityPlayer.dll", "system_path": "", "description": "Unity 引擎运行时"},
     {"name": "libssl-1_1.dll", "system_path": "", "description": "OpenSSL 加密库，属于特定软件，需重装对应软件"},
-    {"name": "libcurl.dll", "system_path": "", "description": "libcurl 网络库，属于特定软件，需重装对应软件"},
-    {"name": "vcomp140.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2015-2022)"},
-    {"name": "vcomp120.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2013)"},
-    {"name": "vcomp110.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2012)"},
-    {"name": "vcomp100.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2010)"},
-    {"name": "vcomp90.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2008)"},
-    {"name": "vcomp80.dll", "system_path": "", "description": "VC++ OpenMP 并行库 (2005)"},
-    {"name": "mfcm140.dll", "system_path": "", "description": "VC++ MFC 库 (2015-2022)"},
-    {"name": "d3dx10_43.dll", "system_path": "", "description": "DirectX 10 纹理/网格库"}
+    {"name": "libcrypto-1_1.dll", "system_path": "", "description": "OpenSSL 加密库，属于特定软件"},
+    {"name": "libeay32.dll", "system_path": "", "description": "旧版 OpenSSL，属于特定软件"},
+    {"name": "ssleay32.dll", "system_path": "", "description": "旧版 OpenSSL，属于特定软件"},
+    {"name": "libcurl.dll", "system_path": "", "description": "libcurl 网络库，属于特定软件"},
+    {"name": "log4cpp.dll", "system_path": "", "description": "Apache log4cpp C++ 日志库，属于特定软件"},
+    {"name": "zlib1.dll", "system_path": "", "description": "zlib 压缩库，属于特定软件"},
+    {"name": "zlib.dll", "system_path": "", "description": "zlib 压缩库，属于特定软件"},
+    {"name": "libpng.dll", "system_path": "", "description": "libpng 图片库，属于特定软件"},
+    {"name": "libjpeg.dll", "system_path": "", "description": "libjpeg 图片库，属于特定软件"},
+    {"name": "SDL2.dll", "system_path": "", "description": "SDL2 多媒体库，属于特定游戏或软件"},
+    {"name": "freetype.dll", "system_path": "", "description": "FreeType 字体渲染库"},
+    {"name": "glew32.dll", "system_path": "", "description": "GLEW OpenGL 扩展库"},
+    {"name": "glfw3.dll", "system_path": "", "description": "GLFW 窗口库"},
+    {"name": "Qt5Core.dll", "system_path": "", "description": "Qt5 框架核心库"},
+    {"name": "Qt5Gui.dll", "system_path": "", "description": "Qt5 框架 GUI 库"},
+    {"name": "Qt5Widgets.dll", "system_path": "", "description": "Qt5 框架 Widgets 库"},
+    {"name": "python3.dll", "system_path": "", "description": "Python 3 运行时"},
+    {"name": "python310.dll", "system_path": "", "description": "Python 3.10 运行时"},
+    {"name": "python311.dll", "system_path": "", "description": "Python 3.11 运行时"},
+    {"name": "python312.dll", "system_path": "", "description": "Python 3.12 运行时"},
+    {"name": "icuuc74.dll", "system_path": "", "description": "ICU Unicode 库"},
+    {"name": "icuin74.dll", "system_path": "", "description": "ICU I18N 库"},
+    {"name": "icudt74.dll", "system_path": "", "description": "ICU Data 库"},
+    {"name": "emp.dll", "system_path": "", "description": "EMPRESS 游戏破解补丁（请重装对应游戏）"},
+    {"name": "bink2w64.dll", "system_path": "", "description": "Bink Video 解码器 (RAD Game Tools)"},
+    {"name": "binkw32.dll", "system_path": "", "description": "Bink Video 解码器 (32位)"},
+    {"name": "dbghelp.dll", "system_path": "C:\\Windows\\System32\\dbghelp.dll", "description": "Windows 调试帮助库"},
+    {"name": "version.dll", "system_path": "C:\\Windows\\System32\\version.dll", "description": "Windows 版本信息库"},
+    {"name": "winmm.dll", "system_path": "C:\\Windows\\System32\\winmm.dll", "description": "Windows 多媒体库"}
   ]
 }

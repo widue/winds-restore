@@ -64,4 +64,16 @@ export interface InstallProgressPayload {
   finished: boolean;
 }
 
+export interface SystemFileResult {
+  name: string;
+  description: string;
+  found: boolean;
+  path: string | null;
+}
+
+export interface RepairResult {
+  success: boolean;
+  output: string;
+}
+
 export type InstallPage = "idle" | "installing" | "done";

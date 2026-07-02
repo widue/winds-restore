@@ -232,17 +232,10 @@ fn download_with_stream(
 }
 
 fn run_installer(exe_path: &Path, args: &str) -> Result<String> {
-    let exe = exe_path.to_string_lossy().replace('\'', "''");
-    let install_args = args.replace('\'', "''");
-    let ps_script = format!(
-        "Start-Process -Wait -Verb RunAs -FilePath '{}' -ArgumentList '{}'",
-        exe, install_args
-    );
-
-    let output = std::process::Command::new("powershell")
-        .args(["-NoProfile", "-WindowStyle", "Hidden", "-Command", &ps_script])
+    let output = std::process::Command::new(exe_path)
+        .args(args.split_whitespace())
         .output()
-        .context("启动 PowerShell 进程失败")?;
+        .context("启动安装程序失败")?;
 
     if output.status.success() {
         Ok("安装成功".into())

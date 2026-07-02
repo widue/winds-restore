@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppStore } from "./store/appStore";
 import Sidebar from "./components/Sidebar";
 import StatusBar from "./components/StatusBar";
 import InstallPanel from "./components/InstallPanel";
+import EulaDialog, { EULA_KEY } from "./components/EulaDialog";
 import HomePage from "./pages/HomePage";
 import ScanningPage from "./pages/ScanningPage";
 import ResultsPage from "./pages/ResultsPage";
@@ -12,15 +13,22 @@ import { get_manifest_count } from "./api/tauri";
 import { startMemoryUsageMonitor, stopMemoryUsageMonitor } from "./api/events";
 
 const App: React.FC = () => {
-  const { page, setMemoryUsage, setScanResults } = useAppStore();
+  const [eulaAccepted, setEulaAccepted] = useState(() => localStorage.getItem(EULA_KEY) === "true");
+  const page = useAppStore((state) => state.page);
+  const setMemoryUsage = useAppStore((state) => state.setMemoryUsage);
+  const setScanResults = useAppStore((state) => state.setScanResults);
+  const initializedRef = useRef(false);
 
   useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
     let mounted = true;
 
     const init = async () => {
       try {
         const count = await get_manifest_count();
-        if (mounted) {
+        if (mounted && count > 0) {
           const emptyResults = Array.from({ length: count }, (_, i) => ({
             id: `placeholder-${i}`,
             name: `运行库 ${i + 1}`,
@@ -30,47 +38,35 @@ const App: React.FC = () => {
           }));
           setScanResults(emptyResults);
         }
-      } catch {
-        // 静默失败
-      }
+      } catch { /* silent */ }
     };
 
     init();
 
     startMemoryUsageMonitor((usage) => {
-      setMemoryUsage(usage);
+      if (mounted) setMemoryUsage(usage);
     }, 2000);
 
-    return () => {
-      mounted = false;
-      stopMemoryUsageMonitor();
-    };
+    return () => { mounted = false; stopMemoryUsageMonitor(); };
   }, [setScanResults, setMemoryUsage]);
 
-  const renderPage = () => {
+  const renderPage = React.useMemo(() => {
     switch (page) {
-      case "home":
-        return <HomePage />;
-      case "scanning":
-        return <ScanningPage />;
-      case "results":
-        return <ResultsPage />;
-      case "tools":
-        return <ToolsPage />;
-      case "settings":
-        return <SettingsPage />;
-      default:
-        return <HomePage />;
+      case "home": return <HomePage />;
+      case "scanning": return <ScanningPage />;
+      case "results": return <ResultsPage />;
+      case "tools": return <ToolsPage />;
+      case "settings": return <SettingsPage />;
+      default: return <HomePage />;
     }
-  };
+  }, [page]);
 
   return (
     <div className="h-full flex flex-col bg-dark-bg">
+      {!eulaAccepted && <EulaDialog onAccept={() => setEulaAccepted(true)} />}
       <div className="flex-1 flex overflow-hidden">
         <Sidebar />
-        <main className="flex-1 flex flex-col overflow-hidden">
-          {renderPage()}
-        </main>
+        <main className="flex-1 flex flex-col overflow-hidden">{renderPage}</main>
       </div>
       <InstallPanel />
       <StatusBar />

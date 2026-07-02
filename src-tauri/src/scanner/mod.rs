@@ -390,16 +390,29 @@ pub fn get_error_code_help(code: &str) -> String {
     }
 }
 
-/// Search for common DLLs by checking PATH + System32 + SysWOW64
+/// Search for common DLLs by checking System32 + SysWOW64 + game directories + PATH
 pub fn scan_common_dll_list(dll_names: &[String]) -> Vec<DllScanResult> {
     let mut results = Vec::new();
     let search_dirs = vec![
         "C:\\Windows\\System32".to_string(),
         "C:\\Windows\\SysWOW64".to_string(),
+        "C:\\Windows\\System32\\downlevel".to_string(),
+        "C:\\Windows\\SysWOW64\\downlevel".to_string(),
+        "C:\\Windows\\System32\\DriverStore".to_string(),
         "C:\\Program Files (x86)\\Steam".to_string(),
         "C:\\Program Files\\Steam".to_string(),
+        "C:\\Program Files (x86)\\Steam\\steamapps\\common".to_string(),
+        "C:\\Program Files\\Steam\\steamapps\\common".to_string(),
         "C:\\Program Files (x86)\\Epic Games".to_string(),
         "C:\\Program Files\\Epic Games".to_string(),
+        "C:\\Program Files\\dotnet".to_string(),
+        "C:\\Program Files (x86)\\dotnet".to_string(),
+        "C:\\Program Files\\dotnet\\shared".to_string(),
+        "C:\\Program Files (x86)\\dotnet\\shared".to_string(),
+        "C:\\Program Files\\NVIDIA Corporation".to_string(),
+        "C:\\Program Files (x86)\\NVIDIA Corporation".to_string(),
+        "C:\\Program Files\\NVIDIA Corporation\\PhysX".to_string(),
+        "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX".to_string(),
     ];
 
     for name in dll_names {

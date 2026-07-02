@@ -224,3 +224,133 @@ pub async fn start_install(
 
     Ok(())
 }
+
+const SYSTEM_CHECK_DLLS: &[(&str, &str)] = &[
+    ("ole32.dll", "COM 组件"),
+    ("oleaut32.dll", "OLE 自动化"),
+    ("comctl32.dll", "通用控件库"),
+    ("shell32.dll", "Windows Shell"),
+    ("shlwapi.dll", "Shell 轻量 API"),
+    ("rpcrt4.dll", "远程过程调用"),
+    ("advapi32.dll", "高级 API 服务"),
+    ("gdi32.dll", "GDI 图形设备接口"),
+    ("user32.dll", "用户界面 API"),
+    ("kernel32.dll", "Windows 核心 API"),
+    ("ntdll.dll", "NT 层 API"),
+    ("ws2_32.dll", "Winsock 网络"),
+    ("crypt32.dll", "加密 API"),
+    ("winhttp.dll", "WinHTTP 网络"),
+    ("wininet.dll", "WinINet 网络"),
+    ("urlmon.dll", "URL 监控"),
+    ("winmm.dll", "Windows 多媒体"),
+    ("msxml6.dll", "MSXML 6.0"),
+    ("setupapi.dll", "安装 API"),
+    ("wintrust.dll", "证书验证"),
+    ("secur32.dll", "安全 API"),
+    ("version.dll", "版本信息"),
+    ("uxtheme.dll", "主题引擎"),
+    ("dwmapi.dll", "桌面窗口管理器"),
+    ("propsys.dll", "属性系统"),
+    ("mshtml.dll", "IE HTML 渲染引擎"),
+    ("wmvcore.dll", "Windows Media 核心"),
+    ("strmdll.dll", "ASF 流媒体"),
+    ("msdmo.dll", "DirectShow 媒体对象"),
+    ("netapi32.dll", "网络 API"),
+    ("iphlpapi.dll", "IP 助手 API"),
+    ("dnsapi.dll", "DNS 客户端 API"),
+    ("wkssvc.dll", "工作站服务"),
+    ("certca.dll", "证书 CA"),
+    ("xmllite.dll", "XML 轻量解析器"),
+    ("newdev.dll", "设备安装"),
+    ("powrprof.dll", "电源管理"),
+    ("cfgmgr32.dll", "配置管理器"),
+    ("clusapi.dll", "集群 API"),
+    ("wtsapi32.dll", "远程桌面 API"),
+    ("psapi.dll", "进程状态 API"),
+    ("dbghelp.dll", "调试帮助"),
+    ("imagehlp.dll", "映像帮助"),
+    ("bcrypt.dll", "加密基元"),
+    ("ncrypt.dll", "加密保护"),
+    ("srvcli.dll", "服务器客户端"),
+    ("netutils.dll", "网络工具"),
+    ("vssapi.dll", "卷影复制"),
+    ("msi.dll", "Windows Installer"),
+    ("mpr.dll", "多提供程序路由"),
+    ("samlib.dll", "SAM 库"),
+    ("wmi.dll", "WMI"),
+    ("qmgr.dll", "后台智能传输"),
+];
+
+#[derive(Clone, Serialize)]
+pub struct SystemFileResult {
+    pub name: String,
+    pub description: String,
+    pub found: bool,
+    pub path: Option<String>,
+}
+
+#[tauri::command]
+pub fn check_system_files() -> Vec<SystemFileResult> {
+    let dirs = [
+        "C:\\Windows\\System32",
+        "C:\\Windows\\SysWOW64",
+    ];
+    SYSTEM_CHECK_DLLS.iter().map(|(name, desc)| {
+        let mut found = false;
+        let mut found_path = None;
+        for dir in &dirs {
+            let full = format!("{}\\{}", dir, name);
+            if std::path::Path::new(&full).exists() {
+                found = true;
+                found_path = Some(full);
+                break;
+            }
+        }
+        SystemFileResult {
+            name: name.to_string(),
+            description: desc.to_string(),
+            found,
+            path: found_path,
+        }
+    }).collect()
+}
+
+#[derive(Clone, Serialize)]
+pub struct RepairResult {
+    pub success: bool,
+    pub output: String,
+}
+
+#[tauri::command]
+pub fn run_sfc_scannow() -> Result<RepairResult, String> {
+    let output = std::process::Command::new("sfc.exe")
+        .args(["/scannow"])
+        .output()
+        .map_err(|e| format!("启动 SFC 失败: {}", e))?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    let combined = format!("{}{}", stdout, stderr);
+
+    let success = output.status.success() || combined.contains("Windows Resource Protection found corrupt files and successfully repaired them")
+        || combined.contains("Windows Resource Protection did not find any integrity violations");
+
+    Ok(RepairResult { success, output: combined.trim().to_string() })
+}
+
+#[tauri::command]
+pub fn run_dism_restorehealth() -> Result<RepairResult, String> {
+    let output = std::process::Command::new("dism.exe")
+        .args(["/online", "/Cleanup-Image", "/RestoreHealth"])
+        .output()
+        .map_err(|e| format!("启动 DISM 失败: {}", e))?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    let combined = format!("{}{}", stdout, stderr);
+
+    let success = output.status.success() || combined.contains("The restoration operation completed successfully")
+        || combined.contains("No component store corruption detected");
+
+    Ok(RepairResult { success, output: combined.trim().to_string() })
+}

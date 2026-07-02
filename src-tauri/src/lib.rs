@@ -33,6 +33,9 @@ pub fn run() {
             commands::start_install,
             commands::check_dll_path,
             commands::scan_common_dlls,
+            commands::check_system_files,
+            commands::run_sfc_scannow,
+            commands::run_dism_restorehealth,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
