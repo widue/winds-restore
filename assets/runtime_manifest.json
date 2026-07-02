@@ -1,0 +1,335 @@
+{
+  "runtimes": [
+    {
+      "id": "vcpp_2022_x64",
+      "name": "Microsoft Visual C++ 2015-2022 Redistributable (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x64",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://aka.ms/vs/17/release/vc_redist.x64.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 25,
+      "dlls": ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll", "msvcp140_atomic_wait.dll", "msvcp140_codecvt_ids.dll"]
+    },
+    {
+      "id": "vcpp_2022_x86",
+      "name": "Microsoft Visual C++ 2015-2022 Redistributable (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x86",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://aka.ms/vs/17/release/vc_redist.x86.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 25,
+      "dlls": ["vcruntime140.dll", "vcruntime140_1.dll", "msvcp140.dll", "msvcp140_1.dll", "msvcp140_2.dll"]
+    },
+    {
+      "id": "vcpp_2013_x64",
+      "name": "Microsoft Visual C++ 2013 Redistributable (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\12.0\\VC\\Runtimes\\x64",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://download.microsoft.com/download/0/5/6/056DDCBA-F701-41A2-9B33-9C7E5CAD17D0/vcredist_x64.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 20,
+      "dlls": ["msvcr120.dll", "msvcp120.dll"]
+    },
+    {
+      "id": "vcpp_2013_x86",
+      "name": "Microsoft Visual C++ 2013 Redistributable (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\12.0\\VC\\Runtimes\\x86",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://download.microsoft.com/download/0/5/6/056DDCBA-F701-41A2-9B33-9C7E5CAD17D0/vcredist_x86.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 15,
+      "dlls": ["msvcr120.dll", "msvcp120.dll"]
+    },
+    {
+      "id": "vcpp_2012_x64",
+      "name": "Microsoft Visual C++ 2012 Redistributable (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\11.0\\VC\\Runtimes\\x64",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 18,
+      "dlls": ["msvcr110.dll", "msvcp110.dll"]
+    },
+    {
+      "id": "vcpp_2012_x86",
+      "name": "Microsoft Visual C++ 2012 Redistributable (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\11.0\\VC\\Runtimes\\x86",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x86.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 15,
+      "dlls": ["msvcr110.dll", "msvcp110.dll"]
+    },
+    {
+      "id": "vcpp_2010_x64",
+      "name": "Microsoft Visual C++ 2010 SP1 Redistributable (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\10.0\\VC\\VCRedist\\x64",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://download.microsoft.com/download/1/8/0/180FA2CE-966F-437D-90D2-83DEDDA2F2F1/vcredist_x64.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 15,
+      "dlls": ["msvcr100.dll", "msvcp100.dll"]
+    },
+    {
+      "id": "vcpp_2010_x86",
+      "name": "Microsoft Visual C++ 2010 SP1 Redistributable (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\10.0\\VC\\VCRedist\\x86",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://download.microsoft.com/download/1/8/0/180FA2CE-966F-437D-90D2-83DEDDA2F2F1/vcredist_x86.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 10,
+      "dlls": ["msvcr100.dll", "msvcp100.dll"]
+    },
+    {
+      "id": "vcpp_2008_x64",
+      "name": "Microsoft Visual C++ 2008 SP1 Redistributable (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\9.0\\VC\\VCRedist\\x64",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://download.microsoft.com/download/2/0/2/2028ed31-ed61-4d90-8440-8625a6c8c1e2/vcredist_x64.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 14,
+      "dlls": ["msvcr90.dll", "msvcp90.dll"]
+    },
+    {
+      "id": "vcpp_2008_x86",
+      "name": "Microsoft Visual C++ 2008 SP1 Redistributable (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\VisualStudio\\9.0\\VC\\VCRedist\\x86",
+        "value_name": "Installed",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://download.microsoft.com/download/2/0/2/2028ed31-ed61-4d90-8440-8625a6c8c1e2/vcredist_x86.exe",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 10,
+      "dlls": ["msvcr90.dll", "msvcp90.dll"]
+    },
+    {
+      "id": "dx9",
+      "name": "DirectX 9.0c End-User Runtimes",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\DirectX",
+        "value_name": "Version",
+        "min_value": 9
+      },
+      "download_url": "https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe",
+      "mirrors": [
+        "https://archive.org/download/directx-jun2010-redist/directx_Jun2010_redist.exe"
+      ],
+      "install_args": "/Q /T:%temp%\\dx9",
+      "installer_size_mb": 100,
+      "dlls": ["d3dx9_43.dll", "d3dx9_42.dll", "d3dx9_41.dll", "d3dx9_40.dll", "d3dx9_39.dll", "d3dx9_38.dll", "d3dx9_37.dll", "d3dx9_36.dll", "d3dx9_35.dll", "d3dx9_34.dll", "d3dx9_33.dll", "d3dx9_32.dll", "d3dx9_31.dll", "d3dx9_30.dll", "d3dx9_29.dll", "d3dx9_28.dll", "d3dx9_27.dll", "d3dx9_26.dll", "d3dx9_25.dll", "d3dx9_24.dll", "xinput1_3.dll", "xinput9_1_0.dll"]
+    },
+    {
+      "id": "dotnet_48",
+      "name": ".NET Framework 4.8",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full",
+        "value_name": "Release",
+        "min_value": 528040
+      },
+      "download_url": "https://go.microsoft.com/fwlink/?linkid=2088631",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 140
+    },
+    {
+      "id": "dotnet_35",
+      "name": ".NET Framework 3.5 (包括 2.0/3.0)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v3.5",
+        "value_name": "Install",
+        "min_value": 1
+      },
+      "download_url": "internal:dism",
+      "install_args": "/Online /Enable-Feature /FeatureName:NetFx3 /All /Quiet /NoRestart",
+      "installer_size_mb": 0
+    },
+    {
+      "id": "dotnet_8_x64",
+      "name": ".NET Desktop Runtime 8.0 (x64)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x64\\sharedfx\\Microsoft.NETCore.App",
+        "value_name": "8",
+        "min_value": 1,
+        "arch": "x64"
+      },
+      "download_url": "https://dotnet.microsoft.com/download/dotnet/8.0",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 60,
+      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+    },
+    {
+      "id": "dotnet_8_x86",
+      "name": ".NET Desktop Runtime 8.0 (x86)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\sharedfx\\Microsoft.NETCore.App",
+        "value_name": "8",
+        "min_value": 1,
+        "arch": "x86"
+      },
+      "download_url": "https://dotnet.microsoft.com/download/dotnet/8.0",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 50,
+      "dlls": ["hostfxr.dll", "hostpolicy.dll"]
+    },
+    {
+      "id": "openal",
+      "name": "OpenAL (Creative Labs)",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\Creative Labs\\OpenAL",
+        "value_name": "",
+        "min_value": 0
+      },
+      "download_url": "https://openal.org/downloads/OpenAL21_installer.exe",
+      "mirrors": [
+        "https://archive.org/download/openal21_installer/OpenAL21_installer.exe"
+      ],
+      "install_args": "/silent",
+      "installer_size_mb": 5,
+      "dlls": ["OpenAL32.dll", "wrap_oal.dll"]
+    },
+    {
+      "id": "physx",
+      "name": "NVIDIA PhysX System Software",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\NVIDIA Corporation\\PhysX",
+        "value_name": "Version",
+        "min_value": 9
+      },
+      "download_url": "https://us.download.nvidia.com/Windows/9.24.0328/PhysX_9.24.0328_SystemSoftware.exe",
+      "mirrors": [
+        "https://eu.download.nvidia.com/Windows/9.24.0328/PhysX_9.24.0328_SystemSoftware.exe",
+        "https://hk.download.nvidia.com/Windows/9.24.0328/PhysX_9.24.0328_SystemSoftware.exe"
+      ],
+      "install_args": "/quiet /norestart",
+      "installer_size_mb": 55,
+      "dlls": ["PhysX3_x64.dll", "PhysX3Common_x64.dll", "PhysX3Cooking_x64.dll", "nvcuda.dll"]
+    },
+    {
+      "id": "xaudio",
+      "name": "XAudio 2.9 (DirectX SDK)",
+      "version_check": {
+        "method": "file",
+        "path": "C:\\Windows\\System32\\xaudio2_9.dll"
+      },
+      "download_url": "internal:dx-legacy",
+      "install_args": "",
+      "installer_size_mb": 0,
+      "dlls": ["xaudio2_9.dll", "xaudio2_8.dll", "xaudio2_7.dll"]
+    },
+    {
+      "id": "webview2",
+      "name": "Microsoft Edge WebView2 Runtime",
+      "version_check": {
+        "method": "registry",
+        "key": "SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}",
+        "value_name": "pv",
+        "min_value": 1
+      },
+      "download_url": "https://go.microsoft.com/fwlink/p/?LinkId=2124703",
+      "install_args": "/install /quiet /norestart",
+      "installer_size_mb": 5,
+      "dlls": ["WebView2Loader.dll"]
+    },
+    {
+      "id": "d3dcompiler",
+      "name": "D3DCompiler_47 (DirectX 着色器编译器)",
+      "version_check": {
+        "method": "file",
+        "path": "C:\\Windows\\System32\\d3dcompiler_47.dll"
+      },
+      "download_url": "https://aka.ms/d3dcompiler_47",
+      "install_args": "/quiet /norestart",
+      "installer_size_mb": 2,
+      "dlls": ["d3dcompiler_47.dll"]
+    },
+    {
+      "id": "directplay",
+      "name": "DirectPlay (旧版 DirectX 网络组件)",
+      "version_check": {
+        "method": "dism",
+        "key": "",
+        "value_name": "",
+        "min_value": 0,
+        "path": "DirectPlay"
+      },
+      "download_url": "internal:dism",
+      "install_args": "/Online /Enable-Feature /FeatureName:DirectPlay /All /Quiet /NoRestart",
+      "installer_size_mb": 0
+    }
+  ],
+  "common_dlls": [
+    {"name": "xinput1_3.dll", "system_path": "", "description": "XInput 控制器支持 (老游戏)"},
+    {"name": "xinput1_4.dll", "system_path": "C:\\Windows\\System32\\xinput1_4.dll", "description": "XInput 控制器支持"},
+    {"name": "d3dx9_43.dll", "system_path": "", "description": "DirectX 9 纹理/网格库"},
+    {"name": "d3dcompiler_47.dll", "system_path": "C:\\Windows\\System32\\d3dcompiler_47.dll", "description": "DirectX 着色器编译器"},
+    {"name": "msvcp140.dll", "system_path": "", "description": "VC++ 2015-2022 运行时"},
+    {"name": "vcruntime140.dll", "system_path": "", "description": "VC++ 2015-2022 运行时"},
+    {"name": "vcruntime140_1.dll", "system_path": "", "description": "VC++ 2015-2022 运行时"},
+    {"name": "msvcr120.dll", "system_path": "", "description": "VC++ 2013 运行时"},
+    {"name": "msvcp120.dll", "system_path": "", "description": "VC++ 2013 运行时"},
+    {"name": "msvcr110.dll", "system_path": "", "description": "VC++ 2012 运行时"},
+    {"name": "msvcp110.dll", "system_path": "", "description": "VC++ 2012 运行时"},
+    {"name": "msvcr100.dll", "system_path": "", "description": "VC++ 2010 运行时"},
+    {"name": "msvcp100.dll", "system_path": "", "description": "VC++ 2010 运行时"},
+    {"name": "msvcr90.dll", "system_path": "", "description": "VC++ 2008 运行时"},
+    {"name": "msvcp90.dll", "system_path": "", "description": "VC++ 2008 运行时"},
+    {"name": "OpenAL32.dll", "system_path": "", "description": "OpenAL 音频"},
+    {"name": "wrap_oal.dll", "system_path": "", "description": "OpenAL 包装"},
+    {"name": "PhysX3_x64.dll", "system_path": "", "description": "PhysX 物理引擎"},
+    {"name": "MSVCRT.dll", "system_path": "", "description": "旧版 CRT 运行时 (Win95/98 游戏)"}
+  ]
+}
