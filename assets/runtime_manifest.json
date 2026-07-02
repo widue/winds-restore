@@ -909,7 +909,6 @@
     {"name": "icuuc74.dll", "system_path": "", "description": "ICU Unicode 库"},
     {"name": "icuin74.dll", "system_path": "", "description": "ICU I18N 库"},
     {"name": "icudt74.dll", "system_path": "", "description": "ICU Data 库"},
-    {"name": "emp.dll", "system_path": "", "description": "EMPRESS 游戏破解补丁（请重装对应游戏）"},
     {"name": "bink2w64.dll", "system_path": "", "description": "Bink Video 解码器 (RAD Game Tools)"},
     {"name": "binkw32.dll", "system_path": "", "description": "Bink Video 解码器 (32位)"},
     {"name": "dbghelp.dll", "system_path": "C:\\Windows\\System32\\dbghelp.dll", "description": "Windows 调试帮助库"},

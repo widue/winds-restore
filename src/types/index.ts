@@ -76,4 +76,44 @@ export interface RepairResult {
   output: string;
 }
 
+export interface WinSxSStatus {
+  scan_result: RepairResult;
+  api_set_count: number;
+  api_set_found: number;
+}
+
+export interface VirtualMemoryInfo {
+  enabled: boolean;
+  is_system_managed: boolean;
+  initial_size_mb: number;
+  max_size_mb: number;
+}
+
+export interface ShaderVendorCache {
+  name: string;
+  path: string;
+  size_mb: number;
+}
+
+export interface ShaderCacheInfo {
+  total_size_mb: number;
+  vendors: ShaderVendorCache[];
+}
+
+export interface WindowsInfo {
+  version: string;
+  build: string;
+  edition: string;
+  product_name: string;
+  display_version: string;
+  is_24h2: boolean;
+  is_n_kn: boolean;
+  media_feature_package_available: boolean;
+}
+
+export interface ManifestSummary {
+  runtime_count: number;
+  dll_count: number;
+}
+
 export type InstallPage = "idle" | "installing" | "done";

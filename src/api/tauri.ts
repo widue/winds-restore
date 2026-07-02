@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
-import type { ScanResult, DllScanResult, SystemFileResult, RepairResult } from "../types";
+import type { ScanResult, DllScanResult, SystemFileResult, RepairResult, WinSxSStatus, VirtualMemoryInfo, ShaderCacheInfo, WindowsInfo, ManifestSummary } from "../types";
 
 export async function run_scan(): Promise<ScanResult[]> {
   return invoke<ScanResult[]>("run_scan");
@@ -56,6 +56,34 @@ export async function run_sfc_scannow(): Promise<RepairResult> {
   return invoke<RepairResult>("run_sfc_scannow");
 }
 
+export async function sfc_repair_file(filePath: string): Promise<RepairResult> {
+  return invoke<RepairResult>("sfc_repair_file", { filePath });
+}
+
 export async function run_dism_restorehealth(): Promise<RepairResult> {
   return invoke<RepairResult>("run_dism_restorehealth");
+}
+
+export async function check_winsxs_integrity(): Promise<WinSxSStatus> {
+  return invoke<WinSxSStatus>("check_winsxs_integrity");
+}
+
+export async function check_virtual_memory(): Promise<VirtualMemoryInfo> {
+  return invoke<VirtualMemoryInfo>("check_virtual_memory");
+}
+
+export async function check_shader_cache(): Promise<ShaderCacheInfo> {
+  return invoke<ShaderCacheInfo>("check_shader_cache");
+}
+
+export async function clean_shader_cache(): Promise<ShaderCacheInfo> {
+  return invoke<ShaderCacheInfo>("clean_shader_cache");
+}
+
+export async function get_windows_info(): Promise<WindowsInfo> {
+  return invoke<WindowsInfo>("get_windows_info");
+}
+
+export async function get_manifest_summary(): Promise<ManifestSummary> {
+  return invoke<ManifestSummary>("get_manifest_summary");
 }

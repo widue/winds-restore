@@ -148,7 +148,6 @@ pub fn get_dll_owner(lookup: &HashMap<String, String>, dll_name: &str) -> String
         ("libssl-1_1.dll", "OpenSSL 加密库（属于特定软件，请重装该软件）"),
         ("libcurl.dll", "libcurl 网络库（属于特定软件，请重装该软件）"),
         ("steam_api64.dll", "Steam 游戏平台 DRM 组件（请重装或验证游戏完整性）"),
-        ("emp.dll", "EMPRESS 游戏破解补丁（请重装对应游戏）"),
     ].iter().cloned().collect();
 
     if let Some(&desc) = third_party.get(key.as_str()) {
