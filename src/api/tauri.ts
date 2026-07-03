@@ -40,10 +40,6 @@ export async function start_install(ids: string[]): Promise<void> {
   return invoke<void>("start_install", { ids });
 }
 
-export async function check_dll_path(path: string): Promise<boolean> {
-  return invoke<boolean>("check_dll_path", { path });
-}
-
 export async function scan_common_dlls(dll_names: string[]): Promise<DllScanResult[]> {
   return invoke<DllScanResult[]>("scan_common_dlls", { dllNames: dll_names });
 }

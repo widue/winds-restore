@@ -713,11 +713,52 @@ const ToolsPage: React.FC = () => {
     if (tag.type === "error") {
       setDllQuery(tag.label);
       setErrorCode(tag.label);
+      if (tab === "dll") doDllQuery(tag.label);
+      if (tab === "errorcode") doErrorCodeQuery(tag.label);
     }
-  }, []);
+  }, [tab, doDllQuery, doErrorCodeQuery]);
+
+  const scanResults = useAppStore(s => s.scanResults);
+  const systemStatus = useAppStore(s => s.systemStatus);
+  const aiSite = useAppStore(s => s.aiSite);
+  const [diagnoseCopied, setDiagnoseCopied] = useState(false);
+
+  const handleOneClickDiagnose = useCallback(async () => {
+    const tags = contextTags;
+    const scenario = tags.filter(t => t.type === "scenario").map(t => t.label).join("；");
+    const errors = tags.filter(t => t.type === "error").map(t => t.label).join("、");
+    const efforts = tags.filter(t => t.type === "effort").map(t => t.label).join("；");
+
+    const lines: string[] = ["=== Winds Restore 诊断报告 ===", ""];
+    if (scenario) lines.push(`## 场景\n${scenario}`, "");
+    if (errors) lines.push(`## 报错\n${errors}`, "");
+    if (efforts) lines.push(`## 已尝试的修复\n${efforts}`, "");
+
+    if (systemStatus.gpu_driver) lines.push(`显卡驱动: ${systemStatus.gpu_driver.detail}`, "");
+    if (systemStatus.memory_integrity) lines.push(`内存完整性: ${systemStatus.memory_integrity.detail}`, "");
+
+    const missing = scanResults.filter(r => r.status === "missing");
+    if (missing.length > 0) {
+      lines.push("## 缺失的运行库", "");
+      missing.forEach(r => lines.push(`- ${r.name}: ${r.details}`));
+      lines.push("");
+    }
+
+    if (tags.length === 0 && missing.length === 0) {
+      lines.push("（暂无数据，请先添加词块或运行扫描）");
+    }
+    lines.push("请在分析完成后给出分步解决方案，不要推荐第三方付费修复软件。");
+
+    const report = lines.join("\n");
+    try {
+      await navigator.clipboard.writeText(report);
+      setDiagnoseCopied(true);
+      setTimeout(() => setDiagnoseCopied(false), 2000);
+    } catch { /* */ }
+    open_in_browser(AI_SITES[aiSite] || AI_SITES.DeepSeek);
+  }, [contextTags, scanResults, systemStatus, aiSite]);
 
   // Auto-populate effort tags from scan results
-  const scanResults = useAppStore(s => s.scanResults);
   useEffect(() => {
     if (!scanResults || scanResults.length === 0) return;
     setContextTags(prev => {
@@ -919,6 +960,18 @@ const ToolsPage: React.FC = () => {
 
         <div style={{ display: tab === "system" ? "block" : "none" }}>
           <SystemRepairSection />
+        </div>
+
+        <div className="card border border-primary-500/30">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-medium text-dark-text mb-1 flex items-center gap-2"><span>🤖</span> 一键 AI 诊断</h2>
+              <p className="text-xs text-dark-text-muted">自动收集词块 + 扫描结果 + 系统状态，生成完整诊断报告并发送给 AI 助手</p>
+            </div>
+            <button onClick={handleOneClickDiagnose} className="btn-primary text-sm shrink-0">
+              {diagnoseCopied ? "✅ 已复制" : "📋 生成报告并打开 AI"}
+            </button>
+          </div>
         </div>
 
         <div className="card">

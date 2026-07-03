@@ -58,11 +58,6 @@ export interface InstallItemProgress {
   eta: string;
 }
 
-export interface InstallProgressPayload {
-  items: InstallItemProgress[];
-  overall_percent: number;
-  finished: boolean;
-}
 
 export interface SystemFileResult {
   name: string;

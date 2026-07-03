@@ -1,5 +1,4 @@
 pub mod registry;
-pub mod directx;
 pub mod filesystem;
 pub mod installer;
 
