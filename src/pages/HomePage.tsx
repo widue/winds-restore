@@ -32,18 +32,16 @@ const HomePage: React.FC = () => {
     };
   }, []);
 
-  const installedCount = useMemo(
-    () => scanResults.filter((r) => r.status === "installed").length,
-    [scanResults]
-  );
-  const missingCount = useMemo(
-    () => scanResults.filter((r) => r.status === "missing").length,
-    [scanResults]
-  );
-  const notFoundCount = useMemo(
-    () => scanResults.filter((r) => r.status === "not_found").length,
-    [scanResults]
-  );
+  const counts = useMemo(() => {
+    let installed = 0, missing = 0, notFound = 0;
+    for (const r of scanResults) {
+      if (r.status === "installed") installed++;
+      else if (r.status === "missing") missing++;
+      else if (r.status === "not_found") notFound++;
+    }
+    return { installedCount: installed, missingCount: missing, notFoundCount: notFound };
+  }, [scanResults]);
+  const { installedCount, missingCount, notFoundCount } = counts;
   const totalCount = scanResults.length || 20;
   const healthScore =
     totalCount > 0 ? Math.round((installedCount / totalCount) * 100) : 100;

@@ -256,8 +256,11 @@ const SettingsPage: React.FC = () => {
                       ) : isFontSize ? (
                         <div className="flex items-center gap-1.5">
                           {(["small", "medium", "large"] as const).map((s) => (
-                            <div
+                            <button
                               key={s}
+                              id={`font-size-${s}`}
+                              name="fontSize"
+                              onClick={() => setFontSize(s)}
                               className="px-2 py-0.5 rounded-md text-[11px] font-medium transition-all"
                               style={{
                                 backgroundColor: fontSize === s ? "var(--brand-wind)" : "var(--bg-input)",
@@ -265,7 +268,7 @@ const SettingsPage: React.FC = () => {
                               }}
                             >
                               {fontSizeLabel[s]}
-                            </div>
+                            </button>
                           ))}
                         </div>
                       ) : isNotification ? (

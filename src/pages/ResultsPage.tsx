@@ -56,10 +56,15 @@ function buildDiagnosticReport(
 }
 
 const ResultsPage: React.FC = () => {
-  const {
-    scanResults, resetScan, installPage, startInstall,
-    systemStatus, searchEngine, aiSite, setSearchEngine, setAiSite,
-  } = useAppStore();
+  const scanResults = useAppStore(s => s.scanResults);
+  const resetScan = useAppStore(s => s.resetScan);
+  const installPage = useAppStore(s => s.installPage);
+  const startInstall = useAppStore(s => s.startInstall);
+  const systemStatus = useAppStore(s => s.systemStatus);
+  const searchEngine = useAppStore(s => s.searchEngine);
+  const aiSite = useAppStore(s => s.aiSite);
+  const setSearchEngine = useAppStore(s => s.setSearchEngine);
+  const setAiSite = useAppStore(s => s.setAiSite);
   const [filter, setFilter] = useState<FilterType>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [copied, setCopied] = useState(false);
@@ -78,18 +83,16 @@ const ResultsPage: React.FC = () => {
     });
   }, [scanResults, filter, categoryFilter]);
 
-  const missingCount = useMemo(
-    () => scanResults.filter((r) => r.status === "missing").length,
-    [scanResults]
-  );
-  const installedCount = useMemo(
-    () => scanResults.filter((r) => r.status === "installed").length,
-    [scanResults]
-  );
-  const notFoundCount = useMemo(
-    () => scanResults.filter((r) => r.status === "not_found").length,
-    [scanResults]
-  );
+  const counts = useMemo(() => {
+    let installed = 0, missing = 0, notFound = 0;
+    for (const r of scanResults) {
+      if (r.status === "installed") installed++;
+      else if (r.status === "missing") missing++;
+      else if (r.status === "not_found") notFound++;
+    }
+    return { installedCount: installed, missingCount: missing, notFoundCount: notFound };
+  }, [scanResults]);
+  const { installedCount, missingCount, notFoundCount } = counts;
 
   const searchUrl = useCallback((name: string) => {
     const q = encodeURIComponent(`${name} 官方下载`);
@@ -451,6 +454,8 @@ const ResultsPage: React.FC = () => {
 
           {categories.length > 1 && (
             <select
+              id="category-filter"
+              name="categoryFilter"
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
               className="text-[12px] h-8 w-auto shrink-0"
@@ -473,6 +478,8 @@ const ResultsPage: React.FC = () => {
 
           <div className="ml-auto flex items-center gap-2 shrink-0">
             <select
+              id="search-engine-select"
+              name="searchEngine"
               value={searchEngine}
               onChange={(e) => setSearchEngine(e.target.value as "bing" | "baidu")}
               className="text-[12px] h-8"
@@ -571,6 +578,8 @@ const ResultsPage: React.FC = () => {
                 选择 AI：
               </span>
               <select
+                id="ai-site-select"
+                name="aiSite"
                 value={aiSite}
                 onChange={(e) => setAiSite(e.target.value as typeof aiSite)}
                 className="text-[12px] flex-1"

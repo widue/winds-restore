@@ -28,7 +28,7 @@ let memoryUsageTimer: number | null = null;
 
 export function startMemoryUsageMonitor(
   callback: (usage: number) => void,
-  intervalMs = 2000
+  intervalMs = 5000
 ): void {
   stopMemoryUsageMonitor();
   memoryUsageTimer = window.setInterval(async () => {

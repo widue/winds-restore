@@ -40,7 +40,8 @@ const TAG_STYLES: Record<TagType, { bg: string; color: string; border: string }>
 };
 
 let tagIdCounter = 0;
-function nextTagId(): string { return `tag_${++tagIdCounter}`; }
+function nextTagId(): string { return `tag_${Date.now()}_${++tagIdCounter}`; }
+
 
 type ToolTab = "dll" | "errorcode" | "quickfix" | "game" | "thirdparty" | "system";
 
@@ -116,6 +117,9 @@ const ContextTagBar: React.FC<{
                 }}
                 placeholder={type === "scenario" ? "例: 进 3DMark 报错" : type === "error" ? "例: vcruntime140.dll" : "已尝试的操作..."}
                 className="input text-[12px] py-1 w-48"
+                id={`tag-input-${type}`}
+                name={`tagInput-${type}`}
+                autoComplete="off"
               />
               <button onClick={() => onAdd(type, tagInputValue)} className="btn-primary !py-1 !px-2 text-[12px]">添加</button>
               <button onClick={() => { onSetShowTagInput(null); onSetTagInput(""); }} className="btn-ghost !py-1 !px-2 text-[12px]">取消</button>
@@ -311,8 +315,18 @@ const AI_SITES: Record<string, string> = {
 interface SearchItem { label: string; sublabel: string; }
 type SearchIndex = SearchItem[];
 
-const DLL_SEARCH_INDEX: SearchIndex = ALL_DLLS.map(d => ({ label: d.label.toLowerCase(), sublabel: d.sublabel }));
-const ERROR_SEARCH_INDEX: SearchIndex = ERROR_CODES.map(e => ({ label: e.code.toLowerCase(), sublabel: e.description }));
+let dllSearchIndex: SearchIndex | null = null;
+let errorSearchIndex: SearchIndex | null = null;
+
+function getDllSearchIndex(): SearchIndex {
+  if (!dllSearchIndex) dllSearchIndex = ALL_DLLS.map(d => ({ label: d.label.toLowerCase(), sublabel: d.sublabel }));
+  return dllSearchIndex;
+}
+
+function getErrorSearchIndex(): SearchIndex {
+  if (!errorSearchIndex) errorSearchIndex = ERROR_CODES.map(e => ({ label: e.code.toLowerCase(), sublabel: e.description }));
+  return errorSearchIndex;
+}
 
 function searchIndex(index: SearchIndex, query: string, max = 8): SearchItem[] {
   const q = query.toLowerCase().trim();
@@ -386,11 +400,16 @@ const SearchDropdown: React.FC<{
 };
 
 const scanCache = new Map<string, Map<string, DllScanResult>>();
+const SCAN_CACHE_MAX = 20;
 
 async function runScanAll(items: DllItem[]): Promise<Map<string, DllScanResult>> {
   const key = items.map(i => i.dll.toLowerCase()).sort().join("|");
   const cached = scanCache.get(key);
   if (cached) return cached;
+  if (scanCache.size >= SCAN_CACHE_MAX) {
+    const firstKey = scanCache.keys().next();
+    if (firstKey.value) scanCache.delete(firstKey.value);
+  }
   const names = items.map(i => i.dll);
   const results = await scan_common_dlls(names);
   const map = new Map<string, DllScanResult>();
@@ -1140,13 +1159,16 @@ const ToolsPage: React.FC = () => {
                   onFocus={() => setDllShowDropdown(true)}
                   placeholder="例如：vcruntime140.dll 或 mfc100u.dll"
                   className="input flex-1"
+                  id="dll-query-input"
+                  name="dllQuery"
+                  autoComplete="off"
                 />
                 <button onClick={handleDllQuery} disabled={dllLoading} className="btn-primary">
                   {dllLoading ? <><Loader2 size={14} className="animate-spin" /> 查询中...</> : <>查询</>}
                 </button>
                 {dllShowDropdown && (
                   <SearchDropdown
-                    query={dllQuery} index={DLL_SEARCH_INDEX}
+                    query={dllQuery} index={getDllSearchIndex()}
                     onSelect={v => { setDllQuery(v); setDllShowDropdown(false); doDllQuery(v); }}
                     onClose={() => setDllShowDropdown(false)}
                   />
@@ -1297,13 +1319,16 @@ const ToolsPage: React.FC = () => {
                   onFocus={() => setErrorShowDropdown(true)}
                   placeholder="例如：0xc000007b"
                   className="input flex-1"
+                  id="error-code-input"
+                  name="errorCode"
+                  autoComplete="off"
                 />
                 <button onClick={handleErrorCodeQuery} disabled={errorLoading} className="btn-primary">
                   {errorLoading ? <><Loader2 size={14} className="animate-spin" /> 查询中...</> : <>查询</>}
                 </button>
                 {errorShowDropdown && (
                   <SearchDropdown
-                    query={errorCode} index={ERROR_SEARCH_INDEX}
+                    query={errorCode} index={getErrorSearchIndex()}
                     onSelect={v => { setErrorCode(v); setErrorShowDropdown(false); doErrorCodeQuery(v); }}
                     onClose={() => setErrorShowDropdown(false)}
                   />

@@ -268,11 +268,18 @@ code {
 }
 
 /* ============================================================================
-   全局过渡 - 如风般平滑
+   过渡 - 限制在可控选择器中，避免全局性能开销
    ============================================================================ */
-*:not(svg):not(svg *) {
-  transition-property: background-color, border-color, color, fill, stroke, opacity,
-    transform, box-shadow;
+.card,
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-ghost,
+.badge,
+.input,
+.icon-wrap,
+.list-item {
+  transition-property: background-color, border-color, color, opacity, transform, box-shadow;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }

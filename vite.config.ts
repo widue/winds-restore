@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   clearScreen: false,
@@ -18,6 +17,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom"],
+          framer: ["framer-motion"],
+          virtual: ["@tanstack/react-virtual"],
           tauri: ["@tauri-apps/api"],
         },
       },
