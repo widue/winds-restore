@@ -1,4 +1,5 @@
 import React from "react";
+import { Cpu, CheckCircle2, XCircle, Database } from "lucide-react";
 import { useAppStore } from "../store/appStore";
 
 const StatusBar: React.FC = () => {
@@ -12,21 +13,45 @@ const StatusBar: React.FC = () => {
   ).length;
 
   return (
-    <footer className="h-8 bg-dark-panel border-t border-dark-border flex items-center justify-between px-4 text-xs text-dark-text-muted shrink-0">
+    <footer
+      className="h-8 flex items-center justify-between px-4 text-[11px] shrink-0 border-t"
+      style={{
+        backgroundColor: "var(--bg-surface)",
+        borderColor: "var(--border-subtle)",
+        color: "var(--text-muted)",
+      }}
+    >
       <div className="flex items-center gap-4">
-        <span>
-          支持运行库: {scanResults.length || "加载中..."}
-        </span>
+        <div className="flex items-center gap-1.5">
+          <Database size={12} strokeWidth={2} />
+          <span>
+            {scanResults.length > 0 ? `${scanResults.length} 个运行库` : "加载中..."}
+          </span>
+        </div>
         {scanResults.length > 0 && (
           <>
-            <span className="text-success-500">✓ 已安装 {installedCount}</span>
-            <span className="text-error-500">✗ 缺失 {missingCount}</span>
+            <div
+              className="flex items-center gap-1"
+              style={{ color: "var(--status-success)" }}
+            >
+              <CheckCircle2 size={12} strokeWidth={2} />
+              <span>已安装 {installedCount}</span>
+            </div>
+            <div
+              className="flex items-center gap-1"
+              style={{ color: "var(--status-danger)" }}
+            >
+              <XCircle size={12} strokeWidth={2} />
+              <span>待修复 {missingCount}</span>
+            </div>
           </>
         )}
       </div>
       <div className="flex items-center gap-4">
-        <span>内存: {memoryUsage.toFixed(1)} MB</span>
-        <span>v0.1.0</span>
+        <div className="flex items-center gap-1.5 tabular-nums">
+          <Cpu size={12} strokeWidth={2} />
+          <span>{memoryUsage.toFixed(1)} MB</span>
+        </div>
       </div>
     </footer>
   );

@@ -4,17 +4,39 @@ import type { DllScanResult, SystemFileResult, RepairResult, WinSxSStatus, Virtu
 import { useAppStore } from "../store/appStore";
 import { ALL_DLLS } from "../data/dllDatabase";
 import { ERROR_CODES } from "../data/errorCodeDatabase";
-
-// ─── 词块组件 ───
+import { findRuntimeForDll, findRuntimesForErrorCode } from "../utils/dllRuntimeMapping";
+import {
+  Wrench,
+  Search,
+  AlertCircle,
+  Zap,
+  Gamepad2,
+  Puzzle,
+  Monitor,
+  Tag,
+  Copy,
+  Check,
+  Sparkles,
+  Palette,
+  HardDrive,
+  Shield,
+  Cpu,
+  XCircle,
+  Loader2,
+  ExternalLink,
+  AlertTriangle,
+  Info,
+  Download,
+} from "lucide-react";
 
 type TagType = "scenario" | "error" | "effort";
 interface ContextTag { id: string; type: TagType; label: string; }
 
 const TAG_LABELS: Record<TagType, string> = { scenario: "场景", error: "报错", effort: "已尝试" };
-const TAG_COLORS: Record<TagType, string> = {
-  scenario: "bg-blue-500/15 text-blue-400 border-blue-500/30",
-  error: "bg-error-500/15 text-error-400 border-error-500/30",
-  effort: "bg-success-500/15 text-success-400 border-success-500/30",
+const TAG_STYLES: Record<TagType, { bg: string; color: string; border: string }> = {
+  scenario: { bg: "var(--brand-wind-10)", color: "var(--brand-wind)", border: "var(--brand-wind-20)" },
+  error: { bg: "var(--status-danger-10)", color: "var(--status-danger)", border: "var(--status-danger-20)" },
+  effort: { bg: "var(--status-success-10)", color: "var(--status-success)", border: "var(--status-success-20)" },
 };
 
 let tagIdCounter = 0;
@@ -49,51 +71,89 @@ const ContextTagBar: React.FC<{
     setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <div className="mb-3">
+    <div className="mb-4">
       {tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mb-2">
-          {tags.map(tag => (
-            <span key={tag.id} className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border cursor-pointer ${TAG_COLORS[tag.type]}`}
-              onClick={() => onTagClick(tag)}
-              title={tag.type === "error" ? "点击填入查询框" : undefined}>
-              <span className="opacity-70 mr-0.5">{TAG_LABELS[tag.type]}</span>
-              {tag.label}
-              <button onClick={e => { e.stopPropagation(); onRemove(tag.id); }} className="ml-0.5 hover:text-dark-text leading-none text-sm">&times;</button>
-            </span>
-          ))}
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {tags.map(tag => {
+            const style = TAG_STYLES[tag.type];
+            return (
+              <span
+                key={tag.id}
+                className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-md border cursor-pointer transition-all hover:scale-[1.02]"
+                style={{
+                  backgroundColor: style.bg,
+                  color: style.color,
+                  borderColor: style.border,
+                }}
+                onClick={() => onTagClick(tag)}
+                title={tag.type === "error" ? "点击填入查询框" : undefined}
+              >
+                <span className="opacity-70 mr-0.5">{TAG_LABELS[tag.type]}</span>
+                {tag.label}
+                <button
+                  onClick={e => { e.stopPropagation(); onRemove(tag.id); }}
+                  className="ml-0.5 hover:opacity-80 leading-none text-sm"
+                >
+                  &times;
+                </button>
+              </span>
+            );
+          })}
         </div>
       )}
       <div className="flex gap-1.5 flex-wrap items-center">
         {(["scenario", "error", "effort"] as TagType[]).map(type => (
           showTagInput === type ? (
             <div key={type} className="flex gap-1">
-              <input ref={tagInputRef} type="text" value={tagInputValue}
+              <input
+                ref={tagInputRef}
+                type="text"
+                value={tagInputValue}
                 onChange={e => onSetTagInput(e.target.value)}
-                onKeyDown={e => { if (e.key === "Enter") onAdd(type, tagInputValue); if (e.key === "Escape") { onSetShowTagInput(null); onSetTagInput(""); } }}
+                onKeyDown={e => {
+                  if (e.key === "Enter") onAdd(type, tagInputValue);
+                  if (e.key === "Escape") { onSetShowTagInput(null); onSetTagInput(""); }
+                }}
                 placeholder={type === "scenario" ? "例: 进 3DMark 报错" : type === "error" ? "例: vcruntime140.dll" : "已尝试的操作..."}
-                className="input text-xs py-1 w-48" />
-              <button onClick={() => onAdd(type, tagInputValue)} className="btn-primary text-xs py-1 px-2">添加</button>
-              <button onClick={() => { onSetShowTagInput(null); onSetTagInput(""); }} className="btn-secondary text-xs py-1 px-2">取消</button>
+                className="input text-[12px] py-1 w-48"
+              />
+              <button onClick={() => onAdd(type, tagInputValue)} className="btn-primary !py-1 !px-2 text-[12px]">添加</button>
+              <button onClick={() => { onSetShowTagInput(null); onSetTagInput(""); }} className="btn-ghost !py-1 !px-2 text-[12px]">取消</button>
             </div>
           ) : (
-            <button key={type} onClick={() => { onSetShowTagInput(type); onSetTagInput(""); }}
-              className="text-xs px-2 py-1 rounded border border-dark-border text-dark-text-muted hover:text-dark-text hover:border-dark-text-muted transition-colors">
+            <button
+              key={type}
+              onClick={() => { onSetShowTagInput(type); onSetTagInput(""); }}
+              className="text-[12px] px-2.5 py-1 rounded-md border transition-all hover:border-[var(--brand-wind-20)] hover:text-[var(--brand-wind)]"
+              style={{
+                borderColor: "var(--border-default)",
+                color: "var(--text-muted)",
+              }}
+            >
               + {TAG_LABELS[type]}
             </button>
           )
         ))}
         {tags.length > 0 && (
-          <button onClick={handleCopyTemplate}
-            className="text-xs px-2 py-1 rounded border border-primary-500/30 text-primary-400 hover:bg-primary-500/10 transition-colors">
-            {copied ? "✅ 已复制" : "📋 生成 AI 诊断模板"}
+          <button
+            onClick={handleCopyTemplate}
+            className="text-[12px] px-2.5 py-1 rounded-md border transition-all hover:bg-[var(--brand-wind-10)]"
+            style={{
+              borderColor: "var(--brand-wind-20)",
+              color: "var(--brand-wind)",
+            }}
+          >
+            {copied ? (
+              <><Check size={12} strokeWidth={2} /> 已复制</>
+            ) : (
+              <><Copy size={12} strokeWidth={2} /> 生成 AI 诊断模板</>
+            )}
           </button>
         )}
       </div>
     </div>
   );
 };
-
-// ─── 模块级常量：DLL 数据（稳定引用，永不变化 ───
 
 type DllItem = { dll: string; platform: string; guide: string; warning?: string };
 
@@ -163,7 +223,6 @@ const ERROR_CODE_LIST: [string, string, string][] = [
   ["Xbox 0x80070490", "Xbox 登录失败", "微软账户/服务离线"],
 ];
 
-// 游戏专区
 const STEAM_DLLS: DllItem[] = [
   { dll: "steam_api.dll", platform: "Steam (32位)", guide: "请通过 Steam → 库 → 右键游戏 → 属性 → 已安装文件 → 验证游戏文件完整性", warning: "不要单独下载，可能被Steam判定为盗版" },
   { dll: "steam_api64.dll", platform: "Steam (64位)", guide: "请通过 Steam → 库 → 右键游戏 → 属性 → 已安装文件 → 验证游戏文件完整性", warning: "不要单独下载，可能被Steam判定为盗版" },
@@ -203,7 +262,6 @@ const OTHER_PLATFORM_DLLS: DllItem[] = [
   { dll: "Galaxy64.dll", platform: "GOG Galaxy (64位)", guide: "通过 GOG Galaxy → 右键游戏 → 管理 → 验证 / 修复" },
 ];
 
-// 第三方库
 const CRYPTO_DLLS: DllItem[] = [
   { dll: "libssl-1_1.dll", platform: "OpenSSL 1.1", guide: "该文件属于依赖 OpenSSL 的软件（如 Git、Python、证书工具），请重新安装对应软件" },
   { dll: "libcrypto-1_1.dll", platform: "OpenSSL 1.1", guide: "该文件属于依赖 OpenSSL 的软件，请重新安装对应软件" },
@@ -250,13 +308,10 @@ const AI_SITES: Record<string, string> = {
   ChatGPT: "https://chatgpt.com/",
 };
 
-// ─── 模糊搜索下拉 ───
-
 interface SearchItem { label: string; sublabel: string; }
 type SearchIndex = SearchItem[];
 
 const DLL_SEARCH_INDEX: SearchIndex = ALL_DLLS.map(d => ({ label: d.label.toLowerCase(), sublabel: d.sublabel }));
-
 const ERROR_SEARCH_INDEX: SearchIndex = ERROR_CODES.map(e => ({ label: e.code.toLowerCase(), sublabel: e.description }));
 
 function searchIndex(index: SearchIndex, query: string, max = 8): SearchItem[] {
@@ -302,14 +357,27 @@ const SearchDropdown: React.FC<{
   return (
     <>
       <div className="fixed inset-0 z-10" onClick={onClose} />
-      <div ref={listRef} className="absolute z-20 left-0 right-0 top-full mt-1 bg-dark-card border border-dark-border rounded-lg shadow-xl max-h-56 overflow-y-auto">
+      <div
+        ref={listRef}
+        className="absolute z-20 left-0 right-0 top-full mt-1 rounded-lg shadow-lg max-h-56 overflow-y-auto border"
+        style={{
+          backgroundColor: "var(--bg-card)",
+          borderColor: "var(--border-default)",
+        }}
+      >
         {results.map((item, i) => (
-          <div key={item.label}
-            className={`flex items-center justify-between px-3 py-2 text-xs cursor-pointer transition-colors ${i === activeIdx ? "bg-primary-600/30 text-dark-text" : "text-dark-text-secondary hover:bg-dark-bg"}`}
+          <div
+            key={item.label}
+            className="flex items-center justify-between px-3 py-2 text-[12px] cursor-pointer transition-colors"
+            style={{
+              backgroundColor: i === activeIdx ? "var(--brand-wind-10)" : "transparent",
+              color: i === activeIdx ? "var(--text-primary)" : "var(--text-secondary)",
+            }}
             onClick={() => { onSelect(item.label); onClose(); }}
-            onMouseEnter={() => setActiveIdx(i)}>
+            onMouseEnter={() => setActiveIdx(i)}
+          >
             <span className="font-mono">{item.label}</span>
-            <span className="text-dark-text-muted ml-2 shrink-0">{item.sublabel}</span>
+            <span className="text-[11px] ml-2 shrink-0" style={{ color: "var(--text-muted)" }}>{item.sublabel}</span>
           </div>
         ))}
       </div>
@@ -331,8 +399,6 @@ async function runScanAll(items: DllItem[]): Promise<Map<string, DllScanResult>>
   return map;
 }
 
-// ─── 组件 ───
-
 const QuickFixCard: React.FC<{
   title: string; desc: string;
   actions: { label: string; url?: string; cmd?: string }[];
@@ -346,14 +412,21 @@ const QuickFixCard: React.FC<{
   };
   return (
     <div className="card">
-      <h3 className="font-medium text-dark-text mb-2">{title}</h3>
-      <p className="text-sm text-dark-text-secondary mb-3">{desc}</p>
+      <h3 className="text-[14px] font-medium mb-2" style={{ color: "var(--text-primary)" }}>{title}</h3>
+      <p className="text-[12px] mb-3" style={{ color: "var(--text-secondary)" }}>{desc}</p>
       <div className="flex flex-wrap gap-2">
         {actions.map((a, i) => (
-          <button key={i} onClick={() => { if (a.url) open_in_browser(a.url); if (a.cmd) handleCmd(a.cmd); }} className="btn-secondary text-xs">{a.label}</button>
+          <button
+            key={i}
+            onClick={() => { if (a.url) open_in_browser(a.url); if (a.cmd) handleCmd(a.cmd); }}
+            className="btn-secondary !py-1.5 !px-3 text-[12px]"
+          >
+            {a.cmd ? <Copy size={12} strokeWidth={2} /> : <ExternalLink size={12} strokeWidth={2} />}
+            <span>{a.label}</span>
+          </button>
         ))}
       </div>
-      {copyMsg && <p className="text-xs text-success-500 mt-2">{copyMsg}</p>}
+      {copyMsg && <p className="text-[11px] mt-2" style={{ color: "var(--status-success)" }}>✓ {copyMsg}</p>}
     </div>
   );
 };
@@ -377,41 +450,58 @@ const ShaderCacheSection: React.FC = () => {
     try {
       const result = await clean_shader_cache();
       if (mountedRef.current) { setCleanResult(result); setCacheInfo({ total_size_mb: 0, vendors: [] }); }
-    } catch (err: unknown) {
+    } catch {
       if (mountedRef.current) setCleanResult(null);
     } finally { if (mountedRef.current) setCleaning(false); }
   };
 
   return (
     <div className="card">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="font-medium text-dark-text flex items-center gap-2"><span>🎨</span> GPU 着色器缓存</h3>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-[14px] font-medium flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+          <div className="icon-wrap-sm" style={{ backgroundColor: "var(--accent-ochre-10)", color: "var(--accent-ochre)" }}>
+            <Palette size={16} strokeWidth={2} />
+          </div>
+          GPU 着色器缓存
+        </h3>
         {!loading && (
-          <button onClick={handleClean} disabled={cleaning || (cacheInfo?.total_size_mb ?? 0) === 0}
-            className="btn-secondary text-xs">{cleaning ? "清理中..." : "🗑 一键清空"}</button>
+          <button
+            onClick={handleClean}
+            disabled={cleaning || (cacheInfo?.total_size_mb ?? 0) === 0}
+            className="btn-secondary !py-1 !px-2.5 text-[12px]"
+          >
+            {cleaning ? <><Loader2 size={12} className="animate-spin" /> 清理中...</> : <>🗑 一键清空</>}
+          </button>
         )}
       </div>
-      <p className="text-xs text-dark-text-muted mb-3">着色器缓存堆积过多或损坏会导致新游戏闪退（黑神话、使命召唤等）。清空后游戏会重新编译着色器，首次进入稍慢但不会再闪退。</p>
+      <p className="text-[11px] mb-3" style={{ color: "var(--text-muted)" }}>
+        着色器缓存堆积过多或损坏会导致新游戏闪退（黑神话、使命召唤等）。清空后游戏会重新编译着色器，首次进入稍慢但不会再闪退。
+      </p>
       {loading ? (
-        <p className="text-xs text-dark-text-muted">检测中...</p>
+        <p className="text-[12px]" style={{ color: "var(--text-muted)" }}>检测中...</p>
       ) : !cacheInfo || cacheInfo.vendors.length === 0 ? (
-        <p className="text-xs text-success-500">✅ 未检测到着色器缓存</p>
+        <p className="text-[12px]" style={{ color: "var(--status-success)" }}>✓ 未检测到着色器缓存</p>
       ) : (
-        <div className="space-y-1 text-xs text-dark-text-secondary">
+        <div className="space-y-1 text-[12px]" style={{ color: "var(--text-secondary)" }}>
           {cacheInfo.vendors.map(v => (
             <div key={v.name} className="flex justify-between">
               <span>{v.name}</span>
-              <span>{v.size_mb} MB</span>
+              <span className="tabular-nums">{v.size_mb} MB</span>
             </div>
           ))}
-          <div className="flex justify-between font-medium text-dark-text pt-1 border-t border-dark-border">
+          <div
+            className="flex justify-between font-medium pt-1 border-t"
+            style={{ borderColor: "var(--border-subtle)", color: "var(--text-primary)" }}
+          >
             <span>总计</span>
-            <span>{cacheInfo.total_size_mb} MB</span>
+            <span className="tabular-nums">{cacheInfo.total_size_mb} MB</span>
           </div>
         </div>
       )}
       {cleanResult && cleanResult.vendors.length > 0 && (
-        <p className="text-xs text-success-500 mt-2">✅ 已清空 {cleanResult.total_size_mb} MB 着色器缓存</p>
+        <p className="text-[12px] mt-2" style={{ color: "var(--status-success)" }}>
+          ✓ 已清空 {cleanResult.total_size_mb} MB 着色器缓存
+        </p>
       )}
     </div>
   );
@@ -428,31 +518,66 @@ const DllCheckSection: React.FC<{ title: string; items: DllItem[] }> = ({ title,
       if (mounted) { setResults(map); setLoading(false); }
     });
     return () => { mounted = false; };
-  }, []); // items 是模块级常量，稳定引用，无需 deps
+  }, []);
 
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-medium text-dark-text">{title}</h3>
+        <h3 className="text-[14px] font-medium" style={{ color: "var(--text-primary)" }}>{title}</h3>
       </div>
       <div className="space-y-2">
         {items.map(item => {
           const r = results.get(item.dll.toLowerCase());
           return (
-            <div key={item.dll} className="flex items-start gap-3 p-2 bg-dark-card rounded">
-              <span className={`text-lg ${loading ? "text-dark-text-muted" : r?.found ? "text-success-500" : "text-error-500"}`}>
+            <div
+              key={item.dll}
+              className="flex items-start gap-3 p-3 rounded-lg transition-colors hover:bg-[var(--bg-elevated)]"
+              style={{ backgroundColor: "var(--bg-input)" }}
+            >
+              <span
+                className="text-base shrink-0 mt-0.5"
+                style={{
+                  color: loading
+                    ? "var(--text-muted)"
+                    : r?.found
+                      ? "var(--status-success)"
+                      : "var(--status-danger)",
+                }}
+              >
                 {loading ? "..." : r?.found ? "✓" : "✗"}
               </span>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <code className="text-xs text-dark-text font-mono">{item.dll}</code>
-                  <span className="text-xs text-dark-text-muted bg-dark-bg px-1.5 py-0.5 rounded">{item.platform}</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <code
+                    className="text-[12px] font-mono"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {item.dll}
+                  </code>
+                  <span
+                    className="text-[10px] px-1.5 py-0.5 rounded"
+                    style={{
+                      backgroundColor: "var(--bg-elevated)",
+                      color: "var(--text-muted)",
+                    }}
+                  >
+                    {item.platform}
+                  </span>
                 </div>
-                {r?.found && r.path && <p className="text-xs text-dark-text-muted mt-0.5 truncate">{r.path}</p>}
+                {r?.found && r.path && (
+                  <p className="text-[11px] mt-0.5 truncate" style={{ color: "var(--text-muted)" }}>
+                    {r.path}
+                  </p>
+                )}
                 {!r?.found && !loading && (
                   <div className="mt-1">
-                    <p className="text-xs text-dark-text-secondary">{item.guide}</p>
-                    {item.warning && <p className="text-xs text-warning-500 mt-0.5">⚠ {item.warning}</p>}
+                    <p className="text-[11px]" style={{ color: "var(--text-secondary)" }}>{item.guide}</p>
+                    {item.warning && (
+                      <p className="text-[11px] mt-0.5 flex items-center gap-1" style={{ color: "var(--status-warning)" }}>
+                        <AlertTriangle size={11} strokeWidth={2} />
+                        {item.warning}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
@@ -463,6 +588,30 @@ const DllCheckSection: React.FC<{ title: string; items: DllItem[] }> = ({ title,
     </div>
   );
 };
+
+const RepairResultBox: React.FC<{ title: string; result: RepairResult }> = ({ title, result }) => (
+  <div
+    className="mt-3 p-3 rounded-lg text-[12px] border"
+    style={{
+      backgroundColor: result.success ? "var(--status-success-10)" : "var(--status-danger-10)",
+      borderColor: result.success ? "var(--status-success-20)" : "var(--status-danger-20)",
+    }}
+  >
+    <p className="text-[11px] mb-1" style={{ color: "var(--text-muted)" }}>{title}</p>
+    <p
+      className={`font-medium text-[12px] mb-1`}
+      style={{ color: result.success ? "var(--status-success)" : "var(--status-danger)" }}
+    >
+      {result.success ? "✓ 完成" : "✗ 可能有问题"}
+    </p>
+    <pre
+      className="text-[11px] whitespace-pre-wrap max-h-32 overflow-y-auto"
+      style={{ color: "var(--text-secondary)" }}
+    >
+      {result.output || "(无输出)"}
+    </pre>
+  </div>
+);
 
 const SystemRepairSection: React.FC = () => {
   const [sysFiles, setSysFiles] = useState<SystemFileResult[]>([]);
@@ -532,91 +681,156 @@ const SystemRepairSection: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Windows 版本信息 */}
       {winInfo && (
         <div className="card">
-          <h2 className="font-medium text-dark-text mb-2 flex items-center gap-2"><span>🖥</span> 系统版本</h2>
-          <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-dark-text-secondary">
+          <h2 className="text-[14px] font-medium mb-3 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+            <div className="icon-wrap-sm"><Monitor size={16} strokeWidth={2} /></div>
+            系统版本
+          </h2>
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-[12px]" style={{ color: "var(--text-secondary)" }}>
             <span>{winInfo.product_name || `Windows ${winInfo.version}`} {winInfo.display_version && `(${winInfo.display_version})`} — 版本 {winInfo.version} (build {winInfo.build})</span>
             <span>{winInfo.edition}</span>
-            {winInfo.is_24h2 && <span className="text-warning-500">⚠ 24H2 — 部分老游戏需启用 DirectPlay + 兼容模式</span>}
-            {winInfo.is_n_kn && <span className="text-error-500">⚠ N/KN 版本 — 缺少 Media Feature Pack，请安装</span>}
+            {winInfo.is_24h2 && <span style={{ color: "var(--status-warning)" }}>⚠ 24H2 — 部分老游戏需启用 DirectPlay + 兼容模式</span>}
+            {winInfo.is_n_kn && <span style={{ color: "var(--status-danger)" }}>⚠ N/KN 版本 — 缺少 Media Feature Pack，请安装</span>}
           </div>
         </div>
       )}
 
-      {/* 虚拟内存诊断 */}
       {vmInfo && (
         <div className="card">
-          <h2 className="font-medium text-dark-text mb-2 flex items-center gap-2"><span>💾</span> 虚拟内存诊断 <span className={`text-xs px-2 py-0.5 rounded ${vmInfo.enabled ? "bg-success-500/20 text-success-500" : "bg-error-500/20 text-error-500"}`}>{vmInfo.enabled ? "正常" : "异常"}</span></h2>
-          <p className="text-xs text-warning-500 mb-2">❗ 游戏闪退、报 "out of memory"、"虚拟内存不足"？来这里检查</p>
+          <h2 className="text-[14px] font-medium mb-2 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+            <div className="icon-wrap-sm" style={{ backgroundColor: "var(--brand-wind-10)", color: "var(--brand-wind)" }}>
+              <HardDrive size={16} strokeWidth={2} />
+            </div>
+            虚拟内存诊断
+            <span
+              className={`text-[11px] px-2 py-0.5 rounded-md ml-auto`}
+              style={{
+                backgroundColor: vmInfo.enabled ? "var(--status-success-10)" : "var(--status-danger-10)",
+                color: vmInfo.enabled ? "var(--status-success)" : "var(--status-danger)",
+              }}
+            >
+              {vmInfo.enabled ? "正常" : "异常"}
+            </span>
+          </h2>
+          <p className="text-[11px] mb-2" style={{ color: "var(--status-warning)" }}>
+            ⚠ 游戏闪退、报 "out of memory"、"虚拟内存不足"？来这里检查
+          </p>
           {vmInfo.enabled ? (
-            <div className="text-xs text-dark-text-secondary space-y-1">
-              {vmInfo.is_system_managed ? <p>✅ 系统托管（由 Windows 自动管理大小）</p> : (
+            <div className="text-[12px] space-y-1" style={{ color: "var(--text-secondary)" }}>
+              {vmInfo.is_system_managed ? <p>✓ 系统托管（由 Windows 自动管理大小）</p> : (
                 <p>初始 {vmInfo.initial_size_mb} MB / 最大 {vmInfo.max_size_mb} MB</p>
               )}
-              <p className="text-dark-text-muted">虚拟内存不足会导致游戏/软件闪退、提示内存不足</p>
+              <p style={{ color: "var(--text-muted)" }}>虚拟内存不足会导致游戏/软件闪退、提示内存不足</p>
             </div>
           ) : (
             <div>
-              <p className="text-xs text-error-500 mb-2">❌ 虚拟内存已被禁用！这会导致大型软件/游戏运行不稳定甚至闪退。</p>
-              <p className="text-xs text-dark-text-secondary">建议：设置 → 系统 → 关于 → 高级系统设置 → 性能 → 高级 → 虚拟内存 → 勾选"自动管理"</p>
+              <p className="text-[12px] mb-2" style={{ color: "var(--status-danger)" }}>
+                ✗ 虚拟内存已被禁用！这会导致大型软件/游戏运行不稳定甚至闪退。
+              </p>
+              <p className="text-[11px]" style={{ color: "var(--text-secondary)" }}>
+                建议：设置 → 系统 → 关于 → 高级系统设置 → 性能 → 高级 → 虚拟内存 → 勾选"自动管理"
+              </p>
             </div>
           )}
         </div>
       )}
 
-      {/* DISM / SFC 修复工具 */}
       <div className="card">
-        <h2 className="font-medium text-dark-text mb-2 flex items-center gap-2"><span>🛠</span> 系统修复工具</h2>
-        <p className="text-sm text-dark-text-muted mb-2">一键运行 Windows 系统文件检查工具。损坏的系统文件将从本地 WinSxS 缓存恢复。</p>
-        <p className="text-xs text-warning-500 mb-3">❗ 遇到 "DLL 初始化失败 0xc0000142"、"0x800f0831 组件存储损坏"、"Windows Update 安装失败" 时先跑 DISM，再 SFC</p>
+        <h2 className="text-[14px] font-medium mb-3 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+          <div className="icon-wrap-sm" style={{ backgroundColor: "var(--status-success-10)", color: "var(--status-success)" }}>
+            <Shield size={16} strokeWidth={2} />
+          </div>
+          系统修复工具
+        </h2>
+        <p className="text-[12px] mb-2" style={{ color: "var(--text-muted)" }}>
+          一键运行 Windows 系统文件检查工具。损坏的系统文件将从本地 WinSxS 缓存恢复。
+        </p>
+        <p className="text-[11px] mb-4" style={{ color: "var(--status-warning)" }}>
+          ⚠ 遇到 "DLL 初始化失败 0xc0000142"、"0x800f0831 组件存储损坏"、"Windows Update 安装失败" 时先跑 DISM，再 SFC
+        </p>
         <div className="flex flex-wrap gap-3 mb-3">
-          <button onClick={handleSfc} disabled={sfcRunning} className="btn-primary text-sm">{sfcRunning ? "SFC 运行中..." : "🔍 运行 SFC /Scannow"}</button>
-          <button onClick={handleDism} disabled={dismRunning} className="btn-primary text-sm">{dismRunning ? "DISM 运行中..." : "💊 运行 DISM RestoreHealth"}</button>
+          <button onClick={handleSfc} disabled={sfcRunning} className="btn-primary !py-2 text-[12px]">
+            {sfcRunning ? <><Loader2 size={12} className="animate-spin" /> SFC 运行中...</> : <>🔍 运行 SFC /Scannow</>}
+          </button>
+          <button onClick={handleDism} disabled={dismRunning} className="btn-primary !py-2 text-[12px]">
+            {dismRunning ? <><Loader2 size={12} className="animate-spin" /> DISM 运行中...</> : <>💊 运行 DISM RestoreHealth</>}
+          </button>
         </div>
-        <div className="flex items-center gap-4 text-xs text-dark-text-muted">
-          <span>✅ SFC：扫描并修复受保护的系统文件</span>
-          <span>✅ DISM：修复系统组件存储（CBS）</span>
+        <div className="flex items-center gap-4 text-[11px]" style={{ color: "var(--text-muted)" }}>
+          <span>✓ SFC：扫描并修复受保护的系统文件</span>
+          <span>✓ DISM：修复系统组件存储（CBS）</span>
         </div>
         {sfcResult && <RepairResultBox title="SFC /Scannow 结果" result={sfcResult} />}
         {dismResult && <RepairResultBox title="DISM RestoreHealth 结果" result={dismResult} />}
       </div>
 
-      {/* WinSxS / API Sets 完整性 */}
       <div className="card">
-        <h2 className="font-medium text-dark-text mb-2 flex items-center gap-2"><span>🔗</span> API Sets / WinSxS 完整性</h2>
-        <p className="text-sm text-dark-text-muted mb-2">API Sets 是 Windows 8+ 的虚拟 DLL 转发机制，损坏时程序虽能找到 api-ms-win-*.dll 但仍无法运行。DISM ScanHealth 比单纯文件存在检查更准确。</p>
-        <p className="text-xs text-warning-500 mb-3">❗ 报了 "api-ms-win-crt-runtime-l1-1-0.dll 缺失"？文件明明存在但还报错？这是 API Sets 转发链断裂，点下面检测</p>
-        <button onClick={handleWinsxs} disabled={winsxsRunning} className="btn-primary text-sm">{winsxsRunning ? "检测中..." : "🔍 检测 WinSxS 完整性"}</button>
+        <h2 className="text-[14px] font-medium mb-2 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+          <div className="icon-wrap-sm" style={{ backgroundColor: "var(--brand-wind-10)", color: "var(--brand-wind)" }}>
+            <Tag size={16} strokeWidth={2} />
+          </div>
+          API Sets / WinSxS 完整性
+        </h2>
+        <p className="text-[12px] mb-2" style={{ color: "var(--text-muted)" }}>
+          API Sets 是 Windows 8+ 的虚拟 DLL 转发机制，损坏时程序虽能找到 api-ms-win-*.dll 但仍无法运行。DISM ScanHealth 比单纯文件存在检查更准确。
+        </p>
+        <p className="text-[11px] mb-3" style={{ color: "var(--status-warning)" }}>
+          ⚠ 报了 "api-ms-win-crt-runtime-l1-1-0.dll 缺失"？文件明明存在但还报错？这是 API Sets 转发链断裂，点下面检测
+        </p>
+        <button onClick={handleWinsxs} disabled={winsxsRunning} className="btn-primary !py-1.5 text-[12px]">
+          {winsxsRunning ? <><Loader2 size={12} className="animate-spin" /> 检测中...</> : <>🔍 检测 WinSxS 完整性</>}
+        </button>
         {winsxsStatus && (
           <div className="mt-3 space-y-2">
-            <div className="flex gap-4 text-xs text-dark-text-secondary">
+            <div className="flex gap-4 text-[12px]" style={{ color: "var(--text-secondary)" }}>
               <span>API Sets 文件: {winsxsStatus.api_set_found}/{winsxsStatus.api_set_count}</span>
-              <span className={winsxsStatus.scan_result.success ? "text-success-500" : "text-error-500"}>
+              <span style={{ color: winsxsStatus.scan_result.success ? "var(--status-success)" : "var(--status-danger)" }}>
                 WinSxS: {winsxsStatus.scan_result.success ? "健康" : "可能有损坏"}
               </span>
             </div>
             {!winsxsStatus.scan_result.success && (
-              <p className="text-xs text-warning-500">⚠ WinSxS 检测到异常，建议运行 DISM RestoreHealth 修复</p>
+              <p className="text-[11px]" style={{ color: "var(--status-warning)" }}>
+                ⚠ WinSxS 检测到异常，建议运行 DISM RestoreHealth 修复
+              </p>
             )}
-            <pre className="text-xs text-dark-text-muted whitespace-pre-wrap max-h-20 overflow-y-auto">{winsxsStatus.scan_result.output}</pre>
+            <pre className="text-[11px] whitespace-pre-wrap max-h-20 overflow-y-auto" style={{ color: "var(--text-muted)" }}>
+              {winsxsStatus.scan_result.output}
+            </pre>
           </div>
         )}
       </div>
 
-      {/* 系统 DLL 检查 */}
       <div className="card">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h2 className="font-medium text-dark-text flex items-center gap-2"><span>📁</span> 系统 DLL 状态检查</h2>
-            <p className="text-xs text-dark-text-muted mt-1">共 {sysFiles.length} 个系统组件，其中 <span className="text-error-500">{missingCount} 个未找到</span>（只检查文件是否存在，<strong className="text-success-500">不修改任何文件</strong>）</p>
-            <p className="text-xs text-warning-500 mt-1">❗ 报 "ole32.dll 无法注册"、"comctl32.dll 版本不符"、系统弹"找不到 xxx 入口点" — 这些文件缺失说明系统已损坏，建议跑 DISM + SFC</p>
+            <h2 className="text-[14px] font-medium flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+              <div className="icon-wrap-sm" style={{ backgroundColor: "var(--accent-ochre-10)", color: "var(--accent-ochre)" }}>
+                <Cpu size={16} strokeWidth={2} />
+              </div>
+              系统 DLL 状态检查
+            </h2>
+            <p className="text-[11px] mt-1" style={{ color: "var(--text-muted)" }}>
+              共 {sysFiles.length} 个系统组件，其中 <span style={{ color: "var(--status-danger)" }}>{missingCount} 个未找到</span>（只检查文件是否存在，<strong style={{ color: "var(--status-success)" }}>不修改任何文件</strong>）
+            </p>
+            <p className="text-[11px] mt-1" style={{ color: "var(--status-warning)" }}>
+              ⚠ 报 "ole32.dll 无法注册"、"comctl32.dll 版本不符"、系统弹"找不到 xxx 入口点" — 这些文件缺失说明系统已损坏，建议跑 DISM + SFC
+            </p>
           </div>
-          <div className="flex gap-1 bg-dark-card rounded p-0.5">
+          <div
+            className="flex gap-1 p-0.5 rounded-lg"
+            style={{ backgroundColor: "var(--bg-input)" }}
+          >
             {(["all", "missing", "found"] as const).map(k => (
-              <button key={k} onClick={() => setFilter(k)}
-                className={`px-2.5 py-1 rounded text-xs transition-all ${filter === k ? "bg-primary-600 text-white" : "text-dark-text-secondary hover:text-dark-text"}`}>
+              <button
+                key={k}
+                onClick={() => setFilter(k)}
+                className="px-2.5 py-1 rounded-md text-[11px] font-medium transition-all"
+                style={{
+                  backgroundColor: filter === k ? "var(--brand-wind)" : "transparent",
+                  color: filter === k ? "white" : "var(--text-secondary)",
+                }}
+              >
                 {{ all: "全部", missing: "缺失", found: "存在" }[k]}
               </button>
             ))}
@@ -624,18 +838,33 @@ const SystemRepairSection: React.FC = () => {
         </div>
         <div className="h-64 overflow-y-auto space-y-0.5">
           {loading ? (
-            <p className="text-sm text-dark-text-muted p-4 text-center">扫描中...</p>
+            <p className="text-[12px] p-4 text-center" style={{ color: "var(--text-muted)" }}>扫描中...</p>
           ) : filtered.length === 0 ? (
-            <p className="text-sm text-dark-text-muted p-4 text-center">没有匹配的条目</p>
+            <p className="text-[12px] p-4 text-center" style={{ color: "var(--text-muted)" }}>没有匹配的条目</p>
           ) : (
             filtered.map(f => (
-              <div key={f.name} className="flex items-center gap-2 px-2 py-1 rounded hover:bg-dark-card">
-                <span className={`shrink-0 text-xs ${f.found ? "text-success-500" : "text-error-500"}`}>{f.found ? "✓" : "✗"}</span>
-                <code className="text-xs text-dark-text font-mono w-36 shrink-0">{f.name}</code>
-                <span className="text-xs text-dark-text-muted flex-1 truncate">{f.description}</span>
+              <div
+                key={f.name}
+                className="flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors hover:bg-[var(--bg-elevated)]"
+              >
+                <span
+                  className="shrink-0 text-[12px]"
+                  style={{ color: f.found ? "var(--status-success)" : "var(--status-danger)" }}
+                >
+                  {f.found ? "✓" : "✗"}
+                </span>
+                <code className="text-[11px] font-mono w-36 shrink-0" style={{ color: "var(--text-primary)" }}>{f.name}</code>
+                <span className="text-[11px] flex-1 truncate" style={{ color: "var(--text-muted)" }}>{f.description}</span>
                 {!f.found && (
-                  <button onClick={() => handleFileRepair(f)} disabled={repairingFile === f.name}
-                    className="text-xs px-2 py-0.5 rounded bg-error-500/20 text-error-500 hover:bg-error-500/30 transition-colors shrink-0">
+                  <button
+                    onClick={() => handleFileRepair(f)}
+                    disabled={repairingFile === f.name}
+                    className="text-[11px] px-2 py-0.5 rounded-md transition-colors shrink-0"
+                    style={{
+                      backgroundColor: "var(--status-danger-10)",
+                      color: "var(--status-danger)",
+                    }}
+                  >
                     {repairingFile === f.name ? "修复中..." : "修复"}
                   </button>
                 )}
@@ -643,9 +872,17 @@ const SystemRepairSection: React.FC = () => {
             ))
           )}
           {fileRepairResult && (
-            <div className={`mt-2 p-2 rounded text-xs ${fileRepairResult.result.success ? "bg-success-500/10 text-success-500" : "bg-error-500/10 text-error-500"}`}>
-              {fileRepairResult.result.success ? `✅ ${fileRepairResult.name} 修复成功` : `❌ ${fileRepairResult.name} 修复失败`}
-              <pre className="text-dark-text-muted mt-1 max-h-16 overflow-y-auto">{fileRepairResult.result.output}</pre>
+            <div
+              className="mt-2 p-2 rounded-lg text-[11px]"
+              style={{
+                backgroundColor: fileRepairResult.result.success ? "var(--status-success-10)" : "var(--status-danger-10)",
+                color: fileRepairResult.result.success ? "var(--status-success)" : "var(--status-danger)",
+              }}
+            >
+              {fileRepairResult.result.success ? `✓ ${fileRepairResult.name} 修复成功` : `✗ ${fileRepairResult.name} 修复失败`}
+              <pre className="text-[10px] mt-1 max-h-16 overflow-y-auto" style={{ color: "var(--text-muted)" }}>
+                {fileRepairResult.result.output}
+              </pre>
             </div>
           )}
         </div>
@@ -653,16 +890,6 @@ const SystemRepairSection: React.FC = () => {
     </div>
   );
 };
-
-const RepairResultBox: React.FC<{ title: string; result: RepairResult }> = ({ title, result }) => (
-  <div className={`mt-3 p-3 rounded-lg text-sm ${result.success ? "bg-success-500/10 border border-success-500/30" : "bg-error-500/10 border border-error-500/30"}`}>
-    <p className="text-xs text-dark-text-muted mb-1">{title}</p>
-    <p className={`font-medium text-xs mb-1 ${result.success ? "text-success-500" : "text-error-500"}`}>
-      {result.success ? "✅ 完成" : "❌ 可能有问题"}
-    </p>
-    <pre className="text-xs text-dark-text-secondary whitespace-pre-wrap max-h-32 overflow-y-auto">{result.output || "(无输出)"}</pre>
-  </div>
-);
 
 const ToolsPage: React.FC = () => {
   const [tab, setTab] = useState<ToolTab>("dll");
@@ -721,6 +948,9 @@ const ToolsPage: React.FC = () => {
   const scanResults = useAppStore(s => s.scanResults);
   const systemStatus = useAppStore(s => s.systemStatus);
   const aiSite = useAppStore(s => s.aiSite);
+  const installPage = useAppStore(s => s.installPage);
+  const installProgress = useAppStore(s => s.installProgress);
+  const startInstall = useAppStore(s => s.startInstall);
   const [diagnoseCopied, setDiagnoseCopied] = useState(false);
 
   const handleOneClickDiagnose = useCallback(async () => {
@@ -758,7 +988,6 @@ const ToolsPage: React.FC = () => {
     open_in_browser(AI_SITES[aiSite] || AI_SITES.DeepSeek);
   }, [contextTags, scanResults, systemStatus, aiSite]);
 
-  // Auto-populate effort tags from scan results
   useEffect(() => {
     if (!scanResults || scanResults.length === 0) return;
     setContextTags(prev => {
@@ -771,6 +1000,23 @@ const ToolsPage: React.FC = () => {
   }, [scanResults]);
 
   useEffect(() => {
+    if (installPage !== "done") return;
+    const installedNames = installProgress
+      .filter(item => item.status === "安装成功" || item.status === "已完成")
+      .map(item => item.name)
+      .filter(Boolean);
+    if (installedNames.length === 0) return;
+    setContextTags(prev => {
+      const existingEfforts = new Set(prev.filter(t => t.type === "effort").map(t => t.label));
+      const newTags = installedNames
+        .filter(name => !existingEfforts.has(`已安装 — ${name}`))
+        .map(name => ({ id: nextTagId(), type: "effort" as TagType, label: `已安装 — ${name}` }));
+      if (newTags.length === 0) return prev;
+      return [...prev, ...newTags];
+    });
+  }, [installPage, installProgress]);
+
+  useEffect(() => {
     if (showTagInput && tagInputRef.current) tagInputRef.current.focus();
   }, [showTagInput]);
 
@@ -780,7 +1026,7 @@ const ToolsPage: React.FC = () => {
     const q = dllQuery.trim();
     addTag("error", q);
     await doDllQuery(q);
-  }, [dllQuery, doDllQuery]);
+  }, [dllQuery, doDllQuery, addTag]);
 
   const handleErrorCodeQuery = useCallback(async () => {
     if (!errorCode.trim()) return;
@@ -788,37 +1034,92 @@ const ToolsPage: React.FC = () => {
     const q = errorCode.trim();
     addTag("error", q);
     await doErrorCodeQuery(q);
-  }, [errorCode, doErrorCodeQuery]);
+  }, [errorCode, doErrorCodeQuery, addTag]);
+
+  const tabItems = [
+    { key: "dll" as ToolTab, label: "DLL 查询", desc: "报 xxx.dll 找不到？查归属", icon: Search },
+    { key: "errorcode" as ToolTab, label: "错误码查询", desc: "0xc000007b 看不懂？查含义", icon: AlertCircle },
+    { key: "quickfix" as ToolTab, label: "快捷修复", desc: "一键复制修复命令", icon: Zap },
+    { key: "game" as ToolTab, label: "游戏专区", desc: "游戏闪退？查平台/着色器", icon: Gamepad2 },
+    { key: "thirdparty" as ToolTab, label: "第三方库", desc: "查开源/第三方 DLL", icon: Puzzle },
+    { key: "system" as ToolTab, label: "系统文件", desc: "SFC / DISM / WinSxS", icon: Cpu },
+  ];
 
   return (
-    <div className="flex-1 overflow-auto p-6 animate-fade-in">
+    <div className="flex-1 overflow-auto p-6 animate-wind-enter">
       <div className="max-w-3xl mx-auto space-y-6">
-        <h1 className="text-2xl font-bold text-dark-text">工具箱</h1>
+        {/* 标题 */}
+        <div className="flex items-center gap-3">
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center"
+            style={{
+              backgroundColor: "var(--accent-ochre-10)",
+              color: "var(--accent-ochre)",
+            }}
+          >
+            <Wrench size={20} strokeWidth={2} />
+          </div>
+          <div>
+            <h1 className="text-[20px] font-semibold" style={{ color: "var(--text-primary)" }}>工具箱</h1>
+            <p className="text-[12px]" style={{ color: "var(--text-muted)" }}>
+              选择你遇到的问题，快速找到解决方案
+            </p>
+          </div>
+        </div>
 
-        <div className="flex gap-1 bg-dark-card rounded-lg p-1 flex-wrap">
-          {([{key: "dll", label: "DLL 查询", desc: "报 xxx.dll 找不到？查归属"},
-             {key: "errorcode", label: "错误码查询", desc: "0xc000007b 看不懂？查含义"},
-             {key: "quickfix", label: "快捷修复", desc: "一键复制修复命令"},
-             {key: "game", label: "游戏专区", desc: "游戏闪退？查平台/着色器"},
-             {key: "thirdparty", label: "第三方库", desc: "查开源/第三方 DLL"},
-             {key: "system", label: "系统文件", desc: "SFC / DISM / WinSxS"},
-            ] as const).map(({key, label, desc}) => (
-            <button key={key} onClick={() => setTab(key as ToolTab)}
-              className={`px-3 py-1.5 rounded-md text-sm transition-all ${tab === key ? "bg-primary-600 text-white" : "text-dark-text-secondary hover:text-dark-text"}`}>
-              <div>{label}</div>
-              <div className={`text-[10px] ${tab === key ? "text-white/70" : "text-dark-text-muted"}`}>{desc}</div>
+        {/* Tab 导航 */}
+        <div
+          className="grid grid-cols-3 gap-2"
+        >
+          {tabItems.map(({ key, label, desc, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => setTab(key)}
+              className="p-3 rounded-xl text-[12px] font-medium transition-all text-left"
+              style={{
+                backgroundColor: tab === key ? "var(--bg-card)" : "var(--bg-surface)",
+                color: tab === key ? "var(--text-primary)" : "var(--text-secondary)",
+                border: `1px solid ${tab === key ? "var(--brand-wind-20)" : "var(--border-subtle)"}`,
+                boxShadow: tab === key ? "var(--shadow-sm)" : "none",
+              }}
+            >
+              <div className="flex items-center gap-2 mb-1.5">
+                <div
+                  className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                  style={{
+                    backgroundColor: tab === key ? "var(--brand-wind-10)" : "var(--bg-input)",
+                    color: tab === key ? "var(--brand-wind)" : "var(--text-muted)",
+                  }}
+                >
+                  <Icon size={14} strokeWidth={2} />
+                </div>
+                <span>{label}</span>
+              </div>
+              <div
+                className="text-[10px] font-normal leading-snug"
+                style={{ color: tab === key ? "var(--text-muted)" : "var(--text-faint)" }}
+              >
+                {desc}
+              </div>
             </button>
           ))}
         </div>
 
+        {/* DLL 查询 */}
         {tab === "dll" && (
           <>
             <div className="card">
-              <h2 className="font-medium text-dark-text mb-3 flex items-center gap-2"><span>🔍</span> DLL 归属查询</h2>
-              <p className="text-sm text-dark-text-muted mb-4">输入 DLL 文件名，查询它属于哪个运行库或组件</p>
-              <p className="text-xs text-warning-500 mb-3">❗ 常见的报错如 "计算机中丢失 MSVCP140.dll"、"找不到 VCRUNTIME140_1.dll"，通常安装对应 VC++ 运行库即可解决</p>
+              <h2 className="text-[14px] font-medium mb-3 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+                <div className="icon-wrap-sm"><Search size={16} strokeWidth={2} /></div>
+                DLL 归属查询
+              </h2>
+              <p className="text-[12px] mb-2" style={{ color: "var(--text-secondary)" }}>
+                输入 DLL 文件名，查询它属于哪个运行库或组件
+              </p>
+              <p className="text-[11px] mb-4" style={{ color: "var(--status-warning)" }}>
+                ⚠ 常见的报错如 "计算机中丢失 MSVCP140.dll"、"找不到 VCRUNTIME140_1.dll"，通常安装对应 VC++ 运行库即可解决
+              </p>
 
-              {/* 词块区域 */}
               <ContextTagBar
                 tags={contextTags} tagInputValue={tagInputValue} showTagInput={showTagInput}
                 tagInputRef={tagInputRef as React.RefObject<HTMLInputElement>}
@@ -827,28 +1128,133 @@ const ToolsPage: React.FC = () => {
               />
 
               <div className="flex gap-2 relative">
-                <input ref={dllInputRef} type="text" value={dllQuery} onChange={e => { setDllQuery(e.target.value); setDllShowDropdown(true); }} onKeyDown={e => { if (e.key === "Enter") { setDllShowDropdown(false); handleDllQuery(); } if (e.key === "Escape") setDllShowDropdown(false); }} onFocus={() => setDllShowDropdown(true)} placeholder="例如：vcruntime140.dll 或 mfc100u.dll" className="input flex-1" />
-                <button onClick={handleDllQuery} disabled={dllLoading} className="btn-primary">{dllLoading ? "查询中..." : "查询"}</button>
+                <input
+                  ref={dllInputRef}
+                  type="text"
+                  value={dllQuery}
+                  onChange={e => { setDllQuery(e.target.value); setDllShowDropdown(true); }}
+                  onKeyDown={e => {
+                    if (e.key === "Enter") { setDllShowDropdown(false); handleDllQuery(); }
+                    if (e.key === "Escape") setDllShowDropdown(false);
+                  }}
+                  onFocus={() => setDllShowDropdown(true)}
+                  placeholder="例如：vcruntime140.dll 或 mfc100u.dll"
+                  className="input flex-1"
+                />
+                <button onClick={handleDllQuery} disabled={dllLoading} className="btn-primary">
+                  {dllLoading ? <><Loader2 size={14} className="animate-spin" /> 查询中...</> : <>查询</>}
+                </button>
                 {dllShowDropdown && (
-                  <SearchDropdown query={dllQuery} index={DLL_SEARCH_INDEX}
+                  <SearchDropdown
+                    query={dllQuery} index={DLL_SEARCH_INDEX}
                     onSelect={v => { setDllQuery(v); setDllShowDropdown(false); doDllQuery(v); }}
-                    onClose={() => setDllShowDropdown(false)} />
+                    onClose={() => setDllShowDropdown(false)}
+                  />
                 )}
               </div>
-              {dllResult && <div className="mt-4 p-3 bg-dark-card rounded-lg text-sm text-dark-text-secondary whitespace-pre-wrap">{dllResult}</div>}
               {dllResult && (
-                <div className="mt-2 flex gap-2">
-                  <button onClick={() => { navigator.clipboard.writeText(`DLL 查询: ${dllQuery}\n\n${dllResult}`); open_in_browser(AI_SITES[useAppStore.getState().aiSite] || AI_SITES.DeepSeek); }} className="btn-secondary text-xs">🤖 AI 分析此 DLL</button>
+                <div
+                  className="mt-4 p-4 rounded-2xl text-[12px] whitespace-pre-wrap"
+                  style={{
+                    backgroundColor: "var(--bg-input)",
+                    color: "var(--text-secondary)",
+                    border: "1px solid var(--border-subtle)",
+                  }}
+                >
+                  {dllResult}
+                </div>
+              )}
+              {dllResult && dllQuery && (
+                <div className="mt-4">
+                  {(() => {
+                    const mapping = findRuntimeForDll(dllQuery);
+                    const isInstalled = mapping
+                      ? scanResults.some(r => r.id === mapping.runtimeId && r.status === "installed")
+                      : false;
+
+                    if (!mapping) return null;
+
+                    return (
+                      <div
+                        className="p-4 rounded-2xl"
+                        style={{
+                          backgroundColor: "var(--bg-elevated)",
+                          border: "1px solid var(--brand-wind-20)",
+                        }}
+                      >
+                        <div className="flex items-center gap-2 mb-3">
+                          <div
+                            className="w-7 h-7 rounded-lg flex items-center justify-center"
+                            style={{
+                              backgroundColor: "var(--brand-wind-10)",
+                              color: "var(--brand-wind)",
+                            }}
+                          >
+                            <Zap size={14} strokeWidth={2} />
+                          </div>
+                          <span
+                            className="text-[13px] font-medium"
+                            style={{ color: "var(--text-primary)" }}
+                          >
+                            关联运行库
+                          </span>
+                          {isInstalled && (
+                            <span className="badge badge-success ml-auto">已安装</span>
+                          )}
+                        </div>
+                        <p
+                          className="text-[12px] mb-3"
+                          style={{ color: "var(--text-secondary)" }}
+                        >
+                          该 DLL 属于 <span style={{ color: "var(--brand-wind)", fontWeight: 500 }}>{mapping.runtimeName}</span>
+                          ，安装运行库即可修复
+                        </p>
+                        {!isInstalled && (
+                          <button
+                            onClick={() => {
+                              if (installPage === "installing") return;
+                              startInstall([mapping.runtimeId]);
+                            }}
+                            disabled={installPage === "installing"}
+                            className="btn-primary !py-2 !text-[12px] w-full"
+                          >
+                            <Download size={14} strokeWidth={2} />
+                            <span>一键安装 {mapping.runtimeName}</span>
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+              {dllResult && (
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(`DLL 查询: ${dllQuery}\n\n${dllResult}`);
+                      open_in_browser(AI_SITES[useAppStore.getState().aiSite] || AI_SITES.DeepSeek);
+                    }}
+                    className="btn-secondary !py-2 text-[12px]"
+                  >
+                    <Sparkles size={14} strokeWidth={2} />
+                    <span>AI 分析此 DLL</span>
+                  </button>
                 </div>
               )}
             </div>
             <div className="card">
-              <h3 className="font-medium text-dark-text mb-3">📖 常见缺失 DLL 速查表</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <h3 className="text-[14px] font-medium mb-3" style={{ color: "var(--text-primary)" }}>
+                📖 常见缺失 DLL 速查表
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[12px]">
                 {QUICK_REF.map(([dll, owner]) => (
-                  <div key={dll} className="flex justify-between p-2 bg-dark-card rounded">
-                    <span className="text-dark-text font-mono text-xs">{dll}</span>
-                    <span className="text-dark-text-muted text-xs">{owner}</span>
+                  <div
+                    key={dll}
+                    className="flex justify-between p-2.5 rounded-lg"
+                    style={{ backgroundColor: "var(--bg-input)" }}
+                  >
+                    <span className="font-mono text-[11px]" style={{ color: "var(--text-primary)" }}>{dll}</span>
+                    <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>{owner}</span>
                   </div>
                 ))}
               </div>
@@ -856,12 +1262,21 @@ const ToolsPage: React.FC = () => {
           </>
         )}
 
+        {/* 错误码查询 */}
         {tab === "errorcode" && (
           <>
             <div className="card">
-              <h2 className="font-medium text-dark-text mb-3 flex items-center gap-2"><span>❌</span> 错误码查询</h2>
-              <p className="text-sm text-dark-text-muted mb-4">输入 Windows 错误码，获取中文说明和修复步骤<br />支持格式：<code className="text-primary-400">0xc000007b</code>、<code className="text-primary-400">126</code>、<code className="text-primary-400">80070643</code></p>
-              <p className="text-xs text-warning-500 mb-3">❗ 游戏打不开最常见 0xc000007b（应用程序无法正常启动），往往不是游戏问题，是 VC++ 或 DirectX 缺失</p>
+              <h2 className="text-[14px] font-medium mb-3 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+                <div className="icon-wrap-sm icon-wrap-danger"><XCircle size={16} strokeWidth={2} /></div>
+                错误码查询
+              </h2>
+              <p className="text-[12px] mb-2" style={{ color: "var(--text-secondary)" }}>
+                输入 Windows 错误码，获取中文说明和修复步骤<br />
+                支持格式：<code style={{ color: "var(--brand-wind)" }}>0xc000007b</code>、<code style={{ color: "var(--brand-wind)" }}>126</code>、<code style={{ color: "var(--brand-wind)" }}>80070643</code>
+              </p>
+              <p className="text-[11px] mb-4" style={{ color: "var(--status-warning)" }}>
+                ⚠ 游戏打不开最常见 0xc000007b（应用程序无法正常启动），往往不是游戏问题，是 VC++ 或 DirectX 缺失
+              </p>
 
               <ContextTagBar
                 tags={contextTags} tagInputValue={tagInputValue} showTagInput={showTagInput}
@@ -871,29 +1286,143 @@ const ToolsPage: React.FC = () => {
               />
 
               <div className="flex gap-2 relative">
-                <input type="text" value={errorCode} onChange={e => { setErrorCode(e.target.value); setErrorShowDropdown(true); }} onKeyDown={e => { if (e.key === "Enter") { setErrorShowDropdown(false); handleErrorCodeQuery(); } if (e.key === "Escape") setErrorShowDropdown(false); }} onFocus={() => setErrorShowDropdown(true)} placeholder="例如：0xc000007b" className="input flex-1" />
-                <button onClick={handleErrorCodeQuery} disabled={errorLoading} className="btn-primary">{errorLoading ? "查询中..." : "查询"}</button>
+                <input
+                  type="text"
+                  value={errorCode}
+                  onChange={e => { setErrorCode(e.target.value); setErrorShowDropdown(true); }}
+                  onKeyDown={e => {
+                    if (e.key === "Enter") { setErrorShowDropdown(false); handleErrorCodeQuery(); }
+                    if (e.key === "Escape") setErrorShowDropdown(false);
+                  }}
+                  onFocus={() => setErrorShowDropdown(true)}
+                  placeholder="例如：0xc000007b"
+                  className="input flex-1"
+                />
+                <button onClick={handleErrorCodeQuery} disabled={errorLoading} className="btn-primary">
+                  {errorLoading ? <><Loader2 size={14} className="animate-spin" /> 查询中...</> : <>查询</>}
+                </button>
                 {errorShowDropdown && (
-                  <SearchDropdown query={errorCode} index={ERROR_SEARCH_INDEX}
+                  <SearchDropdown
+                    query={errorCode} index={ERROR_SEARCH_INDEX}
                     onSelect={v => { setErrorCode(v); setErrorShowDropdown(false); doErrorCodeQuery(v); }}
-                    onClose={() => setErrorShowDropdown(false)} />
+                    onClose={() => setErrorShowDropdown(false)}
+                  />
                 )}
               </div>
-              {errorCodeResult && <div className="mt-4 p-3 bg-dark-card rounded-lg text-sm text-dark-text-secondary whitespace-pre-wrap">{errorCodeResult}</div>}
               {errorCodeResult && (
-                <div className="mt-2 flex gap-2">
-                  <button onClick={() => { navigator.clipboard.writeText(`错误码查询: ${errorCode}\n\n${errorCodeResult}`); open_in_browser(AI_SITES[useAppStore.getState().aiSite] || AI_SITES.DeepSeek); }} className="btn-secondary text-xs">🤖 AI 分析此错误码</button>
+                <div
+                  className="mt-4 p-4 rounded-2xl text-[12px] whitespace-pre-wrap"
+                  style={{
+                    backgroundColor: "var(--bg-input)",
+                    color: "var(--text-secondary)",
+                    border: "1px solid var(--border-subtle)",
+                  }}
+                >
+                  {errorCodeResult}
+                </div>
+              )}
+              {errorCodeResult && errorCode && (
+                <div className="mt-4">
+                  {(() => {
+                    const mapping = findRuntimesForErrorCode(errorCode);
+                    if (!mapping) return null;
+
+                    return (
+                      <div
+                        className="p-4 rounded-2xl"
+                        style={{
+                          backgroundColor: "var(--bg-elevated)",
+                          border: "1px solid var(--brand-wind-20)",
+                        }}
+                      >
+                        <div className="flex items-center gap-2 mb-3">
+                          <div
+                            className="w-7 h-7 rounded-lg flex items-center justify-center"
+                            style={{
+                              backgroundColor: "var(--brand-wind-10)",
+                              color: "var(--brand-wind)",
+                            }}
+                          >
+                            <Zap size={14} strokeWidth={2} />
+                          </div>
+                          <span
+                            className="text-[13px] font-medium"
+                            style={{ color: "var(--text-primary)" }}
+                          >
+                            关联运行库
+                          </span>
+                        </div>
+                        <p
+                          className="text-[12px] mb-3"
+                          style={{ color: "var(--text-secondary)" }}
+                        >
+                          {mapping.description}
+                        </p>
+                        <div className="space-y-2">
+                          {mapping.runtimeIds.map((id, idx) => {
+                            const name = mapping.runtimeNames[idx];
+                            const isInstalled = scanResults.some(r => r.id === id && r.status === "installed");
+                            return (
+                              <div key={id} className="flex items-center gap-2">
+                                <span
+                                  className="text-[12px] flex-1"
+                                  style={{ color: isInstalled ? "var(--text-muted)" : "var(--text-primary)" }}
+                                >
+                                  {name}
+                                </span>
+                                {isInstalled ? (
+                                  <span className="badge badge-success">已安装</span>
+                                ) : (
+                                  <button
+                                    onClick={() => {
+                                      if (installPage === "installing") return;
+                                      startInstall([id]);
+                                    }}
+                                    disabled={installPage === "installing"}
+                                    className="btn-primary !py-1.5 !px-3 !text-[11px]"
+                                  >
+                                    <Download size={12} strokeWidth={2} />
+                                    <span>安装</span>
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+              {errorCodeResult && (
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(`错误码查询: ${errorCode}\n\n${errorCodeResult}`);
+                      open_in_browser(AI_SITES[aiSite] || AI_SITES.DeepSeek);
+                    }}
+                    className="btn-secondary !py-2 text-[12px]"
+                  >
+                    <Sparkles size={14} strokeWidth={2} />
+                    <span>AI 分析此错误码</span>
+                  </button>
                 </div>
               )}
             </div>
             <div className="card">
-              <h3 className="font-medium text-dark-text mb-3">📋 已收录错误码</h3>
-              <div className="space-y-1 text-sm">
+              <h3 className="text-[14px] font-medium mb-3" style={{ color: "var(--text-primary)" }}>
+                📋 已收录错误码
+              </h3>
+              <div className="space-y-1 text-[12px]">
                 {ERROR_CODE_LIST.map(([code, desc, category]) => (
-                  <div key={code} className="flex gap-3 p-2 bg-dark-card rounded">
-                    <code className="text-primary-400 text-xs w-28 shrink-0">{code}</code>
-                    <span className="text-dark-text text-xs w-32 shrink-0">{desc}</span>
-                    <span className="text-dark-text-muted text-xs">{category}</span>
+                  <div
+                    key={code}
+                    className="flex gap-3 p-2.5 rounded-lg"
+                    style={{ backgroundColor: "var(--bg-input)" }}
+                  >
+                    <code className="text-[11px] w-28 shrink-0 font-mono" style={{ color: "var(--brand-wind)" }}>{code}</code>
+                    <span className="text-[12px] w-32 shrink-0" style={{ color: "var(--text-primary)" }}>{desc}</span>
+                    <span className="text-[11px] flex-1" style={{ color: "var(--text-muted)" }}>{category}</span>
                   </div>
                 ))}
               </div>
@@ -901,36 +1430,72 @@ const ToolsPage: React.FC = () => {
           </>
         )}
 
+        {/* 快捷修复 */}
         {tab === "quickfix" && (
           <>
             <div className="card">
-              <h2 className="font-medium text-dark-text mb-2 flex items-center gap-2"><span>⚡</span> 快捷修复</h2>
-              <p className="text-xs text-dark-text-muted mb-1">以下命令需要以管理员身份运行。点击「复制」→ 右键 PowerShell → 粘贴执行。</p>
-              <p className="text-xs text-warning-500 mb-3">❗ 如果你看到 "找不到 api-ms-win-crt-*.dll"、"0x800F0950"、"系统文件损坏" 等报错，下面有对应的修复命令</p>
+              <h2 className="text-[14px] font-medium mb-2 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+                <div className="icon-wrap-sm" style={{ backgroundColor: "var(--status-success-10)", color: "var(--status-success)" }}>
+                  <Zap size={16} strokeWidth={2} />
+                </div>
+                快捷修复
+              </h2>
+              <p className="text-[11px] mb-1" style={{ color: "var(--text-muted)" }}>
+                以下命令需要以管理员身份运行。点击「复制」→ 右键 PowerShell → 粘贴执行。
+              </p>
+              <p className="text-[11px] mb-1" style={{ color: "var(--status-warning)" }}>
+                ⚠ 如果你看到 "找不到 api-ms-win-crt-*.dll"、"0x800F0950"、"系统文件损坏" 等报错，下面有对应的修复命令
+              </p>
             </div>
-            <QuickFixCard title="0xc000007b 一键修复" desc="该错误最常见于游戏和设计软件启动时，通常是 VC++ 运行库 x86/x64 混装问题" actions={[
-              { label: "📋 复制修复命令", cmd: "DISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow" },
-              { label: "🌐 搜索 0xc000007b 教程", url: "https://www.bing.com/search?q=0xc000007b+修复" },
-            ]} />
-            <QuickFixCard title="Windows Update 修复" desc="解决更新失败、更新卡住等问题" actions={[
-              { label: "📋 复制 WU 重置脚本", cmd: "net stop wuauserv\nnet stop cryptSvc\nnet stop bits\nnet stop msiserver\nren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old\nren C:\\Windows\\System32\\catroot2 catroot2.old\nnet start wuauserv\nnet start cryptSvc\nnet start bits\nnet start msiserver" },
-              { label: "🌐 Windows 更新疑难解答", url: "ms-settings:troubleshoot" },
-            ]} />
-            <QuickFixCard title=".NET Framework 3.5 离线安装" desc="解决 0x800F0950 / 0x800F0954 等错误" actions={[
-              { label: "📋 复制离线安装命令", cmd: "DISM /Online /Enable-Feature /FeatureName:NetFx3 /All /Source:D:\\sources\\sxs /LimitAccess" },
-            ]} />
-            <QuickFixCard title="系统文件完整性检查" desc="修复系统组件损坏、DLL 注册错误" actions={[
-              { label: "📋 复制 DISM + SFC", cmd: "DISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow" },
-            ]} />
+            <QuickFixCard
+              title="0xc000007b 一键修复"
+              desc="该错误最常见于游戏和设计软件启动时，通常是 VC++ 运行库 x86/x64 混装问题"
+              actions={[
+                { label: "复制修复命令", cmd: "DISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow" },
+                { label: "搜索 0xc000007b 教程", url: "https://www.bing.com/search?q=0xc000007b+修复" },
+              ]}
+            />
+            <QuickFixCard
+              title="Windows Update 修复"
+              desc="解决更新失败、更新卡住等问题"
+              actions={[
+                { label: "复制 WU 重置脚本", cmd: "net stop wuauserv\nnet stop cryptSvc\nnet stop bits\nnet stop msiserver\nren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old\nren C:\\Windows\\System32\\catroot2 catroot2.old\nnet start wuauserv\nnet start cryptSvc\nnet start bits\nnet start msiserver" },
+                { label: "Windows 更新疑难解答", url: "ms-settings:troubleshoot" },
+              ]}
+            />
+            <QuickFixCard
+              title=".NET Framework 3.5 离线安装"
+              desc="解决 0x800F0950 / 0x800F0954 等错误"
+              actions={[
+                { label: "复制离线安装命令", cmd: "DISM /Online /Enable-Feature /FeatureName:NetFx3 /All /Source:D:\\sources\\sxs /LimitAccess" },
+              ]}
+            />
+            <QuickFixCard
+              title="系统文件完整性检查"
+              desc="修复系统组件损坏、DLL 注册错误"
+              actions={[
+                { label: "复制 DISM + SFC", cmd: "DISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow" },
+              ]}
+            />
           </>
         )}
 
+        {/* 游戏专区 */}
         {tab === "game" && (
           <>
             <div className="card">
-              <h2 className="font-medium text-dark-text mb-2 flex items-center gap-2"><span>🎮</span> 游戏组件检测</h2>
-              <p className="text-sm text-dark-text-muted mb-1">检测游戏平台的私有 DLL + 常见闪退原因（着色器缓存、虚拟内存）。这些文件不属于 Windows 系统，属于对应游戏平台或引擎。</p>
-              <p className="text-xs text-warning-500 mb-4">❗ 常见报错：steam_api64.dll 缺失（Steam 验证）、UnityPlayer.dll 缺失（重装游戏）、着色器缓存过多导致新游戏闪退</p>
+              <h2 className="text-[14px] font-medium mb-2 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+                <div className="icon-wrap-sm" style={{ backgroundColor: "var(--status-success-10)", color: "var(--status-success)" }}>
+                  <Gamepad2 size={16} strokeWidth={2} />
+                </div>
+                游戏组件检测
+              </h2>
+              <p className="text-[12px] mb-1" style={{ color: "var(--text-secondary)" }}>
+                检测游戏平台的私有 DLL + 常见闪退原因（着色器缓存、虚拟内存）。这些文件不属于 Windows 系统，属于对应游戏平台或引擎。
+              </p>
+              <p className="text-[11px] mb-4" style={{ color: "var(--status-warning)" }}>
+                ⚠ 常见报错：steam_api64.dll 缺失（Steam 验证）、UnityPlayer.dll 缺失（重装游戏）、着色器缓存过多导致新游戏闪退
+              </p>
             </div>
 
             <ShaderCacheSection />
@@ -942,12 +1507,22 @@ const ToolsPage: React.FC = () => {
           </>
         )}
 
+        {/* 第三方库 */}
         {tab === "thirdparty" && (
           <>
             <div className="card">
-              <h2 className="font-medium text-dark-text mb-2 flex items-center gap-2"><span>📦</span> 开源/第三方依赖库检测</h2>
-              <p className="text-sm text-dark-text-muted mb-1">检测常见开源依赖库是否存在。这些文件属于特定软件自带，不属于 Windows 系统。</p>
-              <p className="text-xs text-warning-500 mb-4">❗ 常见报错：libeay32.dll 缺失（OpenSSL 旧版 → 重装 Git/证书工具）、zlib1.dll 缺失（压缩库 → 重装对应软件）</p>
+              <h2 className="text-[14px] font-medium mb-2 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+                <div className="icon-wrap-sm" style={{ backgroundColor: "var(--brand-wind-10)", color: "var(--brand-wind)" }}>
+                  <Puzzle size={16} strokeWidth={2} />
+                </div>
+                开源/第三方依赖库检测
+              </h2>
+              <p className="text-[12px] mb-1" style={{ color: "var(--text-secondary)" }}>
+                检测常见开源依赖库是否存在。这些文件属于特定软件自带，不属于 Windows 系统。
+              </p>
+              <p className="text-[11px] mb-4" style={{ color: "var(--status-warning)" }}>
+                ⚠ 常见报错：libeay32.dll 缺失（OpenSSL 旧版 → 重装 Git/证书工具）、zlib1.dll 缺失（压缩库 → 重装对应软件）
+              </p>
             </div>
             <DllCheckSection title="加密/通信库" items={CRYPTO_DLLS} />
             <DllCheckSection title="网络/日志库" items={NETLOG_DLLS} />
@@ -958,31 +1533,47 @@ const ToolsPage: React.FC = () => {
           </>
         )}
 
-        <div style={{ display: tab === "system" ? "block" : "none" }}>
-          <SystemRepairSection />
-        </div>
+        {/* 系统文件 */}
+        {tab === "system" && <SystemRepairSection />}
 
-        <div className="card border border-primary-500/30">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="font-medium text-dark-text mb-1 flex items-center gap-2"><span>🤖</span> 一键 AI 诊断</h2>
-              <p className="text-xs text-dark-text-muted">自动收集词块 + 扫描结果 + 系统状态，生成完整诊断报告并发送给 AI 助手</p>
+        {/* AI 诊断 */}
+        <div
+          className="card relative overflow-hidden border"
+          style={{ borderColor: "var(--brand-wind-20)" }}
+        >
+          <div
+            className="absolute -top-16 -right-16 w-40 h-40 rounded-full opacity-5 pointer-events-none"
+            style={{ background: "var(--gradient-wind)", filter: "blur(40px)" }}
+          />
+          <div className="relative flex items-center justify-between gap-4">
+            <div className="flex-1">
+              <h2 className="text-[14px] font-medium mb-1 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+                <Sparkles size={16} strokeWidth={2} style={{ color: "var(--accent-ochre)" }} />
+                一键 AI 诊断
+              </h2>
+              <p className="text-[11px]" style={{ color: "var(--text-muted)" }}>
+                自动收集词块 + 扫描结果 + 系统状态，生成完整诊断报告并发送给 AI 助手
+              </p>
             </div>
-            <button onClick={handleOneClickDiagnose} className="btn-primary text-sm shrink-0">
-              {diagnoseCopied ? "✅ 已复制" : "📋 生成报告并打开 AI"}
+            <button onClick={handleOneClickDiagnose} className="btn-primary shrink-0 !py-2">
+              {diagnoseCopied ? <><Check size={14} strokeWidth={2} /> 已复制</> : <><Copy size={14} strokeWidth={2} /> 生成报告并打开 AI</>}
             </button>
           </div>
         </div>
 
+        {/* 使用提示 */}
         <div className="card">
-          <h2 className="font-medium text-dark-text mb-3 flex items-center gap-2"><span>💡</span> 使用提示</h2>
-          <ul className="text-sm text-dark-text-secondary space-y-2 list-disc list-inside">
+          <h2 className="text-[14px] font-medium mb-3 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+            <Info size={16} strokeWidth={2} style={{ color: "var(--brand-wind)" }} />
+            使用提示
+          </h2>
+          <ul className="text-[12px] space-y-2 list-disc list-inside" style={{ color: "var(--text-secondary)" }}>
             <li>DLL 查询支持模糊匹配，输入完整或部分文件名</li>
             <li>错误码支持十六进制（0x 开头）和纯数字格式</li>
-            <li>游戏平台和第三方库 <strong className="text-error-500">仅做识别</strong>，不提供下载。缺失时应重装对应软件</li>
-            <li><strong className="text-warning-500">不要从网上下载单个 .dll 文件</strong>，这是恶意软件的常见传播方式</li>
+            <li>游戏平台和第三方库 <strong style={{ color: "var(--status-danger)" }}>仅做识别</strong>，不提供下载。缺失时应重装对应软件</li>
+            <li><strong style={{ color: "var(--status-warning)" }}>不要从网上下载单个 .dll 文件</strong>，这是恶意软件的常见传播方式</li>
             <li>快捷修复的命令需要以管理员身份运行</li>
-            <li>注册表扫描仅读取安装状态，<strong className="text-success-500">不会修改任何注册表值</strong></li>
+            <li>注册表扫描仅读取安装状态，<strong style={{ color: "var(--status-success)" }}>不会修改任何注册表值</strong></li>
           </ul>
         </div>
       </div>

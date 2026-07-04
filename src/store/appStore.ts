@@ -9,6 +9,9 @@ import type {
   AiSite,
   ScanProgressPayload,
   InstallItemProgress,
+  ThemeMode,
+  FontSize,
+  NotificationSettings,
 } from "../types";
 import { run_scan, cancel_scan, start_install, get_system_status } from "../api/tauri";
 import { registerScanProgressListener, unregisterScanProgressListener, registerInstallProgressListener, unregisterInstallProgressListener } from "../api/events";
@@ -28,6 +31,11 @@ interface AppStore extends AppState {
   resetInstall: () => void;
   setSearchEngine: (engine: SearchEngine) => void;
   setAiSite: (site: AiSite) => void;
+  setFontSize: (size: FontSize) => void;
+  setTheme: (theme: ThemeMode) => void;
+  toggleTheme: () => void;
+  setNotifications: (settings: Partial<NotificationSettings>) => void;
+  toggleNotification: (key: keyof NotificationSettings) => void;
 }
 
 export const useAppStore = create<AppStore>((set, get) => ({
@@ -39,6 +47,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
   isScanning: false,
   systemStatus: { memory_integrity: null, gpu_driver: null },
   theme: "dark",
+  fontSize: "medium",
   memoryUsage: 0,
   installProgress: [],
   installOverall: 0,
@@ -46,6 +55,13 @@ export const useAppStore = create<AppStore>((set, get) => ({
   installPage: "idle",
   searchEngine: "bing",
   aiSite: "DeepSeek",
+  notifications: {
+    scanComplete: true,
+    installComplete: true,
+    errorOccurred: true,
+    soundEnabled: true,
+    frequency: "important",
+  },
 
   setPage: (page) => set({ page }),
   setScanMode: (mode) => set({ scanMode: mode }),
@@ -111,8 +127,36 @@ export const useAppStore = create<AppStore>((set, get) => ({
   setScanResults: (results) => set({ scanResults: results }),
   setSystemStatus: (status) => set({ systemStatus: status }),
   setMemoryUsage: (usage) => set({ memoryUsage: usage }),
+  setFontSize: (size) => set({ fontSize: size }),
   setSearchEngine: (engine) => set({ searchEngine: engine }),
   setAiSite: (site) => set({ aiSite: site }),
+
+  setTheme: (theme) => {
+    set({ theme });
+    document.documentElement.classList.remove("dark", "light");
+    document.documentElement.classList.add(theme);
+  },
+
+  toggleTheme: () => {
+    const current = get().theme;
+    const next = current === "dark" ? "light" : "dark";
+    set({ theme: next });
+    document.documentElement.classList.remove("dark", "light");
+    document.documentElement.classList.add(next);
+  },
+
+  setNotifications: (settings) =>
+    set((state) => ({
+      notifications: { ...state.notifications, ...settings },
+    })),
+
+  toggleNotification: (key) =>
+    set((state) => ({
+      notifications: {
+        ...state.notifications,
+        [key]: !state.notifications[key],
+      },
+    })),
 
   resetScan: () =>
     set({
@@ -137,8 +181,20 @@ export const useAppStore = create<AppStore>((set, get) => ({
       });
 
       await start_install(ids);
+
+      const existingResults = get().scanResults;
+      if (existingResults.length > 0) {
+        try {
+          const updatedResults = await run_scan();
+          set({ scanResults: updatedResults });
+        } catch {
+        }
+      }
     } catch (error) {
       set({
+        installProgress: [],
+        installOverall: 0,
+        installFinished: false,
         installPage: "idle",
       });
     } finally {

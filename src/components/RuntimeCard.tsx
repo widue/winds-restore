@@ -1,4 +1,5 @@
 import React from "react";
+import { CheckCircle2, XCircle, HelpCircle, Download, Search } from "lucide-react";
 import type { RuntimeStatus } from "../types";
 
 interface RuntimeCardProps {
@@ -7,28 +8,41 @@ interface RuntimeCardProps {
   status: RuntimeStatus;
   details: string;
   installerSizeMb?: number;
+  category?: string;
   onSearch?: () => void;
   onInstall?: () => void;
 }
 
-const statusConfig: Record<RuntimeStatus, { icon: string; color: string; bg: string; label: string }> = {
+const statusConfig: Record<
+  RuntimeStatus,
+  {
+    icon: React.ElementType;
+    iconClass: string;
+    badgeClass: string;
+    label: string;
+    borderClass: string;
+  }
+> = {
   installed: {
-    icon: "✓",
-    color: "text-success-500",
-    bg: "bg-success-500/10 border-success-500/30",
+    icon: CheckCircle2,
+    iconClass: "icon-wrap-success",
+    badgeClass: "badge-success",
     label: "已安装",
+    borderClass: "",
   },
   missing: {
-    icon: "✗",
-    color: "text-error-500",
-    bg: "bg-error-500/10 border-error-500/30",
-    label: "未安装",
+    icon: XCircle,
+    iconClass: "icon-wrap-danger",
+    badgeClass: "badge-error",
+    label: "待修复",
+    borderClass: "!border-[var(--status-danger-20)]",
   },
   not_found: {
-    icon: "?",
-    color: "text-warning-500",
-    bg: "bg-warning-500/10 border-warning-500/30",
+    icon: HelpCircle,
+    iconClass: "icon-wrap-warning",
+    badgeClass: "badge-warning",
     label: "未检测到",
+    borderClass: "",
   },
 };
 
@@ -37,57 +51,87 @@ const RuntimeCard: React.FC<RuntimeCardProps> = ({
   status,
   details,
   installerSizeMb,
+  category,
   onSearch,
   onInstall,
 }) => {
   const config = statusConfig[status];
+  const Icon = config.icon;
   const isMissing = status === "missing";
 
   return (
     <div
-      className={`card card-hover border ${config.bg} animate-fade-in`}
+      className={`card card-hover animate-slide-up ${config.borderClass}`}
+      style={{ animationDuration: "200ms" }}
     >
-      <div className="flex items-start justify-between">
-        <div className="flex items-start gap-3 flex-1 min-w-0">
-          <span className={`text-lg ${config.color} shrink-0 mt-0.5`}>
-            {config.icon}
-          </span>
-          <div className="min-w-0 flex-1">
-            <h3
-              className={`font-medium text-sm ${
-                isMissing ? "text-dark-text" : "text-dark-text-secondary"
-              } truncate`}
-            >
-              {name}
-            </h3>
-            <p className="text-xs text-dark-text-muted mt-1 line-clamp-2">
-              {details}
-            </p>
-          </div>
+      <div className="flex items-start gap-4">
+        {/* 图标容器 */}
+        <div className={`icon-wrap ${config.iconClass}`}>
+          <Icon size={20} strokeWidth={2} />
         </div>
 
-        <div className="flex items-center gap-2 shrink-0 ml-3">
-          <span className={`badge ${isMissing ? "badge-error" : "badge-success"}`}>
-            {config.label}
-          </span>
+        {/* 内容区 */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
+              <h3
+                className={`text-[14px] font-medium truncate ${
+                  isMissing ? "" : ""
+                }`}
+                style={{ color: isMissing ? "var(--text-primary)" : "var(--text-secondary)" }}
+              >
+                {name}
+              </h3>
+              {category && (
+                <p
+                  className="text-[11px] mt-0.5"
+                  style={{ color: "var(--text-faint)" }}
+                >
+                  {category}
+                </p>
+              )}
+            </div>
+            <span className={`badge ${config.badgeClass} shrink-0`}>
+              {config.label}
+            </span>
+          </div>
+
+          <p
+            className="text-[12px] mt-2 line-clamp-2"
+            style={{ color: "var(--text-muted)" }}
+          >
+            {details}
+          </p>
+
+          {/* 操作按钮 */}
           {isMissing && (
-            <>
+            <div className="flex items-center gap-2 mt-3">
               <button
                 onClick={onInstall}
-                className="btn-primary text-xs h-7 px-2 !py-0"
-                title={installerSizeMb ? `约 ${installerSizeMb} MB` : undefined}
+                className="btn-primary !py-1.5 !px-3 text-[12px]"
+                title={installerSizeMb ? `安装包约 ${installerSizeMb} MB` : undefined}
               >
-                安装
+                <Download size={14} strokeWidth={2} />
+                <span>修复</span>
               </button>
               {onSearch && (
                 <button
                   onClick={onSearch}
-                  className="btn-ghost text-xs h-7 px-2 !py-0"
+                  className="btn-ghost !py-1.5 !px-3 text-[12px]"
                 >
-                  搜索
+                  <Search size={14} strokeWidth={2} />
+                  <span>搜索</span>
                 </button>
               )}
-            </>
+              {installerSizeMb && (
+                <span
+                  className="text-[11px] ml-auto"
+                  style={{ color: "var(--text-faint)" }}
+                >
+                  约 {installerSizeMb} MB
+                </span>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -95,4 +139,4 @@ const RuntimeCard: React.FC<RuntimeCardProps> = ({
   );
 };
 
-export default RuntimeCard;
+export default React.memo(RuntimeCard);

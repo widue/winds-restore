@@ -1,54 +1,705 @@
+/* ============================================================================
+   风与修 · 全局样式系统
+   设计哲学：风之轻盈，修之精致
+   ============================================================================ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================================
+   CSS 变量 - 深色主题（当前主力）
+   风青为主色，赭石为点缀
+   四级灰阶营造层次， whisper border 哲学
+   ============================================================================ */
+:root,
+.dark {
+  /* ===== 品牌色 - 风青 ===== */
+  --brand-wind: #0ea5e9;
+  --brand-wind-hover: #38bdf8;
+  --brand-wind-active: #0284c7;
+  --brand-wind-10: rgba(14, 165, 233, 0.12);
+  --brand-wind-20: rgba(14, 165, 233, 0.22);
+  --brand-wind-glow: rgba(14, 165, 233, 0.3);
+
+  /* ===== 点缀色 - 赭石 ===== */
+  --accent-ochre: #d97706;
+  --accent-ochre-hover: #f59e0b;
+  --accent-ochre-10: rgba(217, 119, 6, 0.12);
+  --accent-ochre-20: rgba(217, 119, 6, 0.22);
+
+  /* ===== 背景色 - 四级灰阶 ===== */
+  --bg-canvas: #0f1115;
+  --bg-surface: #161a22;
+  --bg-card: #1c212b;
+  --bg-elevated: #232a36;
+  --bg-hover: #2a3340;
+  --bg-active: #334050;
+  --bg-input: #1a1f28;
+
+  /* ===== 文字色 - 四级灰阶 ===== */
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-faint: #475569;
+
+  /* ===== 边框 - whisper border ===== */
+  --border-subtle: #1e2530;
+  --border-default: #273040;
+  --border-strong: #334155;
+
+  /* ===== 功能色 ===== */
+  --status-success: #10b981;
+  --status-success-10: rgba(16, 185, 129, 0.12);
+  --status-success-20: rgba(16, 185, 129, 0.22);
+
+  --status-warning: #f59e0b;
+  --status-warning-10: rgba(245, 158, 11, 0.12);
+  --status-warning-20: rgba(245, 158, 11, 0.22);
+
+  --status-danger: #ef4444;
+  --status-danger-10: rgba(239, 68, 68, 0.12);
+  --status-danger-20: rgba(239, 68, 68, 0.22);
+
+  --status-info: #0ea5e9;
+
+  /* ===== 渐变 - 风之渐变 ===== */
+  --gradient-wind: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+  --gradient-wind-soft: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.15) 0%,
+    rgba(6, 182, 212, 0.05) 100%
+  );
+
+  /* ===== 圆角 - 五级体系（现代圆润风格） ===== */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-icon: 12px;
+  --radius-full: 9999px;
+
+  /* ===== 阴影 - 六级层次（细腻质感） ===== */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.35);
+  --shadow-wind: 0 4px 20px rgba(14, 165, 233, 0.25);
+  --shadow-wind-lg: 0 8px 32px rgba(14, 165, 233, 0.3);
+
+  /* ===== 间距 - 基础单位4px ===== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* ===== 字体系统 ===== */
+  --font-family:
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    system-ui,
+    -apple-system,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-base, 13px);
+  line-height: 1.55;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 字体缩放 */
+.text-size-small { --font-size-base: 12px; zoom: 0.92; }
+.text-size-medium { --font-size-base: 13px; zoom: 1; }
+.text-size-large { --font-size-base: 14px; zoom: 1.08; }
+
+/* ============================================================================
+   CSS 变量 - 浅色主题
+   风青为主色，明亮通透的日间体验
+   ============================================================================ */
+.light {
+  /* ===== 品牌色 - 风青（浅色下更饱和） ===== */
+  --brand-wind: #0284c7;
+  --brand-wind-hover: #0369a1;
+  --brand-wind-active: #075985;
+  --brand-wind-10: rgba(2, 132, 199, 0.1);
+  --brand-wind-20: rgba(2, 132, 199, 0.18);
+  --brand-wind-glow: rgba(2, 132, 199, 0.25);
+
+  /* ===== 点缀色 - 赭石 ===== */
+  --accent-ochre: #c2410c;
+  --accent-ochre-hover: #9a3412;
+  --accent-ochre-10: rgba(194, 65, 12, 0.1);
+  --accent-ochre-20: rgba(194, 65, 12, 0.18);
+
+  /* ===== 背景色 - 四级灰阶（浅色） ===== */
+  --bg-canvas: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-hover: #f1f5f9;
+  --bg-active: #e2e8f0;
+  --bg-input: #f8fafc;
+
+  /* ===== 文字色 - 四级灰阶（浅色） ===== */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-faint: #94a3b8;
+
+  /* ===== 边框 - whisper border（浅色） ===== */
+  --border-subtle: #f1f5f9;
+  --border-default: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* ===== 功能色（浅色下保持一致） ===== */
+  --status-success: #059669;
+  --status-success-10: rgba(5, 150, 105, 0.1);
+  --status-success-20: rgba(5, 150, 105, 0.18);
+
+  --status-warning: #d97706;
+  --status-warning-10: rgba(217, 119, 6, 0.1);
+  --status-warning-20: rgba(217, 119, 6, 0.18);
+
+  --status-danger: #dc2626;
+  --status-danger-10: rgba(220, 38, 38, 0.1);
+  --status-danger-20: rgba(220, 38, 38, 0.18);
+
+  --status-info: #0284c7;
+
+  /* ===== 渐变 - 风之渐变（浅色） ===== */
+  --gradient-wind: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+  --gradient-wind-soft: linear-gradient(
+    135deg,
+    rgba(2, 132, 199, 0.1) 0%,
+    rgba(8, 145, 178, 0.03) 100%
+  );
+
+  /* ===== 阴影 - 六级层次（浅色下更柔和） ===== */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 8px 32px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 16px 48px rgba(15, 23, 42, 0.15);
+  --shadow-wind: 0 4px 20px rgba(2, 132, 199, 0.2);
+  --shadow-wind-lg: 0 8px 32px rgba(2, 132, 199, 0.25);
+}
+
+/* ============================================================================
+   基础样式
+   ============================================================================ */
 @layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
   body {
-    @apply bg-dark-bg text-dark-text antialiased;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
   }
 }
 
+/* ============================================================================
+   滚动条 - 现代简约风格
+   ============================================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+/* ============================================================================
+   桌面应用质感 - 禁用文本选中
+   ============================================================================ */
+* {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+pre,
+code {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ============================================================================
+   全局过渡 - 如风般平滑
+   ============================================================================ */
+*:not(svg):not(svg *) {
+  transition-property: background-color, border-color, color, fill, stroke, opacity,
+    transform, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* 尊重用户减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   组件库 - 修之精
+   ============================================================================ */
 @layer components {
+  /* ===== 卡片 ===== */
   .card {
-    @apply bg-dark-panel border border-dark-border rounded-lg p-4 transition-all duration-200;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
+
   .card-hover:hover {
-    @apply border-primary-500/30 shadow-lg shadow-primary-500/5;
+    border-color: var(--brand-wind-20);
+    background: var(--bg-elevated);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   }
+
+  /* ===== 按钮 ===== */
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500/50;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 180ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-500 active:bg-primary-700;
+
+  .btn:active {
+    transform: scale(0.97);
   }
+
+  .btn-primary,
   .btn-secondary {
-    @apply btn bg-dark-card text-dark-text hover:bg-dark-card-hover border border-dark-border;
+    border-radius: var(--radius-xl);
   }
-  .btn-danger {
-    @apply btn bg-error-600 text-white hover:bg-error-500 active:bg-error-700;
+
+  .btn-primary {
+    background: var(--gradient-wind);
+    color: white;
+    box-shadow:
+      0 2px 8px rgba(14, 165, 233, 0.25),
+      0 0 0 1px rgba(14, 165, 233, 0.3);
   }
-  .btn-success {
-    @apply btn bg-success-600 text-white hover:bg-success-500 active:bg-success-700;
+
+  .btn-primary:hover {
+    box-shadow:
+      0 4px 16px rgba(14, 165, 233, 0.35),
+      0 0 0 1px rgba(14, 165, 233, 0.45);
+    transform: translateY(-1px);
   }
+
+  .btn-primary:active {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.15) inset,
+      0 1px 4px rgba(14, 165, 233, 0.25);
+    transform: translateY(0) scale(0.98);
+  }
+
+  .btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--border-default);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-secondary:hover {
+    background: var(--bg-elevated);
+    border-color: var(--border-strong);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary:active {
+    transform: translateY(0) scale(0.98);
+  }
+
   .btn-ghost {
-    @apply btn bg-transparent text-dark-text-secondary hover:bg-dark-card hover:text-dark-text;
+    background-color: transparent;
+    color: var(--text-secondary);
   }
+
+  .btn-ghost:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  /* ===== Badge / 标签 ===== */
   .badge {
-    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    line-height: 1.4;
   }
+
+  .badge-wind {
+    background-color: var(--brand-wind-10);
+    color: var(--brand-wind);
+    border-color: var(--brand-wind-20);
+  }
+
   .badge-success {
-    @apply badge bg-success-500/20 text-success-500;
+    background-color: var(--status-success-10);
+    color: var(--status-success);
+    border-color: var(--status-success-20);
   }
+
   .badge-error {
-    @apply badge bg-error-500/20 text-error-500;
+    background-color: var(--status-danger-10);
+    color: var(--status-danger);
+    border-color: var(--status-danger-20);
   }
+
   .badge-warning {
-    @apply badge bg-warning-500/20 text-warning-500;
+    background-color: var(--status-warning-10);
+    color: var(--status-warning);
+    border-color: var(--status-warning-20);
   }
+
   .badge-info {
-    @apply badge bg-info-500/20 text-info-500;
+    background-color: var(--brand-wind-10);
+    color: var(--brand-wind);
+    border-color: var(--brand-wind-20);
   }
+
+  .badge-ochre {
+    background-color: var(--accent-ochre-10);
+    color: var(--accent-ochre);
+    border-color: var(--accent-ochre-20);
+  }
+
+  /* ===== 输入框 ===== */
   .input {
-    @apply w-full px-3 py-2 bg-dark-card border border-dark-border rounded-lg text-dark-text placeholder-dark-text-muted focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200;
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    color: var(--text-primary);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06) inset;
+    transition: all 150ms ease;
   }
+
+  .input::placeholder {
+    color: var(--text-faint);
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--brand-wind);
+    box-shadow:
+      0 0 0 4px var(--brand-wind-10),
+      0 1px 2px rgba(0, 0, 0, 0.06) inset;
+  }
+
+  /* ===== 图标容器 - 风之容器 ===== */
+  .icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    background: var(--brand-wind-10);
+    color: var(--brand-wind);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .icon-wrap-sm {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .icon-wrap-sm svg,
+  .icon-wrap svg {
+    flex-shrink: 0;
+  }
+
+  .icon-wrap-lg {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .icon-wrap-success {
+    background-color: var(--status-success-10);
+    color: var(--status-success);
+  }
+
+  .icon-wrap-danger {
+    background-color: var(--status-danger-10);
+    color: var(--status-danger);
+  }
+
+  .icon-wrap-warning {
+    background-color: var(--status-warning-10);
+    color: var(--status-warning);
+  }
+
+  .icon-wrap-ochre {
+    background-color: var(--accent-ochre-10);
+    color: var(--accent-ochre);
+  }
+}
+
+/* ============================================================================
+   字体层级 - 语义化工具类
+   ============================================================================ */
+@layer utilities {
+  .text-display {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .text-h1 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .text-h2 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .text-h3 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .text-body {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  .text-small {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .text-caption {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .text-stat {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .text-btn {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ============================================================================
+   动画系统 - 风之动
+   ============================================================================ */
+
+/* 风之入场 - 页面级 */
+@keyframes wind-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-wind-enter {
+  animation: wind-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 风之涟漪 - 按钮点击 */
+@keyframes wind-ripple {
+  0% {
+    box-shadow: 0 0 0 0 var(--brand-wind-glow);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(14, 165, 233, 0);
+  }
+}
+
+/* 流光 - 进度条 */
+@keyframes wind-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  animation: wind-shimmer 1.8s ease-in-out infinite;
+}
+
+/* 脉冲发光 - 扫描中 */
+@keyframes wind-pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 4px rgba(14, 165, 233, 0.15);
+  }
+}
+
+.animate-wind-pulse {
+  animation: wind-pulse-glow 2s ease-in-out infinite;
+}
+
+/* 淡入淡出 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 200ms ease both;
+}
+
+/* 上移淡入 */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 滚动性能优化 */
+.scroll-container {
+  will-change: transform;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* 列表项优化 - 防止滚动断层 */
+.list-item {
+  contain: layout style paint;
+  will-change: opacity, transform;
+}
+
+/* 确保列表项之间没有间隙 */
+.list-compact > * + * {
+  margin-top: 0;
 }

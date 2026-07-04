@@ -24,6 +24,8 @@ export type AppPage = "home" | "scanning" | "results" | "tools" | "settings";
 export type ScanMode = "quick" | "full";
 export type SearchEngine = "bing" | "baidu";
 export type AiSite = "DeepSeek" | "豆包" | "Kimi" | "ChatGPT";
+export type ThemeMode = "dark" | "light";
+export type FontSize = "small" | "medium" | "large";
 
 export interface AppState {
   page: AppPage;
@@ -34,6 +36,7 @@ export interface AppState {
   isScanning: boolean;
   systemStatus: SystemStatus;
   theme: "dark" | "light";
+  fontSize: FontSize;
   memoryUsage: number;
   installProgress: InstallItemProgress[];
   installOverall: number;
@@ -41,12 +44,12 @@ export interface AppState {
   installPage: InstallPage;
   searchEngine: SearchEngine;
   aiSite: AiSite;
+  notifications: NotificationSettings;
 }
 
 export interface ScanProgressPayload {
   progress: number;
   status: string;
-  current?: string;
 }
 
 export interface InstallItemProgress {
@@ -112,3 +115,11 @@ export interface ManifestSummary {
 }
 
 export type InstallPage = "idle" | "installing" | "done";
+
+export interface NotificationSettings {
+  scanComplete: boolean;
+  installComplete: boolean;
+  errorOccurred: boolean;
+  soundEnabled: boolean;
+  frequency: "always" | "important" | "never";
+}
